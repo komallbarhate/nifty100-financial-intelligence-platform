@@ -1,0 +1,13 @@
+dataset,rows_before,duplicate_rows_removed,rows_after
+analysis,20,0,20
+balancesheet,1312,92,1220
+cashflow,1187,34,1153
+companies,92,0,92
+documents,1585,1,1584
+profitandloss,1276,13,1263
+prosandcons,16,0,16
+financial_ratios,1184,119,1065
+market_cap,552,0,552
+peer_groups,56,0,56
+sectors,92,0,92
+stock_prices,5520,0,5520
