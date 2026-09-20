@@ -1,0 +1,1268 @@
+company_id,company_name,sector,year,operating_cash_flow,investing_cash_flow,financing_cash_flow,borrowings,borrowing_change,capital_allocation_pattern
+ABB,Abbott India Ltd,Industrials,2012.0,101.0,-59.0,-42.0,0.0,,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2014.0,155.0,-144.0,-42.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2015.0,215.0,-187.0,-58.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2016.0,249.0,-77.0,-80.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2017.0,307.0,-155.0,-90.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2018.0,153.0,-215.0,-102.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2019.0,499.0,-257.0,-143.0,0.0,0.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2020.0,626.0,-401.0,-217.0,175.0,175.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2021.0,727.0,-72.0,-582.0,153.0,-22.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2022.0,948.0,-396.0,-637.0,152.0,-1.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2023.0,893.0,-148.0,-639.0,113.0,-39.0,Reinvestment + Deleveraging
+ABB,Abbott India Ltd,Industrials,2024.0,1213.0,-416.0,-745.0,60.0,-53.0,Reinvestment + Deleveraging
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2014.0,0.0,0.0,0.0,0.0,,Mixed
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2015.0,-35.0,-1864.0,1902.0,9701.0,9701.0,Financing Supported
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2016.0,1544.0,-816.0,-722.0,8585.0,-1116.0,Reinvestment + Deleveraging
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2017.0,2189.0,-1730.0,-455.0,8975.0,390.0,Reinvestment + Deleveraging
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2018.0,2198.0,-3192.0,1589.0,10428.0,1453.0,Growth + External Financing
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2019.0,2591.0,-3050.0,38.0,20137.0,9709.0,Growth + External Financing
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2020.0,5437.0,-5643.0,1250.0,24246.0,4109.0,Growth + External Financing
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2021.0,3784.0,-4009.0,-745.0,27095.0,2849.0,Reinvestment + Deleveraging
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2022.0,4097.0,-3936.0,-235.0,29902.0,2807.0,Reinvestment + Deleveraging
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2023.0,3777.0,-4699.0,923.0,34270.0,4368.0,Growth + External Financing
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2024.0,6038.0,-4943.0,-543.0,39009.0,4739.0,Reinvestment + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2013.0,7666.0,-14790.0,7199.0,69332.0,,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2014.0,8228.0,-8007.0,-1109.0,71980.0,2648.0,Reinvestment + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2015.0,8532.0,-11465.0,3445.0,83571.0,11591.0,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2016.0,5112.0,-1825.0,-3448.0,19169.0,-64402.0,Reinvestment + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2017.0,774.0,-1460.0,716.0,20846.0,1677.0,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2018.0,2942.0,-7649.0,5120.0,17637.0,-3209.0,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2019.0,3236.0,2487.0,-6158.0,11243.0,-6394.0,Cash Generation + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2020.0,2454.0,-1082.0,-221.0,12419.0,1176.0,Reinvestment + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2021.0,4043.0,-8611.0,3109.0,16227.0,3808.0,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2022.0,1385.0,-17041.0,15901.0,41604.0,25377.0,Growth + External Financing
+ADANIENT,Adani Enterprises Ltd,Industrials,2023.0,17626.0,-15459.0,-1198.0,53200.0,11596.0,Reinvestment + Deleveraging
+ADANIENT,Adani Enterprises Ltd,Industrials,2024.0,10312.0,-18767.0,8879.0,80427.0,27227.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2017.0,28.0,-1511.0,1559.0,4347.0,,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2018.0,649.0,-4428.0,3942.0,9864.0,5517.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2019.0,1625.0,-2666.0,1045.0,11142.0,1278.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2020.0,1965.0,-3743.0,2161.0,14866.0,3724.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2021.0,1601.0,-9137.0,7083.0,24209.0,9343.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2022.0,3127.0,-18730.0,15986.0,52832.0,28623.0,Growth + External Financing
+ADANIGREEN,Adani Green Energy Ltd,Energy,2023.0,7265.0,-3857.0,-2973.0,54223.0,1391.0,Reinvestment + Deleveraging
+ADANIGREEN,Adani Green Energy Ltd,Energy,2024.0,7713.0,-21060.0,13953.0,67430.0,13207.0,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2013.0,1379.0,-5136.0,4138.0,11620.0,,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2014.0,1132.0,-2510.0,772.0,12979.0,1359.0,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2015.0,3057.0,-2485.0,-237.0,17776.0,4797.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2016.0,2381.0,-4153.0,2170.0,22342.0,4566.0,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2017.0,4063.0,-2629.0,-1325.0,22214.0,-128.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2018.0,5608.0,-3846.0,-1889.0,22370.0,156.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2019.0,6029.0,-4368.0,2313.0,27712.0,5342.0,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2020.0,7402.0,-749.0,-4256.0,30242.0,2530.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2021.0,7556.0,-14064.0,3514.0,35855.0,5613.0,Growth + External Financing
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2022.0,10420.0,-5493.0,-586.0,47935.0,12080.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2023.0,11900.0,-16716.0,-2734.0,53434.0,5499.0,Reinvestment + Deleveraging
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2024.0,15018.0,-6768.0,-7800.0,50485.0,-2949.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2013.0,3001.0,-4064.0,861.0,41795.0,,Growth + External Financing
+ADANIPOWER,Adani Power Ltd,Energy,2014.0,3238.0,-4700.0,1631.0,44150.0,2355.0,Growth + External Financing
+ADANIPOWER,Adani Power Ltd,Energy,2015.0,5824.0,-4737.0,-1144.0,44742.0,592.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2016.0,5257.0,-2692.0,-2713.0,52729.0,7987.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2017.0,4725.0,-1212.0,-3539.0,52484.0,-245.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2018.0,5101.0,-520.0,-4600.0,52835.0,351.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2019.0,5610.0,-984.0,-4663.0,46980.0,-5855.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2020.0,5598.0,-2304.0,-2377.0,55199.0,8219.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2021.0,7014.0,-2188.0,-5655.0,52519.0,-2680.0,Reinvestment + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2022.0,10233.0,774.0,-10338.0,49145.0,-3374.0,Cash Generation + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2023.0,8431.0,1545.0,-10408.0,42350.0,-6795.0,Cash Generation + Deleveraging
+ADANIPOWER,Adani Power Ltd,Energy,2024.0,14170.0,3481.0,-16864.0,37705.0,-4645.0,Cash Generation + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2012.0,1860.0,-388.0,-509.0,60.0,,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2013.0,1267.0,-496.0,-672.0,48.0,-12.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2014.0,1675.0,-456.0,-721.0,34.0,-14.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2015.0,1557.0,-83.0,-900.0,35.0,1.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2016.0,2810.0,-4165.0,-958.0,29.0,-6.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2017.0,3416.0,-738.0,-1015.0,24.0,-5.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2018.0,1703.0,-765.0,-719.0,40.0,16.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2019.0,4739.0,-1191.0,-629.0,41.0,1.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2020.0,4832.0,-1317.0,-3956.0,471.0,430.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2021.0,5309.0,-2007.0,-516.0,477.0,6.0,Reinvestment + Deleveraging
+AMBUJACEM,Ambuja Cements Ltd,Materials,2023.0,735.0,-14481.0,2931.0,523.0,46.0,Growth + External Financing
+AMBUJACEM,Ambuja Cements Ltd,Materials,2024.0,5646.0,-8941.0,5689.0,779.0,256.0,Growth + External Financing
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2013.0,443.0,-733.0,373.0,1213.0,,Growth + External Financing
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2014.0,373.0,-356.0,-63.0,1344.0,131.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2015.0,470.0,-759.0,392.0,1992.0,648.0,Growth + External Financing
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2016.0,597.0,-888.0,330.0,2834.0,842.0,Growth + External Financing
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2017.0,623.0,-1152.0,477.0,3125.0,291.0,Growth + External Financing
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2018.0,537.0,-405.0,-108.0,3427.0,302.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2019.0,905.0,-711.0,-215.0,3673.0,246.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2020.0,1293.0,-289.0,-910.0,3596.0,-77.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2021.0,1265.0,-880.0,-340.0,4160.0,564.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2022.0,1696.0,-747.0,-792.0,4068.0,-92.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2023.0,1377.0,-857.0,-633.0,4332.0,264.0,Reinvestment + Deleveraging
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2024.0,1920.0,-1537.0,-311.0,7371.0,3039.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2013.0,1187.0,-463.0,-601.0,251.0,,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2014.0,1402.0,-586.0,-626.0,249.0,-2.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2015.0,1188.0,-465.0,-576.0,418.0,169.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2016.0,2243.0,-866.0,-849.0,323.0,-95.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2017.0,1527.0,-681.0,-756.0,560.0,237.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2018.0,2113.0,-1556.0,-1379.0,533.0,-27.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2019.0,2470.0,-918.0,-1117.0,1320.0,787.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2020.0,3038.0,-518.0,-2871.0,1118.0,-202.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2021.0,3683.0,-541.0,-650.0,1093.0,-25.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2022.0,986.0,-317.0,-1808.0,1587.0,494.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2023.0,4193.0,-1282.0,-2140.0,1933.0,346.0,Reinvestment + Deleveraging
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2024.0,6104.0,-2548.0,-2982.0,2516.0,583.0,Reinvestment + Deleveraging
+ATGL,Adani Total Gas Ltd,Energy,2018.0,277.0,-988.0,779.0,1345.0,,Growth + External Financing
+ATGL,Adani Total Gas Ltd,Energy,2019.0,356.0,791.0,-1077.0,394.0,-951.0,Cash Generation + Deleveraging
+ATGL,Adani Total Gas Ltd,Energy,2020.0,492.0,-461.0,-102.0,428.0,34.0,Reinvestment + Deleveraging
+ATGL,Adani Total Gas Ltd,Energy,2021.0,654.0,-770.0,39.0,529.0,101.0,Growth + External Financing
+ATGL,Adani Total Gas Ltd,Energy,2022.0,732.0,-1133.0,422.0,1035.0,506.0,Growth + External Financing
+ATGL,Adani Total Gas Ltd,Energy,2023.0,853.0,-1167.0,295.0,1422.0,387.0,Growth + External Financing
+ATGL,Adani Total Gas Ltd,Energy,2024.0,955.0,-752.0,-78.0,1457.0,35.0,Reinvestment + Deleveraging
+AXISBANK,Axis Bank Ltd,Financials,2013.0,2573.0,-10939.0,14931.0,296254.0,,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2014.0,14464.0,-14166.0,7785.0,333280.0,37026.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2015.0,-15162.0,-7972.0,31045.0,406638.0,73358.0,Financing Supported
+AXISBANK,Axis Bank Ltd,Financials,2016.0,-34495.0,9211.0,22495.0,472150.0,65512.0,Financing Supported
+AXISBANK,Axis Bank Ltd,Financials,2017.0,32209.0,-12458.0,-2487.0,527437.0,55287.0,Reinvestment + Deleveraging
+AXISBANK,Axis Bank Ltd,Financials,2018.0,-38390.0,-10007.0,41342.0,611425.0,83988.0,Financing Supported
+AXISBANK,Axis Bank Ltd,Financials,2019.0,37125.0,-18674.0,5643.0,711996.0,100571.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2020.0,30416.0,-9485.0,8865.0,797337.0,85341.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2021.0,12633.0,-54288.0,7279.0,850551.0,53214.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2022.0,28137.0,-27112.0,47894.0,1020943.0,170392.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2023.0,22075.0,-32351.0,6641.0,1152038.0,131095.0,Growth + External Financing
+AXISBANK,Axis Bank Ltd,Financials,2024.0,-5555.0,-9001.0,22341.0,1295302.0,143264.0,Financing Supported
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2013.0,2218.0,-1394.0,-1445.0,116.0,,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2014.0,3502.0,-2072.0,-1496.0,59.0,-57.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2015.0,2114.0,-380.0,-1644.0,112.0,53.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2016.0,3690.0,-68.0,-3384.0,118.0,6.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2017.0,3267.0,-3610.0,-190.0,120.0,2.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2018.0,4328.0,-1954.0,-1885.0,121.0,1.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2019.0,2487.0,-273.0,-2074.0,125.0,4.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2020.0,3850.0,1766.0,-6247.0,126.0,1.0,Cash Generation + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2021.0,3120.0,-2869.0,-20.0,121.0,-5.0,Reinvestment + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2022.0,4197.0,276.0,-4056.0,123.0,2.0,Cash Generation + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2023.0,5277.0,1211.0,-7181.0,124.0,1.0,Cash Generation + Deleveraging
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2024.0,6558.0,-72.0,-6167.0,5245.0,5121.0,Reinvestment + Deleveraging
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2013.0,-6922.0,2953.0,4592.0,12991.0,,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2014.0,-9807.0,3764.0,6521.0,19507.0,6516.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2015.0,-10731.0,3709.0,6839.0,26312.0,6805.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2016.0,-9795.0,-886.0,11602.0,36062.0,9750.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2017.0,-10922.0,151.0,12513.0,48282.0,12220.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2018.0,-19580.0,-922.0,19590.0,65695.0,17413.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2019.0,-27076.0,-6903.0,34535.0,99754.0,34059.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2020.0,-23369.0,-9948.0,34479.0,127212.0,27458.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2021.0,4547.0,-3684.0,1687.0,128461.0,1249.0,Growth + External Financing
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2022.0,-33670.0,1445.0,32326.0,161179.0,32718.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2023.0,-39480.0,-13945.0,51016.0,212265.0,51086.0,Financing Supported
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2024.0,-68674.0,-10960.0,82709.0,318675.0,106410.0,Financing Supported
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2013.0,473.0,-369.0,-332.0,0.0,,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2014.0,872.0,-519.0,-326.0,0.0,0.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2015.0,796.0,-464.0,-391.0,0.0,0.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2016.0,1147.0,1019.0,-761.0,0.0,0.0,Cash Generation + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2017.0,-923.0,-372.0,-110.0,0.0,0.0,Cash Burn + Investment
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2018.0,1631.0,-1123.0,-434.0,0.0,0.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2019.0,628.0,-163.0,-536.0,0.0,0.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2020.0,1920.0,-800.0,-1028.0,168.0,168.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2021.0,272.0,-308.0,-37.0,136.0,-32.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2022.0,1610.0,-151.0,-1460.0,114.0,-22.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2023.0,1728.0,-137.0,-1587.0,93.0,-21.0,Reinvestment + Deleveraging
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2024.0,1941.0,-472.0,-1455.0,47.0,-46.0,Reinvestment + Deleveraging
+BAJFINANCE,Bajaj Finance Ltd,Financials,2015.0,-7064.0,-360.0,6867.0,26655.0,,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2016.0,-9870.0,-687.0,11656.0,37025.0,10370.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2017.0,-10439.0,-3047.0,12513.0,49250.0,12225.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2018.0,-20566.0,1075.0,19503.0,66557.0,17307.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2019.0,-29062.0,-5379.0,34449.0,101588.0,35031.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2020.0,-24412.0,-8758.0,34167.0,129806.0,28218.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2021.0,-807.0,-429.0,1741.0,131634.0,1828.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2022.0,-37090.0,6347.0,32275.0,165232.0,33598.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2023.0,-42112.0,-10394.0,50675.0,216690.0,51458.0,Financing Supported
+BAJFINANCE,Bajaj Finance Ltd,Financials,2024.0,-72760.0,-7171.0,82415.0,324218.0,107528.0,Financing Supported
+BANKBARODA,Bank of Baroda,Financials,2013.0,23196.0,-514.0,-790.0,509192.0,,Reinvestment + Deleveraging
+BANKBARODA,Bank of Baroda,Financials,2014.0,42233.0,-730.0,5151.0,616973.0,107781.0,Growth + External Financing
+BANKBARODA,Bank of Baroda,Financials,2015.0,17838.0,-556.0,-6.0,665483.0,48510.0,Reinvestment + Deleveraging
+BANKBARODA,Bank of Baroda,Financials,2016.0,-10011.0,-4005.0,-616.0,620536.0,-44947.0,Cash Burn + Investment
+BANKBARODA,Bank of Baroda,Financials,2017.0,17865.0,-551.0,-198.0,648499.0,27963.0,Reinvestment + Deleveraging
+BANKBARODA,Bank of Baroda,Financials,2018.0,-59692.0,-414.0,3413.0,672311.0,23812.0,Financing Supported
+BANKBARODA,Bank of Baroda,Financials,2019.0,-1449.0,-2537.0,4449.0,734456.0,62145.0,Financing Supported
+BANKBARODA,Bank of Baroda,Financials,2020.0,18531.0,-139.0,14729.0,1068981.0,334525.0,Growth + External Financing
+BANKBARODA,Bank of Baroda,Financials,2021.0,-887.0,-471.0,-986.0,1067173.0,-1808.0,Cash Burn + Investment
+BANKBARODA,Bank of Baroda,Financials,2022.0,6210.0,-3645.0,-998.0,1185331.0,118158.0,Reinvestment + Deleveraging
+BANKBARODA,Bank of Baroda,Financials,2023.0,-21354.0,-1096.0,-5405.0,1342592.0,157261.0,Cash Burn + Investment
+BANKBARODA,Bank of Baroda,Financials,2024.0,-6274.0,-1285.0,5476.0,1453761.0,111169.0,Financing Supported
+BEL,Bharat Electronics Ltd,Industrials,2013.0,-1539.0,1753.0,-158.0,24.0,,Mixed
+BEL,Bharat Electronics Ltd,Industrials,2014.0,-569.0,759.0,-213.0,21.0,-3.0,Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2015.0,1434.0,-839.0,-209.0,26.0,5.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2016.0,2260.0,-1470.0,-318.0,25.0,-1.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2017.0,-61.0,3115.0,-2857.0,29.0,4.0,Mixed
+BEL,Bharat Electronics Ltd,Industrials,2018.0,-687.0,-6.0,-1202.0,48.0,19.0,Cash Burn + Investment
+BEL,Bharat Electronics Ltd,Industrials,2019.0,1514.0,-896.0,-663.0,47.0,-1.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2020.0,2570.0,-649.0,-1061.0,44.0,-3.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2021.0,5093.0,-2595.0,-1076.0,49.0,5.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2022.0,4207.0,-4872.0,-1078.0,58.0,9.0,Reinvestment + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2023.0,1199.0,2708.0,-1262.0,39.0,-19.0,Cash Generation + Deleveraging
+BEL,Bharat Electronics Ltd,Industrials,2024.0,4659.0,-5924.0,-1475.0,78.0,39.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2013.0,22608.0,-18676.0,-4566.0,66736.0,,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2014.0,26233.0,-25181.0,2774.0,75896.0,9160.0,Growth + External Financing
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2015.0,28059.0,-22301.0,-9672.0,83415.0,7519.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2016.0,27942.0,-14091.0,-11946.0,100646.0,17231.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2017.0,28280.0,-30680.0,-351.0,107288.0,6642.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2018.0,29854.0,-27940.0,1920.0,111334.0,4046.0,Growth + External Financing
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2019.0,20070.0,-28286.0,9464.0,125428.0,14094.0,Growth + External Financing
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2020.0,18129.0,-29598.0,19144.0,148228.0,22800.0,Growth + External Financing
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2021.0,48205.0,-27286.0,-24910.0,162785.0,14557.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2022.0,55017.0,-41478.0,-15203.0,169678.0,6893.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2023.0,65325.0,-39232.0,-24470.0,226020.0,56342.0,Reinvestment + Deleveraging
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2024.0,78898.0,-51089.0,-27778.0,225541.0,-479.0,Reinvestment + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2013.0,1759.0,-1113.0,472.0,2698.0,,Growth + External Financing
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2014.0,4512.0,-868.0,523.0,4693.0,1995.0,Growth + External Financing
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2015.0,821.0,650.0,-3543.0,1889.0,-2804.0,Cash Generation + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2016.0,374.0,23.0,-122.0,211.0,-1678.0,Cash Generation + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2017.0,560.0,-565.0,-468.0,156.0,-55.0,Reinvestment + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2018.0,989.0,961.0,-667.0,110.0,-46.0,Cash Generation + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2019.0,-3860.0,1919.0,-32.0,2598.0,2488.0,Mixed
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2020.0,-2892.0,1877.0,1622.0,5080.0,2482.0,Financing Supported
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2021.0,560.0,-42.0,-394.0,4951.0,-129.0,Reinvestment + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2022.0,660.0,-1118.0,-329.0,4830.0,-121.0,Reinvestment + Deleveraging
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2023.0,-741.0,1480.0,89.0,5454.0,624.0,Financing Supported
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2024.0,-3713.0,1331.0,2656.0,9128.0,3674.0,Financing Supported
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2012.0,871.0,-824.0,-156.0,230.0,,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2013.0,1057.0,-846.0,-238.0,183.0,-47.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2015.0,1396.0,-1183.0,-237.0,111.0,-72.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2016.0,1318.0,-995.0,-356.0,50.0,-61.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2017.0,1457.0,1246.0,-2670.0,0.0,-50.0,Cash Generation + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2018.0,1729.0,-1170.0,-325.0,0.0,0.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2019.0,593.0,1766.0,-2531.0,0.0,0.0,Cash Generation + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2020.0,1336.0,-873.0,-399.0,74.0,74.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2021.0,835.0,-463.0,-338.0,54.0,-20.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2022.0,271.0,-33.0,-383.0,73.0,19.0,Reinvestment + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2023.0,1214.0,262.0,-1239.0,53.0,-20.0,Cash Generation + Deleveraging
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2024.0,1253.0,283.0,-1452.0,31.0,-22.0,Cash Generation + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2013.0,5926.0,-3604.0,-846.0,33157.0,,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2014.0,9588.0,-6881.0,-3736.0,33152.0,-5.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2015.0,20742.0,-10536.0,-9792.0,25492.0,-7660.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2016.0,11119.0,-9233.0,-1332.0,23388.0,-2104.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2017.0,9041.0,-15274.0,4804.0,35725.0,12337.0,Growth + External Financing
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2018.0,11068.0,-7066.0,-4218.0,37659.0,1934.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2019.0,10157.0,-10451.0,207.0,44839.0,7180.0,Growth + External Financing
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2020.0,7881.0,-11135.0,3583.0,65476.0,20637.0,Growth + External Financing
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2021.0,23455.0,-2474.0,-13981.0,54532.0,-10944.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2022.0,20336.0,-8138.0,-17672.0,64534.0,10002.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2023.0,12466.0,-7806.0,-4402.0,69376.0,4842.0,Reinvestment + Deleveraging
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2024.0,35936.0,-10521.0,-25427.0,58880.0,-10496.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2013.0,320.0,28.0,-378.0,380.0,,Cash Generation + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2014.0,671.0,-246.0,-357.0,150.0,-230.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2015.0,584.0,-450.0,-181.0,145.0,-5.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2016.0,959.0,-705.0,-246.0,131.0,-14.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2017.0,441.0,-150.0,-295.0,125.0,-6.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2018.0,1249.0,-957.0,-232.0,201.0,76.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2019.0,1156.0,-852.0,-353.0,156.0,-45.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2020.0,1485.0,-1526.0,58.0,1538.0,1382.0,Growth + External Financing
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2021.0,1876.0,433.0,-2242.0,2122.0,584.0,Cash Generation + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2022.0,1300.0,914.0,-2246.0,2481.0,359.0,Cash Generation + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2023.0,2526.0,-1507.0,-1028.0,2997.0,516.0,Reinvestment + Deleveraging
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2024.0,2573.0,477.0,-2830.0,2754.0,-243.0,Cash Generation + Deleveraging
+CANBK,Canara Bank,Financials,2013.0,8010.0,-435.0,-1043.0,376040.0,,Reinvestment + Deleveraging
+CANBK,Canara Bank,Financials,2014.0,14244.0,-380.0,-3771.0,447913.0,71873.0,Reinvestment + Deleveraging
+CANBK,Canara Bank,Financials,2015.0,6344.0,-1104.0,-1464.0,499488.0,51575.0,Reinvestment + Deleveraging
+CANBK,Canara Bank,Financials,2016.0,9346.0,-443.0,-806.0,506712.0,7224.0,Reinvestment + Deleveraging
+CANBK,Canara Bank,Financials,2017.0,2575.0,-476.0,124.0,534858.0,28146.0,Growth + External Financing
+CANBK,Canara Bank,Financials,2018.0,-11120.0,-487.0,2865.0,563756.0,28898.0,Financing Supported
+CANBK,Canara Bank,Financials,2019.0,18237.0,-745.0,-1185.0,640166.0,76410.0,Reinvestment + Deleveraging
+CANBK,Canara Bank,Financials,2020.0,-5289.0,-445.0,7792.0,668170.0,28004.0,Financing Supported
+CANBK,Canara Bank,Financials,2021.0,59118.0,-1116.0,290.0,1060998.0,392828.0,Growth + External Financing
+CANBK,Canara Bank,Financials,2022.0,919.0,-1429.0,4035.0,1132626.0,71628.0,Growth + External Financing
+CANBK,Canara Bank,Financials,2023.0,-39978.0,-1156.0,445.0,1237160.0,104534.0,Financing Supported
+CANBK,Canara Bank,Financials,2024.0,15046.0,-1750.0,-3834.0,1369780.0,132620.0,Reinvestment + Deleveraging
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2013.0,-3754.0,5.0,4067.0,15269.0,,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2014.0,-2447.0,-83.0,2749.0,18075.0,2806.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2015.0,-2264.0,-40.0,1819.0,19950.0,1875.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2016.0,-2809.0,-137.0,3031.0,22546.0,2596.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2017.0,-1468.0,-222.0,1692.0,24071.0,1525.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2018.0,-7926.0,-60.0,8009.0,38330.0,14259.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2019.0,-9317.0,-11.0,12191.0,50567.0,12237.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2020.0,-2075.0,-54.0,2452.0,55005.0,4438.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2021.0,-8848.0,-1746.0,8707.0,63730.0,8725.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2022.0,-5571.0,1640.0,5150.0,69174.0,5444.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2023.0,-27105.0,-2148.0,27466.0,97358.0,28184.0,Financing Supported
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2024.0,-35683.0,-2855.0,38471.0,157943.0,60585.0,Financing Supported
+CIPLA,"Cipla Ltd
+",Healthcare,2013.0,1398.0,-2063.0,718.0,967.0,,Growth + External Financing
+CIPLA,"Cipla Ltd
+",Healthcare,2014.0,1563.0,-1265.0,-266.0,1248.0,281.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2015.0,1173.0,-950.0,165.0,1703.0,455.0,Growth + External Financing
+CIPLA,"Cipla Ltd
+",Healthcare,2016.0,1741.0,-4533.0,3104.0,5202.0,3499.0,Growth + External Financing
+CIPLA,"Cipla Ltd
+",Healthcare,2017.0,2382.0,-1304.0,-1326.0,4113.0,-1089.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2018.0,1463.0,-834.0,-385.0,4098.0,-15.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2019.0,1691.0,-1688.0,-349.0,4316.0,218.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2020.0,3068.0,114.0,-2949.0,2816.0,-1500.0,Cash Generation + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2021.0,3755.0,-2374.0,-1240.0,2014.0,-802.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2022.0,3326.0,-1858.0,-1600.0,1056.0,-958.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2023.0,3238.0,-2376.0,-958.0,803.0,-253.0,Reinvestment + Deleveraging
+CIPLA,"Cipla Ltd
+",Healthcare,2024.0,4134.0,-2982.0,-1200.0,461.0,-342.0,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2013.0,9109.0,-1833.0,-7852.0,1305.0,,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2014.0,14525.0,8580.0,-25350.0,178.0,-1127.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2015.0,14382.0,894.0,-15026.0,408.0,230.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2016.0,13154.0,8154.0,-19587.0,1199.0,791.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2017.0,16461.0,455.0,-17598.0,3014.0,1815.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2018.0,21115.0,-7747.0,-13564.0,1538.0,-1476.0,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2019.0,16356.0,-7896.0,-10885.0,2210.0,672.0,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2020.0,4977.0,1033.0,-4791.0,6434.0,4224.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2021.0,10592.0,182.0,-8453.0,5884.0,-550.0,Cash Generation + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2022.0,41107.0,-25715.0,-13441.0,3514.0,-2370.0,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2023.0,35734.0,-23465.0,-13704.0,4331.0,817.0,Reinvestment + Deleveraging
+COALINDIA,Coal India Ltd,Materials,2024.0,18103.0,-4486.0,-13899.0,7816.0,3485.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2013.0,870.0,-622.0,-234.0,1151.0,,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2014.0,1098.0,-104.0,-804.0,708.0,-443.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2015.0,1047.0,-876.0,-417.0,734.0,26.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2016.0,1187.0,-730.0,-374.0,805.0,71.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2017.0,1227.0,-807.0,-339.0,975.0,170.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2018.0,1092.0,-541.0,-577.0,938.0,-37.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2019.0,1499.0,338.0,-1888.0,699.0,-239.0,Cash Generation + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2020.0,1614.0,-517.0,-1043.0,522.0,-177.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2021.0,2115.0,-1404.0,-613.0,509.0,-13.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2022.0,1802.0,-1273.0,-490.0,1030.0,521.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2023.0,1488.0,-583.0,-1035.0,1174.0,144.0,Reinvestment + Deleveraging
+DABUR,Dabur India Ltd,Consumer Staples,2024.0,2013.0,-971.0,-1161.0,1752.0,578.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2013.0,480.0,-255.0,-231.0,33.0,,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2014.0,557.0,-305.0,-248.0,18.0,-15.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2015.0,826.0,-521.0,-303.0,27.0,9.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2016.0,1038.0,-406.0,-631.0,42.0,15.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2017.0,1150.0,-1140.0,2.0,36.0,-6.0,Growth + External Financing
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2018.0,776.0,-478.0,-314.0,63.0,27.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2019.0,954.0,-685.0,-246.0,106.0,43.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2020.0,1216.0,-83.0,-1091.0,39.0,-67.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2021.0,1947.0,75.0,-35.0,5.0,-34.0,Cash Generation + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2022.0,1912.0,-2195.0,-532.0,4.0,-1.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2023.0,2459.0,-2707.0,-797.0,4.0,0.0,Reinvestment + Deleveraging
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2024.0,1261.0,-269.0,-799.0,8.0,4.0,Reinvestment + Deleveraging
+DLF,DLF Ltd,Real Estate,2013.0,2009.0,1995.0,-3951.0,26600.0,,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2014.0,1468.0,3924.0,-4532.0,24133.0,-2467.0,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2015.0,2037.0,98.0,-1547.0,24495.0,362.0,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2016.0,2957.0,-818.0,-1929.0,25264.0,769.0,Reinvestment + Deleveraging
+DLF,DLF Ltd,Real Estate,2017.0,-898.0,872.0,787.0,29202.0,3938.0,Financing Supported
+DLF,DLF Ltd,Real Estate,2018.0,270.0,-2102.0,-232.0,17491.0,-11711.0,Reinvestment + Deleveraging
+DLF,DLF Ltd,Real Estate,2019.0,2043.0,3.0,875.0,17222.0,-269.0,Strong Cash Generation
+DLF,DLF Ltd,Real Estate,2020.0,356.0,6508.0,-9522.0,8103.0,-9119.0,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2021.0,1460.0,150.0,-2184.0,6886.0,-1217.0,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2022.0,2832.0,267.0,-3828.0,4182.0,-2704.0,Cash Generation + Deleveraging
+DLF,DLF Ltd,Real Estate,2023.0,2375.0,-461.0,-2013.0,3334.0,-848.0,Reinvestment + Deleveraging
+DLF,DLF Ltd,Real Estate,2024.0,2539.0,-1529.0,177.0,4290.0,956.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2013.0,127.0,-231.0,118.0,526.0,,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2014.0,198.0,-270.0,65.0,641.0,115.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2015.0,222.0,-474.0,234.0,904.0,263.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2016.0,433.0,-633.0,196.0,1192.0,288.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2017.0,455.0,-2482.0,2025.0,1497.0,305.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2018.0,730.0,464.0,-1159.0,439.0,-1058.0,Cash Generation + Deleveraging
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2019.0,807.0,-958.0,209.0,700.0,261.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2020.0,1280.0,-4657.0,3357.0,333.0,-367.0,Growth + External Financing
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2021.0,1375.0,-1110.0,-180.0,393.0,60.0,Reinvestment + Deleveraging
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2022.0,1372.0,-1289.0,-179.0,647.0,254.0,Reinvestment + Deleveraging
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2023.0,2630.0,-2313.0,-205.0,643.0,-4.0,Reinvestment + Deleveraging
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2024.0,2746.0,-2468.0,-148.0,713.0,70.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2013.0,1378.0,-1437.0,-157.0,3682.0,,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2014.0,1970.0,-1604.0,-24.0,4477.0,795.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2015.0,2524.0,-2370.0,-433.0,4314.0,-163.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2016.0,3263.0,-1610.0,-1700.0,3352.0,-962.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2017.0,2144.0,-1890.0,-369.0,4918.0,1566.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2018.0,1803.0,-1483.0,-444.0,5071.0,153.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2019.0,2870.0,-769.0,-2133.0,3838.0,-1233.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2020.0,2984.0,-495.0,-2516.0,2210.0,-1628.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2021.0,3570.0,-2255.0,-30.0,3031.0,821.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2022.0,2811.0,-2565.0,-242.0,3384.0,353.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2023.0,5888.0,-4109.0,-2686.0,1347.0,-2037.0,Reinvestment + Deleveraging
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2024.0,4543.0,-4034.0,-376.0,4854.0,3507.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2012.0,496.0,-773.0,-111.0,23.0,,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2013.0,716.0,-790.0,-47.0,84.0,61.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2014.0,1047.0,-1214.0,-162.0,58.0,-26.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2016.0,1463.0,-1001.0,-466.0,23.0,-35.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2017.0,1708.0,-1744.0,25.0,112.0,89.0,Growth + External Financing
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2018.0,2482.0,-2145.0,-262.0,151.0,39.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2019.0,1575.0,-660.0,-292.0,187.0,36.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2020.0,1694.0,-1508.0,-858.0,249.0,62.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2021.0,1691.0,-1625.0,-15.0,219.0,-30.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2022.0,1527.0,-983.0,-593.0,108.0,-111.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2023.0,2823.0,-2397.0,-417.0,288.0,180.0,Reinvestment + Deleveraging
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2024.0,3724.0,-2834.0,-844.0,404.0,116.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2013.0,6603.0,-8626.0,3642.0,16472.0,,Growth + External Financing
+GAIL,GAIL (India) Ltd,Energy,2014.0,4615.0,-4466.0,-3.0,18537.0,2065.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2015.0,4214.0,-2809.0,-3058.0,18291.0,-246.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2016.0,3960.0,-904.0,-3028.0,9052.0,-9239.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2017.0,6024.0,-334.0,-5275.0,6553.0,-2499.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2018.0,8769.0,-2660.0,-5252.0,3876.0,-2677.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2019.0,7984.0,-5701.0,-3364.0,2224.0,-1652.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2020.0,8345.0,-8299.0,281.0,6912.0,4688.0,Growth + External Financing
+GAIL,GAIL (India) Ltd,Energy,2021.0,8993.0,-4640.0,-3471.0,7873.0,961.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2022.0,9420.0,-5490.0,-3917.0,9216.0,1343.0,Reinvestment + Deleveraging
+GAIL,GAIL (India) Ltd,Energy,2023.0,3205.0,-7453.0,2972.0,17816.0,8600.0,Growth + External Financing
+GAIL,GAIL (India) Ltd,Energy,2024.0,12586.0,-8226.0,-3457.0,19632.0,1816.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2013.0,820.0,-865.0,282.0,2456.0,,Growth + External Financing
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2014.0,1116.0,-494.0,-620.0,2373.0,-83.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2015.0,1027.0,-1236.0,-12.0,2717.0,344.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2016.0,847.0,-622.0,-202.0,2891.0,174.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2017.0,1860.0,-2243.0,665.0,4001.0,1110.0,Growth + External Financing
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2018.0,1723.0,-336.0,-1384.0,3508.0,-493.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2019.0,1729.0,274.0,-2039.0,3382.0,-126.0,Cash Generation + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2020.0,1588.0,-552.0,-1295.0,3575.0,193.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2021.0,2030.0,-292.0,-1816.0,1864.0,-1711.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2022.0,1451.0,-844.0,-380.0,1704.0,-160.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2023.0,2151.0,-1754.0,-794.0,1130.0,-574.0,Reinvestment + Deleveraging
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2024.0,2070.0,-3435.0,1406.0,3828.0,2698.0,Growth + External Financing
+GRASIM,Grasim Industries Ltd,Industrials,2013.0,4242.0,-5687.0,1348.0,9550.0,,Growth + External Financing
+GRASIM,Grasim Industries Ltd,Industrials,2014.0,3549.0,-2336.0,-1046.0,9681.0,131.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2015.0,4594.0,-2359.0,-2278.0,11930.0,2249.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2016.0,5868.0,-4515.0,-1365.0,12505.0,575.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2017.0,7288.0,-3509.0,-3799.0,9213.0,-3292.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2018.0,-4140.0,1546.0,3449.0,67070.0,57857.0,Financing Supported
+GRASIM,Grasim Industries Ltd,Industrials,2019.0,-1659.0,-2212.0,4158.0,84487.0,17417.0,Financing Supported
+GRASIM,Grasim Industries Ltd,Industrials,2020.0,16620.0,-11364.0,-3418.0,84777.0,290.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2021.0,15075.0,-7146.0,-8003.0,79078.0,-5699.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2022.0,7038.0,-1053.0,-6733.0,74744.0,-4334.0,Reinvestment + Deleveraging
+GRASIM,Grasim Industries Ltd,Industrials,2023.0,-12685.0,-13712.0,26469.0,103039.0,28295.0,Financing Supported
+GRASIM,Grasim Industries Ltd,Industrials,2024.0,-10719.0,-23114.0,33908.0,158159.0,55120.0,Financing Supported
+HAL,Hindustan Aeronautics Ltd,Industrials,2017.0,-423.0,3021.0,-164.0,2.0,,Mixed
+HAL,Hindustan Aeronautics Ltd,Industrials,2018.0,-734.0,594.0,-2540.0,3.0,1.0,Mixed
+HAL,Hindustan Aeronautics Ltd,Industrials,2019.0,-7694.0,5292.0,2321.0,8.0,5.0,Financing Supported
+HAL,Hindustan Aeronautics Ltd,Industrials,2020.0,1537.0,-1334.0,64.0,2.0,-6.0,Growth + External Financing
+HAL,Hindustan Aeronautics Ltd,Industrials,2021.0,15124.0,-1190.0,-7070.0,6.0,4.0,Reinvestment + Deleveraging
+HAL,Hindustan Aeronautics Ltd,Industrials,2022.0,10180.0,-12789.0,-1464.0,12.0,6.0,Reinvestment + Deleveraging
+HAL,Hindustan Aeronautics Ltd,Industrials,2023.0,8836.0,-5734.0,-1731.0,47.0,35.0,Reinvestment + Deleveraging
+HAL,Hindustan Aeronautics Ltd,Industrials,2024.0,8226.0,-6412.0,-1999.0,124.0,77.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2013.0,638.0,-144.0,-252.0,982.0,,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2014.0,868.0,-376.0,-310.0,1054.0,72.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2015.0,963.0,-485.0,-754.0,424.0,-630.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2016.0,513.0,-121.0,-621.0,134.0,-290.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2017.0,767.0,-220.0,-98.0,208.0,74.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2018.0,1100.0,-946.0,-409.0,115.0,-93.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2019.0,501.0,185.0,-318.0,94.0,-21.0,Cash Generation + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2020.0,827.0,-548.0,-716.0,72.0,-22.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2021.0,660.0,-763.0,190.0,521.0,449.0,Growth + External Financing
+HAVELLS,Havells India Ltd,Industrials,2022.0,1728.0,-759.0,-547.0,616.0,95.0,Reinvestment + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2023.0,565.0,31.0,-907.0,223.0,-393.0,Cash Generation + Deleveraging
+HAVELLS,Havells India Ltd,Industrials,2024.0,1953.0,-1618.0,-534.0,332.0,109.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2013.0,4492.0,-2361.0,-2086.0,1044.0,,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2014.0,6457.0,-4842.0,-1308.0,1018.0,-26.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2015.0,5539.0,-2088.0,-3140.0,648.0,-370.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2016.0,3823.0,-2208.0,-2237.0,1090.0,442.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2017.0,8995.0,-3890.0,-4517.0,582.0,-508.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2018.0,8328.0,-2236.0,-5714.0,557.0,-25.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2019.0,8971.0,-3256.0,-1471.0,4195.0,3638.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2020.0,13359.0,-12332.0,-3168.0,7986.0,3791.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2021.0,19618.0,-5665.0,-11192.0,6864.0,-1122.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2022.0,16900.0,1597.0,-14508.0,6343.0,-521.0,Cash Generation + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2023.0,18009.0,-3573.0,-15881.0,4794.0,-1549.0,Reinvestment + Deleveraging
+HCLTECH,HCL Technologies Ltd,Information Technology,2024.0,22448.0,-6608.0,-15464.0,5791.0,997.0,Reinvestment + Deleveraging
+HDFCBANK,HDFC Bank Ltd,Financials,2013.0,-5847.0,-902.0,13105.0,335588.0,,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2014.0,4211.0,-1099.0,9270.0,416677.0,81089.0,Growth + External Financing
+HDFCBANK,HDFC Bank Ltd,Financials,2015.0,-21281.0,-800.0,18694.0,509762.0,93085.0,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2016.0,-34435.0,-837.0,37815.0,649587.0,139825.0,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2017.0,17282.0,-1146.0,-5893.0,741550.0,91963.0,Reinvestment + Deleveraging
+HDFCBANK,HDFC Bank Ltd,Financials,2018.0,17214.0,-842.0,57378.0,944817.0,203267.0,Growth + External Financing
+HDFCBANK,HDFC Bank Ltd,Financials,2019.0,-62872.0,-1503.0,23131.0,1080235.0,135418.0,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2020.0,-16869.0,-1403.0,24394.0,1333041.0,252806.0,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2021.0,42476.0,-1823.0,-7321.0,1511418.0,178377.0,Reinvestment + Deleveraging
+HDFCBANK,HDFC Bank Ltd,Financials,2022.0,-11960.0,-2051.0,48124.0,1784970.0,273552.0,Financing Supported
+HDFCBANK,HDFC Bank Ltd,Financials,2023.0,20814.0,-2992.0,23941.0,2139212.0,354242.0,Growth + External Financing
+HDFCBANK,HDFC Bank Ltd,Financials,2024.0,19069.0,16600.0,-3983.0,3107503.0,968291.0,Cash Generation + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2013.0,,,,0.0,,Insufficient Data
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2014.0,,,,0.0,0.0,Insufficient Data
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2015.0,4459.0,-3514.0,-168.0,0.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2016.0,5687.0,-3962.0,-212.0,0.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2017.0,6230.0,-5177.0,-236.0,0.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2018.0,6739.0,-4421.0,-196.0,0.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2019.0,9868.0,-10182.0,-337.0,0.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2020.0,7388.0,-7789.0,38.0,0.0,0.0,Growth + External Financing
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2021.0,9703.0,-8952.0,678.0,600.0,600.0,Growth + External Financing
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2022.0,5943.0,-801.0,-238.0,600.0,0.0,Reinvestment + Deleveraging
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2023.0,6883.0,-10071.0,1985.0,950.0,350.0,Growth + External Financing
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2024.0,10721.0,-13614.0,-403.0,950.0,0.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2014.0,2963.0,-1616.0,-1414.0,284.0,,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2015.0,2186.0,31.0,-2131.0,100.0,-184.0,Cash Generation + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2016.0,3722.0,-2300.0,-1475.0,232.0,132.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2017.0,4007.0,-1972.0,-2036.0,261.0,29.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2018.0,4017.0,-1858.0,-2102.0,228.0,-33.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2019.0,1032.0,1298.0,-2252.0,312.0,84.0,Cash Generation + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2020.0,5518.0,-2819.0,-2602.0,453.0,141.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2021.0,4110.0,-2289.0,-1852.0,584.0,131.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2022.0,2104.0,-222.0,-1975.0,605.0,21.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2023.0,2614.0,-421.0,-2147.0,568.0,-37.0,Reinvestment + Deleveraging
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2024.0,4923.0,-1828.0,-2717.0,588.0,20.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2013.0,2977.0,-13801.0,10278.0,56951.0,,Growth + External Financing
+HINDALCO,Hindalco Industries Ltd,Materials,2014.0,7956.0,-8095.0,1493.0,64756.0,7805.0,Growth + External Financing
+HINDALCO,Hindalco Industries Ltd,Materials,2015.0,7143.0,-3873.0,-2437.0,68468.0,3712.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2016.0,11688.0,-3220.0,-8862.0,67552.0,-916.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2017.0,12687.0,-2876.0,-5552.0,63817.0,-3735.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2018.0,10898.0,5333.0,-16412.0,52074.0,-11743.0,Cash Generation + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2019.0,11977.0,-5456.0,-5466.0,52415.0,341.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2020.0,12745.0,-7227.0,6656.0,68399.0,15984.0,Growth + External Financing
+HINDALCO,Hindalco Industries Ltd,Materials,2021.0,17232.0,-25280.0,-4882.0,67206.0,-1193.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2022.0,16838.0,-6773.0,-6765.0,64486.0,-2720.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2023.0,19208.0,-7559.0,-10450.0,60291.0,-4195.0,Reinvestment + Deleveraging
+HINDALCO,Hindalco Industries Ltd,Materials,2024.0,24056.0,-14267.0,-10817.0,60959.0,668.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2013.0,3605.0,63.0,-4147.0,25.0,,Cash Generation + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2014.0,3818.0,-475.0,-2960.0,46.0,21.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2015.0,3292.0,138.0,-3462.0,43.0,-3.0,Cash Generation + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2016.0,4171.0,-282.0,-3864.0,177.0,134.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2017.0,5185.0,-1173.0,-4214.0,277.0,100.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2018.0,6059.0,-1063.0,-4975.0,0.0,-277.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2019.0,5800.0,-438.0,-5390.0,99.0,99.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2020.0,7623.0,1791.0,-6819.0,0.0,-99.0,Cash Generation + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2021.0,9163.0,-1228.0,-9309.0,0.0,0.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2022.0,9048.0,-1728.0,-8015.0,1043.0,1043.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2023.0,9991.0,-1484.0,-8953.0,1219.0,176.0,Reinvestment + Deleveraging
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2024.0,15469.0,-5324.0,-10034.0,1651.0,432.0,Reinvestment + Deleveraging
+ICICIBANK,ICICI Bank Ltd,Financials,2013.0,17494.0,-18563.0,9283.0,487659.0,,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2014.0,6765.0,-15750.0,7872.0,543055.0,55396.0,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2015.0,-12273.0,-13175.0,24827.0,597207.0,54152.0,Financing Supported
+ICICIBANK,ICICI Bank Ltd,Financials,2016.0,23645.0,-12060.0,5814.0,671455.0,74248.0,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2017.0,52636.0,-1711.0,-35470.0,700874.0,29419.0,Reinvestment + Deleveraging
+ICICIBANK,ICICI Bank Ltd,Financials,2018.0,19383.0,-50551.0,39676.0,815198.0,114324.0,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2019.0,48671.0,-30282.0,-19997.0,891641.0,76443.0,Reinvestment + Deleveraging
+ICICIBANK,ICICI Bank Ltd,Financials,2020.0,79565.0,-42095.0,2992.0,1014636.0,122995.0,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2021.0,138015.0,-63631.0,-54667.0,1103840.0,89204.0,Reinvestment + Deleveraging
+ICICIBANK,ICICI Bank Ltd,Financials,2022.0,58111.0,-39448.0,17451.0,1252968.0,149128.0,Growth + External Financing
+ICICIBANK,ICICI Bank Ltd,Financials,2023.0,-3771.0,-67689.0,24791.0,1399894.0,146926.0,Financing Supported
+ICICIBANK,ICICI Bank Ltd,Financials,2024.0,157284.0,-144737.0,13765.0,1651008.0,251114.0,Growth + External Financing
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2013.0,984.0,-962.0,102.0,0.0,,Growth + External Financing
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2014.0,595.0,-706.0,4.0,0.0,0.0,Growth + External Financing
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2015.0,-98.0,171.0,-93.0,0.0,0.0,Mixed
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2016.0,511.0,-310.0,-148.0,0.0,0.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2017.0,1628.0,-1990.0,361.0,485.0,485.0,Growth + External Financing
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2018.0,2390.0,-1896.0,-96.0,485.0,0.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2019.0,2976.0,-2856.0,-310.0,485.0,0.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2020.0,3433.0,-3382.0,-420.0,485.0,0.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2021.0,1774.0,-1367.0,-212.0,485.0,0.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2022.0,809.0,135.0,-879.0,255.0,-230.0,Cash Generation + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2023.0,2290.0,-1685.0,-695.0,35.0,-220.0,Reinvestment + Deleveraging
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2024.0,2407.0,-1921.0,-355.0,0.0,-35.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2013.0,-2641.0,1564.0,-514.0,0.0,,Mixed
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2014.0,-2382.0,6012.0,-1091.0,0.0,0.0,Mixed
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2015.0,523.0,-1822.0,-966.0,0.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2016.0,3634.0,27.0,-1442.0,1029.0,1029.0,Cash Generation + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2017.0,4130.0,-696.0,-994.0,0.0,-1029.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2018.0,5690.0,-5389.0,-1188.0,0.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2019.0,11377.0,-7559.0,-843.0,0.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2020.0,8596.0,-10797.0,-405.0,0.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2021.0,7314.0,-5084.0,1205.0,1200.0,1200.0,Growth + External Financing
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2022.0,1831.0,-816.0,-319.0,1200.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2023.0,89.0,-1145.0,-112.0,1200.0,0.0,Reinvestment + Deleveraging
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2024.0,-7315.0,7420.0,-88.0,0.0,-1200.0,Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2013.0,1741.0,-1890.0,36.0,11.0,,Growth + External Financing
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2014.0,1595.0,-2914.0,1285.0,14.0,3.0,Growth + External Financing
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2015.0,2384.0,-940.0,-1308.0,4.0,-10.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2016.0,3116.0,-1337.0,-1220.0,8.0,4.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2017.0,3782.0,-3033.0,-1401.0,52.0,44.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2018.0,3903.0,-4152.0,766.0,54.0,2.0,Growth + External Financing
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2019.0,3160.0,-2526.0,-592.0,88.0,34.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2020.0,6943.0,-4573.0,-2407.0,75.0,-13.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2021.0,-1620.0,3228.0,-1775.0,9.0,-66.0,Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2022.0,2064.0,1527.0,-3088.0,12.0,3.0,Cash Generation + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2023.0,12703.0,-4039.0,-8432.0,12.0,0.0,Reinvestment + Deleveraging
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2024.0,21183.0,-11759.0,-9979.0,20.0,8.0,Reinvestment + Deleveraging
+INDUSINDBK,IndusInd Bank Ltd,Financials,2013.0,-486.0,-174.0,1969.0,63576.0,,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2014.0,-4106.0,-174.0,4200.0,75264.0,11688.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2015.0,-1421.0,-276.0,5707.0,94752.0,19488.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2016.0,-2927.0,-258.0,2517.0,117996.0,23244.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2017.0,11569.0,-285.0,-2768.0,149026.0,31030.0,Reinvestment + Deleveraging
+INDUSINDBK,IndusInd Bank Ltd,Financials,2018.0,-20700.0,-217.0,15505.0,189928.0,40902.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2019.0,-6389.0,-633.0,8590.0,242189.0,52261.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2020.0,-12039.0,526.0,12733.0,262793.0,20604.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2021.0,44646.0,-226.0,-4096.0,307528.0,44735.0,Reinvestment + Deleveraging
+INDUSINDBK,IndusInd Bank Ltd,Financials,2022.0,16600.0,-351.0,-4302.0,341005.0,33477.0,Reinvestment + Deleveraging
+INDUSINDBK,IndusInd Bank Ltd,Financials,2023.0,-12438.0,-441.0,1115.0,385449.0,44444.0,Financing Supported
+INDUSINDBK,IndusInd Bank Ltd,Financials,2024.0,-16843.0,-625.0,-2242.0,432404.0,46955.0,Cash Burn + Investment
+INFY,Infosys Ltd,Information Technology,2013.0,7373.0,-2922.0,-3210.0,0.0,,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2014.0,9825.0,-2563.0,-3144.0,0.0,0.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2015.0,8353.0,999.0,-4935.0,0.0,0.0,Cash Generation + Deleveraging
+INFY,Infosys Ltd,Information Technology,2016.0,10028.0,-885.0,-6813.0,0.0,0.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2017.0,11531.0,-14664.0,-6939.0,0.0,0.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2018.0,13218.0,4533.0,-20505.0,0.0,0.0,Cash Generation + Deleveraging
+INFY,Infosys Ltd,Information Technology,2019.0,14841.0,-632.0,-14512.0,0.0,0.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2020.0,17003.0,-331.0,-17591.0,4633.0,4633.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2021.0,23224.0,-7373.0,-9786.0,5325.0,692.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2022.0,23885.0,-6485.0,-24642.0,5474.0,149.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2023.0,22467.0,-1071.0,-26695.0,8299.0,2825.0,Reinvestment + Deleveraging
+INFY,Infosys Ltd,Information Technology,2024.0,25210.0,-5093.0,-17504.0,8804.0,505.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2013.0,9340.0,-9294.0,352.0,89671.0,,Growth + External Financing
+IOC,"Indian Oil Corporation
+",Energy,2014.0,24195.0,-18594.0,-3116.0,94916.0,5245.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2015.0,46092.0,-10215.0,-38283.0,64893.0,-30023.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2016.0,25624.0,-13610.0,-11890.0,58552.0,-6341.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2017.0,28216.0,-17684.0,-10937.0,63271.0,4719.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2018.0,29115.0,-17119.0,-12007.0,65650.0,2379.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2019.0,12747.0,-22569.0,10436.0,96765.0,31115.0,Growth + External Financing
+IOC,"Indian Oil Corporation
+",Energy,2020.0,7146.0,-29101.0,22456.0,129790.0,33025.0,Growth + External Financing
+IOC,"Indian Oil Corporation
+",Energy,2021.0,49650.0,-22935.0,-27369.0,116649.0,-13141.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2022.0,25747.0,-21294.0,-4058.0,132020.0,15371.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2023.0,29644.0,-28030.0,-1794.0,148977.0,16957.0,Reinvestment + Deleveraging
+IOC,"Indian Oil Corporation
+",Energy,2024.0,71099.0,-31464.0,-39385.0,163401.0,14424.0,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2015.0,69.0,-46.0,-17.0,0.0,,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2016.0,288.0,7.0,-31.0,0.0,0.0,Cash Generation + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2017.0,338.0,94.0,-136.0,0.0,0.0,Cash Generation + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2018.0,24.0,40.0,-57.0,0.0,0.0,Cash Generation + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2019.0,499.0,-353.0,-179.0,0.0,0.0,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2020.0,409.0,8.0,-280.0,0.0,0.0,Cash Generation + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2021.0,248.0,-453.0,-47.0,79.0,79.0,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2022.0,524.0,-242.0,-258.0,105.0,26.0,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2023.0,812.0,-317.0,-434.0,84.0,-21.0,Reinvestment + Deleveraging
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2024.0,882.0,-215.0,-404.0,42.0,-42.0,Reinvestment + Deleveraging
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2016.0,-16378.0,2.0,17582.0,87503.0,,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2017.0,-19455.0,2.0,18250.0,106395.0,18892.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2018.0,-28076.0,2.0,28075.0,134006.0,27611.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2019.0,-41748.0,1.0,41749.0,173933.0,39927.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2020.0,-62701.0,1.0,62697.0,234377.0,60444.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2021.0,-89907.0,0.0,90202.0,323145.0,88768.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2022.0,-64412.0,-5.0,64266.0,388440.0,65295.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2023.0,-28588.0,0.0,28644.0,418935.0,30495.0,Financing Supported
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2024.0,7914.0,-8.0,-8046.0,403111.0,-15824.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2013.0,7102.0,-3881.0,-3310.0,102.0,,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2014.0,7344.0,-3254.0,-4122.0,242.0,140.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2015.0,9843.0,-5275.0,-4661.0,269.0,27.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2016.0,9799.0,-3921.0,-5613.0,84.0,-185.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2017.0,10627.0,-3251.0,-7301.0,46.0,-38.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2018.0,13169.0,-7114.0,-6221.0,36.0,-10.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2019.0,12583.0,-5546.0,-6869.0,13.0,-23.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2020.0,14690.0,-6174.0,-8181.0,277.0,264.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2021.0,12527.0,5740.0,-18634.0,271.0,-6.0,Cash Generation + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2022.0,15776.0,-2238.0,-13580.0,249.0,-22.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2023.0,18878.0,-5732.0,-13006.0,306.0,57.0,Reinvestment + Deleveraging
+ITC,"ITC Ltd
+",Consumer Staples,2024.0,17179.0,1563.0,-18551.0,304.0,-2.0,Cash Generation + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2013.0,3522.0,-9591.0,6111.0,24618.0,,Growth + External Financing
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2014.0,4580.0,-12694.0,8879.0,36368.0,11750.0,Growth + External Financing
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2015.0,1182.0,-6717.0,5708.0,45501.0,9133.0,Growth + External Financing
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2016.0,4333.0,-2262.0,-2672.0,46797.0,1296.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2017.0,6850.0,-1998.0,-5108.0,45850.0,-947.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2018.0,7724.0,-1431.0,-6276.0,42962.0,-2888.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2019.0,9027.0,-832.0,-8261.0,39559.0,-3403.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2020.0,8814.0,-1476.0,-7016.0,36824.0,-2735.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2021.0,11961.0,-1884.0,-4612.0,29910.0,-6914.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2022.0,16048.0,-2331.0,-15120.0,13502.0,-16408.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2023.0,7347.0,-4090.0,-2500.0,13046.0,-456.0,Reinvestment + Deleveraging
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2024.0,6008.0,-8344.0,1381.0,17266.0,4220.0,Growth + External Financing
+JIOFIN,Jio Financial Services Ltd,Financials,2023.0,2055.0,-1110.0,-889.0,743.0,,Reinvestment + Deleveraging
+JIOFIN,Jio Financial Services Ltd,Financials,2024.0,-678.0,1441.0,-753.0,0.0,-743.0,Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2013.0,1725.0,-944.0,-684.0,10377.0,,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2014.0,2269.0,-363.0,-1859.0,10106.0,-271.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2015.0,3394.0,-422.0,-2327.0,9294.0,-812.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2016.0,3538.0,-3272.0,-1622.0,14862.0,5568.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2017.0,3853.0,-762.0,-2595.0,14349.0,-513.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2018.0,3934.0,-215.0,-3968.0,11883.0,-2466.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2019.0,2491.0,-55.0,-2523.0,10555.0,-1328.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2020.0,2082.0,301.0,-1962.0,9840.0,-715.0,Cash Generation + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2021.0,3700.0,-1030.0,-2515.0,8371.0,-1469.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2022.0,2952.0,-1387.0,-781.0,8943.0,572.0,Reinvestment + Deleveraging
+JSWENERGY,JSW Energy Ltd,Energy,2023.0,2084.0,-6778.0,7327.0,25051.0,16108.0,Growth + External Financing
+JSWENERGY,JSW Energy Ltd,Energy,2024.0,6234.0,-8197.0,1675.0,30853.0,5802.0,Growth + External Financing
+JSWSTEEL,JSW Steel Ltd,Materials,2013.0,5844.0,-5433.0,-791.0,21625.0,,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2014.0,2594.0,-5618.0,3300.0,35527.0,13902.0,Growth + External Financing
+JSWSTEEL,JSW Steel Ltd,Materials,2015.0,7876.0,-7372.0,-169.0,38754.0,3227.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2016.0,6897.0,-3857.0,-3151.0,42204.0,3450.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2017.0,7888.0,-5094.0,-2710.0,43334.0,1130.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2018.0,12379.0,-4529.0,-8185.0,39393.0,-3941.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2019.0,14633.0,-11387.0,1753.0,47396.0,8003.0,Growth + External Financing
+JSWSTEEL,JSW Steel Ltd,Materials,2020.0,12785.0,-19589.0,5189.0,61423.0,14027.0,Growth + External Financing
+JSWSTEEL,JSW Steel Ltd,Materials,2021.0,18789.0,-7702.0,-3110.0,62392.0,969.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2022.0,26270.0,-14748.0,-14657.0,72237.0,9845.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2023.0,23323.0,-10730.0,-5977.0,80853.0,8616.0,Reinvestment + Deleveraging
+JSWSTEEL,JSW Steel Ltd,Materials,2024.0,12078.0,-14467.0,-5005.0,95258.0,14405.0,Reinvestment + Deleveraging
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2013.0,2878.0,-9035.0,7099.0,85561.0,,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2014.0,9068.0,-1130.0,-5814.0,85937.0,376.0,Reinvestment + Deleveraging
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2015.0,2302.0,-4467.0,2426.0,104258.0,18321.0,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2016.0,5025.0,-2353.0,2024.0,179679.0,75421.0,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2017.0,13222.0,-5289.0,6055.0,205230.0,25551.0,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2018.0,-10392.0,-5475.0,14679.0,249840.0,44610.0,Financing Supported
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2019.0,1822.0,-3323.0,8365.0,291763.0,41923.0,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2020.0,46619.0,-13068.0,-735.0,326477.0,34714.0,Reinvestment + Deleveraging
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2021.0,4881.0,-11172.0,-10072.0,327110.0,633.0,Reinvestment + Deleveraging
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2022.0,8308.0,-10903.0,7543.0,365747.0,38637.0,Growth + External Financing
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2023.0,-1242.0,-10381.0,1883.0,418807.0,53060.0,Financing Supported
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2024.0,15685.0,-8919.0,15515.0,520374.0,101567.0,Growth + External Financing
+LICI,Life Insurance Corporation of India,Financials,2019.0,13274.0,9636.0,-13700.0,269401.0,,Cash Generation + Deleveraging
+LICI,Life Insurance Corporation of India,Financials,2020.0,54367.0,-40415.0,-18664.0,253414.0,-15987.0,Reinvestment + Deleveraging
+LICI,Life Insurance Corporation of India,Financials,2021.0,80602.0,148447.0,-256125.0,4.0,-253410.0,Cash Generation + Deleveraging
+LICI,Life Insurance Corporation of India,Financials,2022.0,-3783.0,12531.0,0.0,1.0,-3.0,Mixed
+LICI,Life Insurance Corporation of India,Financials,2023.0,54519.0,-52848.0,-949.0,0.0,-1.0,Reinvestment + Deleveraging
+LICI,Life Insurance Corporation of India,Financials,2024.0,26122.0,-25269.0,-4427.0,10.0,10.0,Reinvestment + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2016.0,387.0,-854.0,330.0,13835.0,,Growth + External Financing
+LODHA,Macrotech Developers Ltd,Real Estate,2017.0,1469.0,-1174.0,-312.0,16183.0,2348.0,Reinvestment + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2018.0,696.0,-651.0,24.0,22616.0,6433.0,Growth + External Financing
+LODHA,Macrotech Developers Ltd,Real Estate,2019.0,-463.0,-175.0,736.0,25641.0,3025.0,Financing Supported
+LODHA,Macrotech Developers Ltd,Real Estate,2020.0,3772.0,182.0,-4188.0,18423.0,-7218.0,Cash Generation + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2021.0,2524.0,420.0,-2835.0,18193.0,-230.0,Cash Generation + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2022.0,1998.0,1139.0,-2888.0,11537.0,-6656.0,Cash Generation + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2023.0,2750.0,1789.0,-3706.0,9060.0,-2477.0,Cash Generation + Deleveraging
+LODHA,Macrotech Developers Ltd,Real Estate,2024.0,2512.0,-2947.0,951.0,7990.0,-1070.0,Growth + External Financing
+LT,Larsen & Toubro Ltd,Industrials,2013.0,-4355.0,-6922.0,11429.0,234.0,,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2014.0,-7143.0,-5510.0,13136.0,110.0,-124.0,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2015.0,-1365.0,-4778.0,7903.0,218.0,108.0,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2016.0,-3240.0,-4627.0,7253.0,55.0,-163.0,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2017.0,6655.0,-9796.0,2896.0,0.0,-55.0,Growth + External Financing
+LT,Larsen & Toubro Ltd,Industrials,2018.0,-10031.0,3914.0,9370.0,0.0,0.0,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2019.0,-4756.0,-11023.0,15440.0,0.0,0.0,Financing Supported
+LT,Larsen & Toubro Ltd,Industrials,2020.0,6694.0,-8408.0,6372.0,912.0,912.0,Growth + External Financing
+LT,Larsen & Toubro Ltd,Industrials,2021.0,23074.0,-5750.0,-15274.0,798.0,-114.0,Reinvestment + Deleveraging
+LT,Larsen & Toubro Ltd,Industrials,2022.0,19164.0,-3585.0,-15181.0,258.0,-540.0,Reinvestment + Deleveraging
+LT,Larsen & Toubro Ltd,Industrials,2023.0,22777.0,-8048.0,-11572.0,1541.0,1283.0,Reinvestment + Deleveraging
+LT,Larsen & Toubro Ltd,Industrials,2024.0,18266.0,2179.0,-25413.0,2326.0,785.0,Cash Generation + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2013.0,608.0,-224.0,-396.0,234.0,,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2014.0,628.0,180.0,-769.0,110.0,-124.0,Cash Generation + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2015.0,642.0,-103.0,-497.0,218.0,108.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2016.0,858.0,-40.0,-817.0,55.0,-163.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2017.0,1170.0,-961.0,-33.0,0.0,-55.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2018.0,844.0,-452.0,-408.0,0.0,0.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2019.0,1395.0,-749.0,-594.0,0.0,0.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2020.0,1644.0,-643.0,-890.0,912.0,912.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2021.0,2400.0,-1657.0,-509.0,798.0,-114.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2022.0,3251.0,-1643.0,-1680.0,258.0,-540.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2023.0,3095.0,-271.0,-1932.0,1541.0,1283.0,Reinvestment + Deleveraging
+LTIM,LTIMindtree Ltd,Information Technology,2024.0,5670.0,-3918.0,-2269.0,2326.0,785.0,Reinvestment + Deleveraging
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2013.0,-922.0,-2903.0,4508.0,28711.0,,Financing Supported
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2014.0,-244.0,-4524.0,5577.0,35167.0,6456.0,Financing Supported
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2015.0,1055.0,-4357.0,1669.0,37911.0,2744.0,Growth + External Financing
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2016.0,2385.0,-5506.0,2967.0,41553.0,3642.0,Growth + External Financing
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2017.0,183.0,-5875.0,6108.0,48762.0,7209.0,Growth + External Financing
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2018.0,682.0,-5467.0,6314.0,55898.0,7136.0,Growth + External Financing
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2019.0,-4347.0,-7174.0,13194.0,70848.0,14950.0,Financing Supported
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2020.0,-1457.0,-6870.0,6933.0,82092.0,11244.0,Financing Supported
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2021.0,17909.0,-19686.0,406.0,80625.0,-1467.0,Growth + External Financing
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2022.0,9248.0,-3252.0,-5883.0,77605.0,-3020.0,Reinvestment + Deleveraging
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2023.0,-7074.0,-8866.0,15946.0,92247.0,14642.0,Financing Supported
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2024.0,-5630.0,-5615.0,12281.0,116844.0,24597.0,Financing Supported
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2013.0,4059.0,-3119.0,-979.0,1569.0,,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2014.0,4995.0,-4997.0,-74.0,2004.0,435.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2015.0,6449.0,-4491.0,-2004.0,666.0,-1338.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2016.0,8482.0,-7230.0,-1237.0,231.0,-435.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2017.0,10282.0,-9173.0,-1129.0,484.0,253.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2018.0,11788.0,-8302.0,-3436.0,121.0,-363.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2019.0,6601.0,-3540.0,-2948.0,160.0,39.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2020.0,3496.0,-557.0,-3104.0,184.0,24.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2021.0,8856.0,-7291.0,-1545.0,541.0,357.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2022.0,1840.0,-239.0,-1607.0,426.0,-115.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2023.0,10815.0,-8820.0,-1214.0,1248.0,822.0,Reinvestment + Deleveraging
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2024.0,16801.0,-11865.0,-4062.0,158.0,-1090.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2013.0,1486.0,-1089.0,-256.0,4904.0,,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2014.0,2695.0,-1372.0,-1080.0,4840.0,-64.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2015.0,3390.0,-2844.0,494.0,5131.0,291.0,Growth + External Financing
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2016.0,2188.0,-1906.0,-263.0,6069.0,938.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2017.0,3800.0,-6145.0,5518.0,10349.0,4280.0,Growth + External Financing
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2018.0,3264.0,-3194.0,-2221.0,10374.0,25.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2019.0,4312.0,-3318.0,-225.0,11534.0,1160.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2020.0,6352.0,-2220.0,-2803.0,13136.0,1602.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2021.0,5051.0,-1886.0,-2098.0,11930.0,-1206.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2022.0,2463.0,-2304.0,-1217.0,14130.0,2200.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2023.0,4643.0,-2248.0,-2734.0,13792.0,-338.0,Reinvestment + Deleveraging
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2024.0,7569.0,-6644.0,1281.0,25417.0,11625.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2013.0,75.0,-46.0,-12.0,1.0,,Reinvestment + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2014.0,81.0,-204.0,130.0,1.0,0.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2015.0,51.0,-1051.0,1025.0,1.0,0.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2016.0,78.0,-2.0,-66.0,1.0,0.0,Reinvestment + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2017.0,213.0,-165.0,-42.0,1.0,0.0,Reinvestment + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2018.0,253.0,-149.0,-75.0,1.0,0.0,Reinvestment + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2019.0,276.0,-59.0,-78.0,1.0,0.0,Reinvestment + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2020.0,350.0,97.0,-143.0,77.0,76.0,Cash Generation + Deleveraging
+NAUKRI,Info Edge (India) Ltd,Communication Services,2021.0,276.0,-2043.0,1880.0,65.0,-12.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2022.0,707.0,-1177.0,35.0,64.0,-1.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2023.0,512.0,-358.0,2.0,108.0,44.0,Growth + External Financing
+NAUKRI,Info Edge (India) Ltd,Communication Services,2024.0,702.0,-852.0,120.0,256.0,148.0,Growth + External Financing
+NESTLEIND,Nestle India Ltd,Consumer Staples,2013.0,1796.0,-441.0,-580.0,1189.0,,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2014.0,1644.0,-432.0,-1635.0,20.0,-1169.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2015.0,1098.0,-70.0,-498.0,18.0,-2.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2016.0,1466.0,-126.0,-666.0,33.0,15.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2017.0,1818.0,-131.0,-997.0,35.0,2.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2018.0,2052.0,-52.0,-1317.0,35.0,0.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2019.0,2295.0,83.0,-3602.0,189.0,154.0,Cash Generation + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2020.0,2454.0,-321.0,-1956.0,147.0,-42.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2021.0,2236.0,-1920.0,-2020.0,266.0,119.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2022.0,2737.0,-392.0,-2123.0,271.0,5.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2023.0,3392.0,-927.0,-2436.0,271.0,0.0,Reinvestment + Deleveraging
+NESTLEIND,Nestle India Ltd,Consumer Staples,2024.0,4175.0,-1237.0,-3135.0,370.0,99.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2013.0,2846.0,-1330.0,-1344.0,20340.0,,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2014.0,3824.0,-1122.0,-4536.0,20819.0,479.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2015.0,4061.0,-768.0,-2494.0,20584.0,-235.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2016.0,5971.0,-746.0,-4000.0,19938.0,-646.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2017.0,8329.0,-1864.0,-7812.0,19227.0,-711.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2018.0,4696.0,-886.0,-3863.0,18602.0,-625.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2019.0,3824.0,-1182.0,-2637.0,19066.0,464.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2020.0,2993.0,-2987.0,12.0,23226.0,4160.0,Growth + External Financing
+NHPC,"NHPC Ltd
+",Energy,2021.0,5070.0,-1607.0,-3058.0,23365.0,139.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2022.0,4590.0,-3084.0,-638.0,26096.0,2731.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2023.0,4705.0,-4191.0,-795.0,29540.0,3444.0,Reinvestment + Deleveraging
+NHPC,"NHPC Ltd
+",Energy,2024.0,6938.0,-5968.0,-581.0,34210.0,4670.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2013.0,16508.0,-16845.0,988.0,70419.0,,Growth + External Financing
+NTPC,NTPC Ltd,Energy,2014.0,16531.0,-15509.0,-2709.0,81455.0,11036.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2015.0,14889.0,-15977.0,-1474.0,102252.0,20797.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2016.0,24125.0,-19162.0,-3899.0,99424.0,-2828.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2017.0,20167.0,-24480.0,3138.0,113773.0,14349.0,Growth + External Financing
+NTPC,NTPC Ltd,Energy,2018.0,19670.0,-20678.0,1028.0,130049.0,16276.0,Growth + External Financing
+NTPC,NTPC Ltd,Energy,2019.0,18686.0,-24063.0,4927.0,173058.0,43009.0,Growth + External Financing
+NTPC,NTPC Ltd,Energy,2020.0,23890.0,-29628.0,6004.0,202984.0,29926.0,Growth + External Financing
+NTPC,NTPC Ltd,Energy,2021.0,32444.0,-21034.0,-11049.0,210208.0,7224.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2022.0,41788.0,-22891.0,-19172.0,210707.0,499.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2023.0,47152.0,-26145.0,-21217.0,222913.0,12206.0,Reinvestment + Deleveraging
+NTPC,NTPC Ltd,Energy,2024.0,40785.0,-32141.0,-8246.0,242009.0,19096.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2013.0,39874.0,-41220.0,-6927.0,20686.0,,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2014.0,53270.0,-63633.0,15225.0,49113.0,28427.0,Growth + External Financing
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2015.0,33950.0,-30058.0,-10641.0,53944.0,4831.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2016.0,46292.0,-38256.0,-8972.0,45500.0,-8444.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2017.0,45780.0,-43815.0,-1867.0,80029.0,34529.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2018.0,56792.0,-66798.0,9909.0,106550.0,26521.0,Growth + External Financing
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2019.0,61458.0,-37132.0,-23324.0,107742.0,1192.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2020.0,70593.0,-53159.0,-16726.0,129473.0,21731.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2021.0,47185.0,-39141.0,-8239.0,133187.0,3714.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2022.0,78248.0,-41197.0,-35790.0,121986.0,-11201.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2023.0,86062.0,-74690.0,-12876.0,142255.0,20269.0,Reinvestment + Deleveraging
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2024.0,99263.0,-57203.0,-45650.0,191489.0,49234.0,Reinvestment + Deleveraging
+PFC,Power Finance Corporation Ltd,Financials,2013.0,-25102.0,22.0,27947.0,139473.0,,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2014.0,-22473.0,9.0,17671.0,159215.0,19742.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2015.0,-21455.0,-491.0,26916.0,187795.0,28580.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2016.0,-13298.0,-1973.0,10383.0,200660.0,12865.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2017.0,1795.0,-667.0,1950.0,202993.0,2333.0,Growth + External Financing
+PFC,Power Finance Corporation Ltd,Financials,2018.0,-57148.0,1409.0,52018.0,441151.0,238158.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2019.0,-80252.0,-13463.0,93616.0,539488.0,98337.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2020.0,-42148.0,-73.0,43399.0,596561.0,57073.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2021.0,-59143.0,1741.0,60424.0,659682.0,63121.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2022.0,4904.0,-547.0,-8371.0,660476.0,794.0,Reinvestment + Deleveraging
+PFC,Power Finance Corporation Ltd,Financials,2023.0,-74717.0,-1694.0,75537.0,751158.0,90682.0,Financing Supported
+PFC,Power Finance Corporation Ltd,Financials,2024.0,-97820.0,-3409.0,101261.0,910447.0,159289.0,Financing Supported
+PIDILITIND,Pidilite Industries Ltd,Materials,2013.0,472.0,-144.0,-339.0,111.0,,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2014.0,394.0,-99.0,-242.0,46.0,-65.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2015.0,552.0,-436.0,-165.0,58.0,12.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2016.0,907.0,-491.0,-371.0,80.0,22.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2017.0,794.0,-879.0,41.0,98.0,18.0,Growth + External Financing
+PIDILITIND,Pidilite Industries Ltd,Materials,2018.0,796.0,39.0,-790.0,125.0,27.0,Cash Generation + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2019.0,845.0,-513.0,-361.0,113.0,-12.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2020.0,1280.0,103.0,-849.0,288.0,175.0,Cash Generation + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2021.0,1392.0,-1688.0,-76.0,331.0,43.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2022.0,955.0,-558.0,-468.0,416.0,85.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2023.0,1558.0,-899.0,-656.0,391.0,-25.0,Reinvestment + Deleveraging
+PIDILITIND,Pidilite Industries Ltd,Materials,2024.0,2724.0,-1769.0,-742.0,379.0,-12.0,Reinvestment + Deleveraging
+PNB,Punjab National Bank,Financials,2013.0,-692.0,-600.0,-694.0,6695.0,,Cash Burn + Investment
+PNB,Punjab National Bank,Financials,2014.0,16906.0,-302.0,2129.0,10108.0,3413.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2015.0,4814.0,-872.0,7451.0,16481.0,6373.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2016.0,14167.0,-1352.0,5975.0,26014.0,9533.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2017.0,21938.0,159.0,-9767.0,35497.0,9483.0,Cash Generation + Deleveraging
+PNB,Punjab National Bank,Financials,2018.0,-1742.0,392.0,7460.0,53777.0,18280.0,Financing Supported
+PNB,Punjab National Bank,Financials,2019.0,-33532.0,-629.0,13969.0,71859.0,18082.0,Financing Supported
+PNB,Punjab National Bank,Financials,2020.0,-12793.0,-338.0,13591.0,67736.0,-4123.0,Financing Supported
+PNB,Punjab National Bank,Financials,2021.0,30950.0,-787.0,5415.0,59394.0,-8342.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2022.0,20032.0,-1204.0,2032.0,52961.0,-6433.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2023.0,22592.0,-732.0,1275.0,53621.0,660.0,Growth + External Financing
+PNB,Punjab National Bank,Financials,2024.0,-27939.0,-1506.0,3518.0,55017.0,1396.0,Financing Supported
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2013.0,11690.0,-22084.0,9962.0,69233.0,,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2014.0,15223.0,-26639.0,13712.0,84220.0,14987.0,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2015.0,15800.0,-24185.0,6399.0,96243.0,12023.0,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2016.0,15008.0,-21576.0,5621.0,108545.0,12302.0,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2017.0,21575.0,-23836.0,3959.0,118988.0,10443.0,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2018.0,22710.0,-25701.0,1285.0,131503.0,12515.0,Growth + External Financing
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2019.0,23271.0,-18727.0,-2431.0,146376.0,14873.0,Reinvestment + Deleveraging
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2020.0,30739.0,-10733.0,-18806.0,148270.0,1894.0,Reinvestment + Deleveraging
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2021.0,29403.0,-9244.0,-20521.0,143232.0,-5038.0,Reinvestment + Deleveraging
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2022.0,26124.0,753.0,-28967.0,134696.0,-8536.0,Cash Generation + Deleveraging
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2023.0,40203.0,-7138.0,-30450.0,128584.0,-6112.0,Reinvestment + Deleveraging
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2024.0,37290.0,-13114.0,-25903.0,122568.0,-6016.0,Reinvestment + Deleveraging
+RECLTD,REC Ltd,Financials,2013.0,-20059.0,152.0,16059.0,107762.0,,Financing Supported
+RECLTD,REC Ltd,Financials,2014.0,-17244.0,136.0,16815.0,126173.0,18411.0,Financing Supported
+RECLTD,REC Ltd,Financials,2015.0,-23898.0,151.0,23098.0,150979.0,24806.0,Financing Supported
+RECLTD,REC Ltd,Financials,2016.0,-13278.0,-756.0,15291.0,169212.0,18233.0,Financing Supported
+RECLTD,REC Ltd,Financials,2017.0,6805.0,-101.0,-3947.0,167852.0,-1360.0,Reinvestment + Deleveraging
+RECLTD,REC Ltd,Financials,2018.0,-32510.0,46.0,28244.0,204367.0,36515.0,Financing Supported
+RECLTD,REC Ltd,Financials,2019.0,-35866.0,457.0,35543.0,244249.0,39882.0,Financing Supported
+RECLTD,REC Ltd,Financials,2020.0,-32712.0,121.0,33926.0,286289.0,42040.0,Financing Supported
+RECLTD,REC Ltd,Financials,2021.0,-43512.0,861.0,42113.0,329723.0,43434.0,Financing Supported
+RECLTD,REC Ltd,Financials,2022.0,-819.0,-287.0,68.0,333043.0,3320.0,Financing Supported
+RECLTD,REC Ltd,Financials,2023.0,-37360.0,-943.0,38123.0,380790.0,47747.0,Financing Supported
+RECLTD,REC Ltd,Financials,2024.0,-57723.0,-1831.0,59588.0,483617.0,102827.0,Financing Supported
+RELIANCE,"Reliance Industries Ltd
+",Energy,2013.0,36918.0,-27601.0,408.0,107219.0,,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2014.0,43261.0,-73070.0,13713.0,138761.0,31542.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2015.0,34374.0,-64706.0,8444.0,168251.0,29490.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2016.0,38134.0,-36186.0,-3210.0,194714.0,26463.0,Reinvestment + Deleveraging
+RELIANCE,"Reliance Industries Ltd
+",Energy,2017.0,49550.0,-66201.0,8617.0,217475.0,22761.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2018.0,71459.0,-68192.0,-2001.0,239843.0,22368.0,Reinvestment + Deleveraging
+RELIANCE,"Reliance Industries Ltd
+",Energy,2019.0,42346.0,-94507.0,55906.0,307714.0,67871.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2020.0,94877.0,-72497.0,-2541.0,355133.0,47419.0,Reinvestment + Deleveraging
+RELIANCE,"Reliance Industries Ltd
+",Energy,2021.0,26958.0,-142385.0,101904.0,278962.0,-76171.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2022.0,110654.0,-109162.0,17289.0,319158.0,40196.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2023.0,115032.0,-93001.0,10455.0,451664.0,132506.0,Growth + External Financing
+RELIANCE,"Reliance Industries Ltd
+",Energy,2024.0,158788.0,-113581.0,-16646.0,357525.0,-94139.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2013.0,1130.0,-227.0,-58.0,0.0,,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2014.0,166.0,-708.0,-58.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2015.0,2711.0,-178.0,-117.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2016.0,5778.0,-7204.0,-144.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2017.0,8525.0,-9032.0,-144.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2018.0,10395.0,-8910.0,-221.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2019.0,13473.0,-13552.0,-241.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2020.0,19299.0,-16986.0,-198.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2021.0,23878.0,-19203.0,3.0,0.0,0.0,Growth + External Financing
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2022.0,21852.0,-21611.0,-231.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2023.0,28656.0,-30203.0,-415.0,0.0,0.0,Reinvestment + Deleveraging
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2024.0,29122.0,-31221.0,-227.0,0.0,0.0,Reinvestment + Deleveraging
+SBIN,State Bank of India,Financials,2013.0,24332.0,-2271.0,-4424.0,,,Reinvestment + Deleveraging
+SBIN,State Bank of India,Financials,2014.0,19142.0,-791.0,3583.0,,,Growth + External Financing
+SBIN,State Bank of India,Financials,2015.0,26297.0,-3424.0,-1553.0,,,Reinvestment + Deleveraging
+SBIN,State Bank of India,Financials,2016.0,14477.0,-2747.0,4348.0,,,Growth + External Financing
+SBIN,State Bank of India,Financials,2017.0,77406.0,-4572.0,-4196.0,,,Reinvestment + Deleveraging
+SBIN,State Bank of India,Financials,2018.0,-96508.0,13053.0,5547.0,,,Financing Supported
+SBIN,State Bank of India,Financials,2019.0,29556.0,220.0,448.0,,,Strong Cash Generation
+SBIN,State Bank of India,Financials,2020.0,23929.0,-555.0,5430.0,,,Growth + External Financing
+SBIN,State Bank of India,Financials,2021.0,89919.0,-3670.0,7143.0,,,Growth + External Financing
+SBIN,State Bank of India,Financials,2022.0,57695.0,-2652.0,-3845.0,,,Reinvestment + Deleveraging
+SBIN,State Bank of India,Financials,2023.0,-86014.0,-966.0,6386.0,,,Financing Supported
+SBIN,State Bank of India,Financials,2024.0,21632.0,-3476.0,-9896.0,,,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2013.0,1260.0,-270.0,-982.0,1288.0,,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2014.0,1401.0,-1234.0,-156.0,1200.0,-88.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2015.0,1239.0,-990.0,-259.0,917.0,-283.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2016.0,1566.0,-1265.0,-271.0,881.0,-36.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2017.0,2202.0,-2048.0,-167.0,1293.0,412.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2018.0,1879.0,-3595.0,1726.0,3403.0,2110.0,Growth + External Financing
+SHREECEM,Shree Cement Ltd,Materials,2019.0,2080.0,-720.0,-1276.0,2803.0,-600.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2020.0,3973.0,-5590.0,1581.0,3146.0,343.0,Growth + External Financing
+SHREECEM,Shree Cement Ltd,Materials,2021.0,4254.0,-2651.0,-1233.0,2230.0,-916.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2022.0,2668.0,-2143.0,-849.0,2129.0,-101.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2023.0,2569.0,-2405.0,-277.0,2725.0,596.0,Reinvestment + Deleveraging
+SHREECEM,Shree Cement Ltd,Materials,2024.0,3347.0,-1418.0,-1710.0,1682.0,-1043.0,Reinvestment + Deleveraging
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2013.0,-8359.0,-41.0,9060.0,33386.0,,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2014.0,-4055.0,-112.0,5010.0,38630.0,5244.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2015.0,-9611.0,-45.0,7836.0,46695.0,8065.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2016.0,-5507.0,-36.0,2822.0,49790.0,3095.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2017.0,-2677.0,-2.0,3017.0,53080.0,3290.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2018.0,-13142.0,86.0,13014.0,82131.0,29051.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2019.0,-5535.0,-76.0,5550.0,87914.0,5783.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2020.0,-2464.0,-55.0,4579.0,94735.0,6821.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2021.0,-4239.0,-25.0,12226.0,106546.0,11811.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2022.0,-8859.0,-34.0,8505.0,114846.0,8300.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2023.0,-17625.0,5076.0,11820.0,164202.0,49356.0,Financing Supported
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2024.0,-31101.0,-258.0,27609.0,207820.0,43618.0,Financing Supported
+SIEMENS,Siemens Ltd,Industrials,2011.0,3.0,264.0,-196.0,0.0,,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2014.0,608.0,130.0,-220.0,0.0,0.0,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2015.0,574.0,646.0,-245.0,25.0,25.0,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2016.0,513.0,237.0,-1614.0,25.0,0.0,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2017.0,573.0,1321.0,-285.0,0.0,-25.0,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2018.0,100.0,-174.0,-305.0,0.0,0.0,Reinvestment + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2019.0,1273.0,-1135.0,-312.0,0.0,0.0,Reinvestment + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2020.0,720.0,871.0,-386.0,0.0,0.0,Cash Generation + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2021.0,1422.0,-2389.0,-502.0,4.0,4.0,Reinvestment + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2022.0,978.0,-34.0,-392.0,182.0,178.0,Reinvestment + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2023.0,1400.0,-759.0,-450.0,175.0,-7.0,Reinvestment + Deleveraging
+SIEMENS,Siemens Ltd,Industrials,2024.0,1670.0,-502.0,-523.0,279.0,104.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2013.0,3357.0,-2375.0,-665.0,260.0,,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2014.0,3959.0,-2176.0,507.0,2561.0,2301.0,Growth + External Financing
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2015.0,5616.0,-1502.0,-1187.0,8996.0,6435.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2016.0,6686.0,-3949.0,-1889.0,8497.0,-499.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2017.0,7082.0,-4186.0,-2285.0,9832.0,1335.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2018.0,3907.0,-3104.0,-1539.0,10385.0,553.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2019.0,2196.0,-310.0,-2731.0,10514.0,129.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2020.0,6555.0,-2225.0,-5715.0,8315.0,-2199.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2021.0,6170.0,407.0,-5980.0,3869.0,-4446.0,Cash Generation + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2022.0,8985.0,-5556.0,-5193.0,1290.0,-2579.0,Reinvestment + Deleveraging
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2023.0,4959.0,-7220.0,2376.0,6886.0,5596.0,Growth + External Financing
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2024.0,12135.0,-763.0,-6710.0,2572.0,-4314.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2013.0,173.0,24.0,186.0,1389.0,,Strong Cash Generation
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2014.0,422.0,-1.0,-363.0,1438.0,49.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2015.0,418.0,-207.0,-392.0,1324.0,-114.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2016.0,116.0,145.0,-282.0,1354.0,30.0,Cash Generation + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2017.0,741.0,145.0,-816.0,787.0,-567.0,Cash Generation + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2018.0,356.0,-31.0,-30.0,1068.0,281.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2019.0,210.0,53.0,-224.0,1141.0,73.0,Cash Generation + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2020.0,1082.0,-622.0,-308.0,1586.0,445.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2021.0,1656.0,-346.0,-426.0,1634.0,48.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2022.0,1516.0,-1317.0,-995.0,1412.0,-222.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2023.0,1461.0,-834.0,-714.0,1600.0,188.0,Reinvestment + Deleveraging
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2024.0,1937.0,-1911.0,256.0,2955.0,1355.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2013.0,22163.0,-22969.0,-1692.0,53716.0,,Reinvestment + Deleveraging
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2014.0,36151.0,-27991.0,-3883.0,60642.0,6926.0,Reinvestment + Deleveraging
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2015.0,35531.0,-36232.0,5201.0,73610.0,12968.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2016.0,37900.0,-36694.0,-3795.0,69360.0,-4250.0,Reinvestment + Deleveraging
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2017.0,30199.0,-39571.0,6205.0,78604.0,9244.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2018.0,23857.0,-25139.0,2012.0,88950.0,10346.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2019.0,18891.0,-20878.0,8830.0,106175.0,17225.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2020.0,26633.0,-33115.0,3390.0,124788.0,18613.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2021.0,29001.0,-25672.0,9904.0,142131.0,17343.0,Growth + External Financing
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2022.0,14283.0,-4444.0,-3380.0,146449.0,4318.0,Reinvestment + Deleveraging
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2023.0,35388.0,-15417.0,-26243.0,134113.0,-12336.0,Reinvestment + Deleveraging
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2024.0,67915.0,-22782.0,-37006.0,106549.0,-27564.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2013.0,3286.0,-4026.0,-593.0,37882.0,,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2014.0,6483.0,-3609.0,-3265.0,40173.0,2291.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2015.0,5981.0,-3865.0,-2239.0,40607.0,434.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2016.0,7415.0,-1805.0,-6183.0,38849.0,-1758.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2017.0,7014.0,-7373.0,937.0,48815.0,9966.0,Growth + External Financing
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2018.0,6364.0,-1512.0,-4726.0,48589.0,-226.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2019.0,4574.0,-272.0,-5184.0,48506.0,-83.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2020.0,7375.0,-493.0,-5110.0,51936.0,3430.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2021.0,8345.0,993.0,-7603.0,46708.0,-5228.0,Cash Generation + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2022.0,6693.0,-6250.0,-1183.0,51195.0,4487.0,Reinvestment + Deleveraging
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2023.0,7166.0,-7263.0,1341.0,52923.0,1728.0,Growth + External Financing
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2024.0,12596.0,-9027.0,-4497.0,58314.0,5391.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2013.0,14035.0,-13099.0,-1780.0,68529.0,,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2014.0,13146.0,-15378.0,1015.0,81629.0,13100.0,Growth + External Financing
+TATASTEEL,"Tata Steel Ltd
+",Materials,2015.0,11880.0,-9021.0,-2617.0,80701.0,-928.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2016.0,11455.0,-8794.0,-4729.0,81987.0,1286.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2017.0,10824.0,-9490.0,-2579.0,83014.0,1027.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2018.0,8023.0,-11730.0,6640.0,92147.0,9133.0,Growth + External Financing
+TATASTEEL,"Tata Steel Ltd
+",Materials,2019.0,25336.0,-29176.0,-673.0,100816.0,8669.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2020.0,20169.0,-14012.0,-1695.0,116328.0,15512.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2021.0,44327.0,-9437.0,-37090.0,88501.0,-27827.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2022.0,44381.0,-10905.0,-23401.0,75561.0,-12940.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2023.0,21683.0,-18179.0,-6981.0,84893.0,9332.0,Reinvestment + Deleveraging
+TATASTEEL,"Tata Steel Ltd
+",Materials,2024.0,20301.0,-14253.0,-11097.0,99392.0,14499.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2013.0,11615.0,-6038.0,-5729.0,332.0,,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2014.0,14751.0,-9452.0,-5673.0,297.0,-35.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2015.0,19369.0,-1807.0,-17168.0,358.0,61.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2016.0,19109.0,-5010.0,-9666.0,245.0,-113.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2017.0,25223.0,-16895.0,-11026.0,289.0,44.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2018.0,25067.0,3104.0,-26885.0,247.0,-42.0,Cash Generation + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2019.0,28593.0,1645.0,-27897.0,62.0,-185.0,Cash Generation + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2020.0,32369.0,8968.0,-39915.0,8174.0,8112.0,Cash Generation + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2021.0,38802.0,-7956.0,-32634.0,7795.0,-379.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2022.0,39949.0,-738.0,-33581.0,7818.0,23.0,Reinvestment + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2023.0,41965.0,548.0,-47878.0,7688.0,-130.0,Cash Generation + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,2024.0,44338.0,6091.0,-48536.0,9046.0,1358.0,Cash Generation + Deleveraging
+TCS,Tata Consultancy Services Ltd,Information Technology,,11615.0,-6038.0,-5729.0,,,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2013.0,855.0,-622.0,65.0,1380.0,,Growth + External Financing
+TECHM,Tech Mahindra Ltd,Information Technology,2014.0,1596.0,291.0,-972.0,363.0,-1017.0,Cash Generation + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2015.0,2448.0,-1865.0,-829.0,700.0,337.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2016.0,3137.0,-1453.0,-496.0,1091.0,391.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2017.0,4071.0,-2893.0,-1571.0,1366.0,275.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2018.0,3554.0,-3319.0,-269.0,2397.0,1031.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2019.0,4432.0,-2104.0,-2251.0,1996.0,-401.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2020.0,4358.0,1081.0,-4466.0,3670.0,1674.0,Cash Generation + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2021.0,8094.0,-5433.0,-2987.0,2901.0,-769.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2022.0,5285.0,480.0,-4667.0,2618.0,-283.0,Cash Generation + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2023.0,5572.0,-226.0,-5078.0,2740.0,122.0,Reinvestment + Deleveraging
+TECHM,Tech Mahindra Ltd,Information Technology,2024.0,6376.0,-1318.0,-4767.0,2035.0,-705.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2013.0,553.0,-142.0,-236.0,0.0,,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2014.0,-555.0,-271.0,497.0,807.0,807.0,Financing Supported
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2015.0,503.0,-118.0,-1005.0,100.0,-707.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2016.0,576.0,-159.0,-505.0,113.0,13.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2017.0,1712.0,-953.0,-166.0,1882.0,1769.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2018.0,-51.0,98.0,-252.0,1691.0,-191.0,Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2019.0,1243.0,-797.0,-489.0,2393.0,702.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2020.0,-348.0,235.0,-242.0,3562.0,1169.0,Mixed
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2021.0,4139.0,-2799.0,-1234.0,5638.0,2076.0,Reinvestment + Deleveraging
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2022.0,-724.0,1165.0,-403.0,7275.0,1637.0,Mixed
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2023.0,1370.0,-1814.0,457.0,9367.0,2092.0,Growth + External Financing
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2024.0,1695.0,-189.0,-1329.0,21648.0,12281.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2013.0,153.0,-247.0,20.0,693.0,,Growth + External Financing
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2014.0,599.0,-418.0,86.0,1132.0,439.0,Growth + External Financing
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2015.0,810.0,-2113.0,1212.0,2740.0,1608.0,Growth + External Financing
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2016.0,2742.0,-869.0,-1435.0,2352.0,-388.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2017.0,1009.0,-798.0,-193.0,2510.0,158.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2018.0,894.0,-4677.0,3417.0,6462.0,3952.0,Growth + External Financing
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2019.0,1798.0,-246.0,-1314.0,6038.0,-424.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2020.0,1393.0,229.0,-1549.0,5784.0,-254.0,Cash Generation + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2021.0,2005.0,-444.0,-1651.0,4874.0,-910.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2022.0,1803.0,-196.0,-1781.0,4070.0,-804.0,Reinvestment + Deleveraging
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2023.0,2368.0,-2335.0,77.0,5369.0,1299.0,Growth + External Financing
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2024.0,3266.0,-160.0,-2780.0,3128.0,-2241.0,Reinvestment + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2013.0,31.0,-276.0,147.0,343.0,,Growth + External Financing
+TRENT,Trent Ltd,Consumer Discretionary,2014.0,-46.0,-48.0,-50.0,332.0,-11.0,Cash Burn + Investment
+TRENT,Trent Ltd,Consumer Discretionary,2015.0,-10.0,-306.0,310.0,267.0,-65.0,Financing Supported
+TRENT,Trent Ltd,Consumer Discretionary,2016.0,109.0,-98.0,-13.0,400.0,133.0,Reinvestment + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2017.0,102.0,-44.0,-51.0,392.0,-8.0,Reinvestment + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2018.0,77.0,-4.0,-74.0,391.0,-1.0,Reinvestment + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2019.0,21.0,-37.0,37.0,494.0,103.0,Growth + External Financing
+TRENT,Trent Ltd,Consumer Discretionary,2020.0,361.0,-809.0,452.0,300.0,-194.0,Growth + External Financing
+TRENT,Trent Ltd,Consumer Discretionary,2021.0,285.0,18.0,-283.0,300.0,0.0,Cash Generation + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2022.0,58.0,56.0,-108.0,4725.0,4425.0,Cash Generation + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2023.0,595.0,-103.0,-491.0,4464.0,-261.0,Reinvestment + Deleveraging
+TRENT,Trent Ltd,Consumer Discretionary,2024.0,1349.0,-508.0,-629.0,1842.0,-2622.0,Reinvestment + Deleveraging
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2013.0,464.0,-120.0,-402.0,1068.0,,Reinvestment + Deleveraging
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2014.0,470.0,-235.0,-216.0,728.0,-340.0,Reinvestment + Deleveraging
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2015.0,83.0,-415.0,261.0,1119.0,391.0,Growth + External Financing
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2016.0,936.0,-605.0,-319.0,1091.0,-28.0,Reinvestment + Deleveraging
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2017.0,689.0,-709.0,-59.0,1311.0,220.0,Reinvestment + Deleveraging
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2018.0,354.0,-1095.0,897.0,6928.0,5617.0,Growth + External Financing
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2019.0,-918.0,-1104.0,2210.0,9298.0,2370.0,Financing Supported
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2020.0,373.0,-1090.0,1619.0,11591.0,2293.0,Growth + External Financing
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2021.0,1151.0,-882.0,264.0,12179.0,588.0,Growth + External Financing
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2022.0,-1575.0,-1471.0,2918.0,15827.0,3648.0,Financing Supported
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2023.0,-4405.0,-1308.0,6118.0,22376.0,6549.0,Financing Supported
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2024.0,-1253.0,-1001.0,2759.0,14619.0,-7757.0,Financing Supported

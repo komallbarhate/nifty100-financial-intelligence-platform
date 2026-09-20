@@ -1,0 +1,110 @@
+company_id,company_name,sector,previous_year,previous_pattern,latest_year,latest_pattern,pattern_changed
+ABB,Abbott India Ltd,Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ADANIENSOL,Adani Energy Solutions Ltd,Energy,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+ADANIENT,Adani Enterprises Ltd,Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+ADANIGREEN,Adani Green Energy Ltd,Energy,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ADANIPOWER,Adani Power Ltd,Energy,2023.0,Cash Generation + Deleveraging,2024.0,Cash Generation + Deleveraging,False
+AMBUJACEM,Ambuja Cements Ltd,Materials,2023.0,Growth + External Financing,2024.0,Growth + External Financing,False
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Healthcare,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ATGL,Adani Total Gas Ltd,Energy,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+AXISBANK,Axis Bank Ltd,Financials,2023.0,Growth + External Financing,2024.0,Financing Supported,True
+BAJAJAUTO,Bajaj Auto Ltd,Consumer Discretionary,2023.0,Cash Generation + Deleveraging,2024.0,Reinvestment + Deleveraging,True
+BAJAJFINSV,Bajaj Finserv Ltd,Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+BAJFINANCE,Bajaj Finance Ltd,Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+BANKBARODA,Bank of Baroda,Financials,2023.0,Cash Burn + Investment,2024.0,Financing Supported,True
+BEL,Bharat Electronics Ltd,Industrials,2023.0,Cash Generation + Deleveraging,2024.0,Reinvestment + Deleveraging,True
+BHARTIARTL,Bharti Airtel Ltd,Communication Services,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+BHEL,"Bharat Heavy Electricals Limited
+",Industrials,2023.0,Financing Supported,2024.0,Financing Supported,False
+BOSCHLTD,Bosch Ltd,Consumer Discretionary,2023.0,Cash Generation + Deleveraging,2024.0,Cash Generation + Deleveraging,False
+BPCL,Bharat Petroleum Corporation Ltd,Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+BRITANNIA,Britannia Industries Ltd,Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Cash Generation + Deleveraging,True
+CANBK,Canara Bank,Financials,2023.0,Financing Supported,2024.0,Reinvestment + Deleveraging,True
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+CIPLA,"Cipla Ltd
+",Healthcare,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+COALINDIA,Coal India Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+DABUR,Dabur India Ltd,Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+DIVISLAB,Divis Laboratories Ltd,Healthcare,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+DLF,DLF Ltd,Real Estate,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+DMART,Avenue Supermarts Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+DRREDDY,Dr Reddys Laboratories Ltd,Healthcare,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+EICHERMOT,Eicher Motors Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+GAIL,GAIL (India) Ltd,Energy,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+GODREJCP,Godrej Consumer Products Ltd,Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+GRASIM,Grasim Industries Ltd,Industrials,2023.0,Financing Supported,2024.0,Financing Supported,False
+HAL,Hindustan Aeronautics Ltd,Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+HAVELLS,Havells India Ltd,Industrials,2023.0,Cash Generation + Deleveraging,2024.0,Reinvestment + Deleveraging,True
+HCLTECH,HCL Technologies Ltd,Information Technology,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+HDFCBANK,HDFC Bank Ltd,Financials,2023.0,Growth + External Financing,2024.0,Cash Generation + Deleveraging,True
+HDFCLIFE,HDFC Life Insurance Company Ltd,Financials,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+HINDALCO,Hindalco Industries Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+HINDUNILVR,"Hindustan Unilever Ltd
+",Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ICICIBANK,ICICI Bank Ltd,Financials,2023.0,Financing Supported,2024.0,Growth + External Financing,True
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Deleveraging,True
+INDIGO,Interglobe Aviation Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+INDUSINDBK,IndusInd Bank Ltd,Financials,2023.0,Financing Supported,2024.0,Cash Burn + Investment,True
+INFY,Infosys Ltd,Information Technology,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+IOC,"Indian Oil Corporation
+",Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+IRFC,Indian Railway Finance Corporation Ltd,Financials,2023.0,Financing Supported,2024.0,Reinvestment + Deleveraging,True
+ITC,"ITC Ltd
+",Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Cash Generation + Deleveraging,True
+JINDALSTEL,Jindal Steel & Power Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+JIOFIN,Jio Financial Services Ltd,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Deleveraging,True
+JSWENERGY,JSW Energy Ltd,Energy,2023.0,Growth + External Financing,2024.0,Growth + External Financing,False
+JSWSTEEL,JSW Steel Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Financials,2023.0,Financing Supported,2024.0,Growth + External Financing,True
+LICI,Life Insurance Corporation of India,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+LODHA,Macrotech Developers Ltd,Real Estate,2023.0,Cash Generation + Deleveraging,2024.0,Growth + External Financing,True
+LT,Larsen & Toubro Ltd,Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Cash Generation + Deleveraging,True
+LTIM,LTIMindtree Ltd,Information Technology,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+M&M,"Mahindra & Mahindra Ltd
+",Consumer Discretionary,2023.0,Financing Supported,2024.0,Financing Supported,False
+MARUTI,Maruti Suzuki India Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+MOTHERSON,Samvardhana Motherson International Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+NAUKRI,Info Edge (India) Ltd,Communication Services,2023.0,Growth + External Financing,2024.0,Growth + External Financing,False
+NESTLEIND,Nestle India Ltd,Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+NHPC,"NHPC Ltd
+",Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+NTPC,NTPC Ltd,Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+ONGC,Oil & Natural Gas Corpn Ltd,Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+PFC,Power Finance Corporation Ltd,Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+PIDILITIND,Pidilite Industries Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+PNB,Punjab National Bank,Financials,2023.0,Growth + External Financing,2024.0,Financing Supported,True
+POWERGRID,Power Grid Corporation of India Ltd,Energy,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+RECLTD,REC Ltd,Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+RELIANCE,"Reliance Industries Ltd
+",Energy,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+SBILIFE,SBI Life Insurance Company Ltd,Financials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+SBIN,State Bank of India,Financials,2023.0,Financing Supported,2024.0,Reinvestment + Deleveraging,True
+SHREECEM,Shree Cement Ltd,Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+SHRIRAMFIN,"Shriram Finance Ltd
+",Financials,2023.0,Financing Supported,2024.0,Financing Supported,False
+SIEMENS,Siemens Ltd,Industrials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Healthcare,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+TATACONSUM,Tata Consumer Products Ltd,Consumer Staples,2023.0,Reinvestment + Deleveraging,2024.0,Growth + External Financing,True
+TATAMOTORS,Tata Motors Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+TATAPOWER,"Tata Power Company Ltd
+",Energy,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+TATASTEEL,"Tata Steel Ltd
+",Materials,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+TCS,Tata Consultancy Services Ltd,Information Technology,2024.0,Cash Generation + Deleveraging,,Reinvestment + Deleveraging,True
+TECHM,Tech Mahindra Ltd,Information Technology,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+TITAN,"Titan Company Ltd
+",Consumer Discretionary,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Healthcare,2023.0,Growth + External Financing,2024.0,Reinvestment + Deleveraging,True
+TRENT,Trent Ltd,Consumer Discretionary,2023.0,Reinvestment + Deleveraging,2024.0,Reinvestment + Deleveraging,False
+TVSMOTOR,TVS Motor Company Ltd,Consumer Discretionary,2023.0,Financing Supported,2024.0,Financing Supported,False
