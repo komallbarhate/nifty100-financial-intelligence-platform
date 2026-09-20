@@ -1,0 +1,51 @@
+cluster_id,cluster_name,metric,metric_label,mean,median,company_count
+0,Value Cyclicals,return_on_equity_pct,ROE (%),20.479310078682843,16.307415960995638,60
+0,Value Cyclicals,return_on_capital_employed_pct,ROCE (%),24.357900891471896,19.462091203194568,60
+0,Value Cyclicals,operating_profit_margin_pct,OPM (%),19.44040477331568,19.093200798964084,60
+0,Value Cyclicals,return_on_assets_pct,ROA (%),10.329939673414126,8.457800160686642,60
+0,Value Cyclicals,debt_to_equity,Debt / Equity,0.5164343065448824,0.16930824106652895,60
+0,Value Cyclicals,interest_coverage,Interest Coverage,55.656771785729696,12.610492416507508,60
+0,Value Cyclicals,revenue_cagr_5yr,Revenue CAGR 5Y (%),11.34891681621762,10.645689166249117,60
+0,Value Cyclicals,pat_cagr_5yr,PAT CAGR 5Y (%),17.71860462675694,13.48774998597666,60
+0,Value Cyclicals,eps_cagr_5yr,EPS CAGR 5Y (%),15.689678297341807,12.490031471629903,60
+0,Value Cyclicals,fcf_cagr_5yr,FCF CAGR 5Y (%),14.661799456085898,15.118224868557384,60
+1,High-Quality Compounders,return_on_equity_pct,ROE (%),74.60775960608588,14.048710929128843,14
+1,High-Quality Compounders,return_on_capital_employed_pct,ROCE (%),533.2538227217782,90.40612933994342,14
+1,High-Quality Compounders,operating_profit_margin_pct,OPM (%),81.41771687799938,85.09494448497861,14
+1,High-Quality Compounders,return_on_assets_pct,ROA (%),52.519095496338444,5.062749419257768,14
+1,High-Quality Compounders,debt_to_equity,Debt / Equity,0.6831584259256464,0.04669859338059222,14
+1,High-Quality Compounders,interest_coverage,Interest Coverage,330.51197409199125,39.14502695068733,14
+1,High-Quality Compounders,revenue_cagr_5yr,Revenue CAGR 5Y (%),14.098975775438332,13.17410230151459,14
+1,High-Quality Compounders,pat_cagr_5yr,PAT CAGR 5Y (%),21.26585270661186,13.06871230695661,14
+1,High-Quality Compounders,eps_cagr_5yr,EPS CAGR 5Y (%),23.12438548611218,13.396657763302722,14
+1,High-Quality Compounders,fcf_cagr_5yr,FCF CAGR 5Y (%),12.020542356070553,9.689663003888427,14
+2,Defensive Dividend Payers,return_on_equity_pct,ROE (%),4024.101502362372,4024.101502362372,2
+2,Defensive Dividend Payers,return_on_capital_employed_pct,ROCE (%),2967.037308496755,2967.037308496755,2
+2,Defensive Dividend Payers,operating_profit_margin_pct,OPM (%),28.50509624083592,28.50509624083592,2
+2,Defensive Dividend Payers,return_on_assets_pct,ROA (%),1683.3496732026144,1683.3496732026144,2
+2,Defensive Dividend Payers,debt_to_equity,Debt / Equity,0.728088336783989,0.728088336783989,2
+2,Defensive Dividend Payers,interest_coverage,Interest Coverage,373.8168604651163,373.8168604651163,2
+2,Defensive Dividend Payers,revenue_cagr_5yr,Revenue CAGR 5Y (%),9.731677461059828,9.731677461059828,2
+2,Defensive Dividend Payers,pat_cagr_5yr,PAT CAGR 5Y (%),21.305878371622132,21.305878371622132,2
+2,Defensive Dividend Payers,eps_cagr_5yr,EPS CAGR 5Y (%),18.697800966983515,18.697800966983515,2
+2,Defensive Dividend Payers,fcf_cagr_5yr,FCF CAGR 5Y (%),-5.002096841865733,-5.002096841865733,2
+3,Distressed or Turnaround,return_on_equity_pct,ROE (%),19.562809084766066,15.973097940311053,15
+3,Distressed or Turnaround,return_on_capital_employed_pct,ROCE (%),5.0632816425182625,3.980420884321964,15
+3,Distressed or Turnaround,operating_profit_margin_pct,OPM (%),51.142645349328845,38.02180182245178,15
+3,Distressed or Turnaround,return_on_assets_pct,ROA (%),2.646526212065301,1.879688916980406,15
+3,Distressed or Turnaround,debt_to_equity,Debt / Equity,7.192531576708685,6.808786667718385,15
+3,Distressed or Turnaround,interest_coverage,Interest Coverage,194.87474353734245,1.650932583424511,15
+3,Distressed or Turnaround,revenue_cagr_5yr,Revenue CAGR 5Y (%),19.01866920235636,18.17561078322378,15
+3,Distressed or Turnaround,pat_cagr_5yr,PAT CAGR 5Y (%),35.131133234817845,23.74781614270227,15
+3,Distressed or Turnaround,eps_cagr_5yr,EPS CAGR 5Y (%),28.42854101848816,20.589095060661244,15
+3,Distressed or Turnaround,fcf_cagr_5yr,FCF CAGR 5Y (%),5.247691552181655,5.247691552181655,15
+4,Emerging Growth,return_on_equity_pct,ROE (%),14.645841413108625,14.645841413108625,1
+4,Emerging Growth,return_on_capital_employed_pct,ROCE (%),67.59297807382737,67.59297807382737,1
+4,Emerging Growth,operating_profit_margin_pct,OPM (%),75.59168153953597,75.59168153953597,1
+4,Emerging Growth,return_on_assets_pct,ROA (%),11.986726302120907,11.986726302120907,1
+4,Emerging Growth,debt_to_equity,Debt / Equity,0.01625356979162994,0.01625356979162994,1
+4,Emerging Growth,interest_coverage,Interest Coverage,35.33876811594203,35.33876811594203,1
+4,Emerging Growth,revenue_cagr_5yr,Revenue CAGR 5Y (%),9.513860126378049,9.513860126378049,1
+4,Emerging Growth,pat_cagr_5yr,PAT CAGR 5Y (%),22.726834848000887,22.726834848000887,1
+4,Emerging Growth,eps_cagr_5yr,EPS CAGR 5Y (%),21.832544608565986,21.832544608565986,1
+4,Emerging Growth,fcf_cagr_5yr,FCF CAGR 5Y (%),,,1
