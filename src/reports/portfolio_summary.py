@@ -12,29 +12,26 @@ Ordering:
 """
 
 import sqlite3
-import re
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import (
-    getSampleStyleSheet,
     ParagraphStyle,
+    getSampleStyleSheet,
 )
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate,
+    PageBreak,
     Paragraph,
+    SimpleDocTemplate,
     Spacer,
     Table,
     TableStyle,
-    PageBreak,
 )
-
 
 # ============================================================
 # PATHS
@@ -51,10 +48,7 @@ OUTPUT_DIR.mkdir(
     exist_ok=True,
 )
 
-OUTPUT_FILE = (
-    OUTPUT_DIR
-    / "portfolio_summary.pdf"
-)
+OUTPUT_FILE = OUTPUT_DIR / "portfolio_summary.pdf"
 
 
 # ============================================================
@@ -77,16 +71,17 @@ WHITE = colors.white
 # DATABASE
 # ============================================================
 
+
 def connect_db():
+    """Process connect db."""
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     return sqlite3.connect(DB_PATH)
 
 
 def read_table(conn, table_name):
+    """Process read table."""
     exists = conn.execute(
         """
         SELECT name
@@ -110,14 +105,13 @@ def read_table(conn, table_name):
 # HELPERS
 # ============================================================
 
+
 def find_column(df, candidates):
+    """Find column."""
     if df.empty:
         return None
 
-    mapping = {
-        str(col).lower(): col
-        for col in df.columns
-    }
+    mapping = {str(col).lower(): col for col in df.columns}
 
     for candidate in candidates:
         if candidate.lower() in mapping:
@@ -127,6 +121,7 @@ def find_column(df, candidates):
 
 
 def company_rows(df, company_id):
+    """Process company rows."""
     if df.empty:
         return pd.DataFrame()
 
@@ -138,12 +133,7 @@ def company_rows(df, company_id):
     if not id_col:
         return pd.DataFrame()
 
-    rows = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     year_col = find_column(
         rows,
@@ -156,14 +146,13 @@ def company_rows(df, company_id):
             errors="coerce",
         )
 
-        rows = rows.sort_values(
-            "_year"
-        )
+        rows = rows.sort_values("_year")
 
     return rows
 
 
 def latest_value(df, candidates):
+    """Process latest value."""
     if df.empty:
         return np.nan
 
@@ -176,14 +165,13 @@ def latest_value(df, candidates):
         return np.nan
 
     try:
-        return float(
-            df.iloc[-1][column]
-        )
+        return float(df.iloc[-1][column])
     except Exception:
         return np.nan
 
 
 def fmt_pct(value):
+    """Process fmt pct."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -194,6 +182,7 @@ def fmt_pct(value):
 
 
 def fmt_ratio(value):
+    """Process fmt ratio."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -204,6 +193,7 @@ def fmt_ratio(value):
 
 
 def fmt_number(value):
+    """Process fmt number."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -214,19 +204,22 @@ def fmt_number(value):
 
 
 def shorten(text, maximum=110):
+    """Process shorten."""
     text = str(text)
 
     if len(text) <= maximum:
         return text
 
-    return text[:maximum - 3].rstrip() + "..."
+    return text[: maximum - 3].rstrip() + "..."
 
 
 # ============================================================
 # LOAD DATA
 # ============================================================
 
+
 def load_data(conn):
+    """Load data."""
     return {
         "companies": read_table(
             conn,
@@ -263,7 +256,9 @@ def load_data(conn):
 # COMPANY INFO
 # ============================================================
 
+
 def get_company_info(company_id, data):
+    """Return company info."""
     companies = data["companies"]
 
     rows = company_rows(
@@ -280,9 +275,7 @@ def get_company_info(company_id, data):
         )
 
         if name_col:
-            company_name = str(
-                rows.iloc[-1][name_col]
-            )
+            company_name = str(rows.iloc[-1][name_col])
 
     sector = "N/A"
     industry = "N/A"
@@ -306,14 +299,10 @@ def get_company_info(company_id, data):
         )
 
         if sector_col:
-            sector = str(
-                sector_rows.iloc[-1][sector_col]
-            )
+            sector = str(sector_rows.iloc[-1][sector_col])
 
         if industry_col:
-            industry = str(
-                sector_rows.iloc[-1][industry_col]
-            )
+            industry = str(sector_rows.iloc[-1][industry_col])
 
     return {
         "company_name": company_name,
@@ -326,13 +315,15 @@ def get_company_info(company_id, data):
 # KPI DATA
 # ============================================================
 
+
 def get_kpis(company_id, data):
+    """Return kpis."""
     ratios = company_rows(
         data["ratios"],
         company_id,
     )
 
-    companies = company_rows(
+    company_rows(
         data["companies"],
         company_id,
     )
@@ -382,10 +373,12 @@ def get_kpis(company_id, data):
 # TREND ARROWS
 # ============================================================
 
+
 def trend_arrow(
     df,
     candidates,
 ):
+    """Process trend arrow."""
     if df.empty:
         return "→"
 
@@ -405,13 +398,9 @@ def trend_arrow(
     if len(values) < 2:
         return "→"
 
-    previous = float(
-        values.iloc[-2]
-    )
+    previous = float(values.iloc[-2])
 
-    latest = float(
-        values.iloc[-1]
-    )
+    latest = float(values.iloc[-1])
 
     if latest > previous * 1.03:
         return "↑"
@@ -423,6 +412,7 @@ def trend_arrow(
 
 
 def get_trends(company_id, data):
+    """Return trends."""
     ratios = company_rows(
         data["ratios"],
         company_id,
@@ -465,12 +455,10 @@ def get_trends(company_id, data):
 # CAPITAL ALLOCATION
 # ============================================================
 
+
 def get_capital_allocation(company_id):
-    path = (
-        ROOT
-        / "output"
-        / "capital_allocation_history.csv"
-    )
+    """Return capital allocation."""
+    path = ROOT / "output" / "capital_allocation_history.csv"
 
     if not path.exists():
         return "N/A"
@@ -495,12 +483,7 @@ def get_capital_allocation(company_id):
     if not id_col or not pattern_col:
         return "N/A"
 
-    rows = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     if rows.empty:
         return "N/A"
@@ -511,25 +494,19 @@ def get_capital_allocation(company_id):
             errors="coerce",
         )
 
-        rows = rows.sort_values(
-            "_year"
-        )
+        rows = rows.sort_values("_year")
 
-    return str(
-        rows.iloc[-1][pattern_col]
-    )
+    return str(rows.iloc[-1][pattern_col])
 
 
 # ============================================================
 # PROS / CONS
 # ============================================================
 
+
 def get_pros_cons(company_id):
-    path = (
-        ROOT
-        / "output"
-        / "pros_cons_generated.csv"
-    )
+    """Return pros cons."""
+    path = ROOT / "output" / "pros_cons_generated.csv"
 
     if not path.exists():
         return [], []
@@ -565,12 +542,7 @@ def get_pros_cons(company_id):
     ):
         return [], []
 
-    rows = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     if confidence_col:
         rows["_confidence"] = pd.to_numeric(
@@ -587,26 +559,17 @@ def get_pros_cons(company_id):
     cons = []
 
     for _, row in rows.iterrows():
-        text = str(
-            row[text_col]
-        )
+        text = str(row[text_col])
 
-        if confidence_col and pd.notna(
-            row.get("_confidence")
-        ):
-            text += (
-                f" "
-                f"({float(row['_confidence']):.0f}%)"
-            )
+        if confidence_col and pd.notna(row.get("_confidence")):
+            text += f" " f"({float(row['_confidence']):.0f}%)"
 
         text = shorten(
             text,
             105,
         )
 
-        kind = str(
-            row[type_col]
-        ).lower()
+        kind = str(row[type_col]).lower()
 
         if kind == "pro":
             pros.append(text)
@@ -638,9 +601,7 @@ SUBTITLE_STYLE = ParagraphStyle(
     fontName="Helvetica",
     fontSize=8.5,
     leading=11,
-    textColor=colors.HexColor(
-        "#DCE6F2"
-    ),
+    textColor=colors.HexColor("#DCE6F2"),
 )
 
 SECTION_STYLE = ParagraphStyle(
@@ -681,12 +642,12 @@ CENTER_STYLE = ParagraphStyle(
 # PAGE FOOTER
 # ============================================================
 
+
 def draw_page(canvas, doc):
+    """Process draw page."""
     canvas.saveState()
 
-    canvas.setStrokeColor(
-        colors.HexColor("#D9DEE5")
-    )
+    canvas.setStrokeColor(colors.HexColor("#D9DEE5"))
 
     canvas.setLineWidth(0.4)
 
@@ -702,9 +663,7 @@ def draw_page(canvas, doc):
         6.5,
     )
 
-    canvas.setFillColor(
-        MID_GREY
-    )
+    canvas.setFillColor(MID_GREY)
 
     canvas.drawString(
         15 * mm,
@@ -725,10 +684,12 @@ def draw_page(canvas, doc):
 # COMPANY HEADER
 # ============================================================
 
+
 def create_company_header(
     company_id,
     info,
 ):
+    """Create company header."""
     table = Table(
         [
             [
@@ -748,10 +709,7 @@ def create_company_header(
             ],
             [
                 Paragraph(
-                    (
-                        f"Sector: {info['sector']} "
-                        f"| Industry: {info['industry']}"
-                    ),
+                    (f"Sector: {info['sector']} " f"| Industry: {info['industry']}"),
                     SUBTITLE_STYLE,
                 ),
                 "",
@@ -810,10 +768,12 @@ def create_company_header(
 # KPI TABLE
 # ============================================================
 
+
 def create_kpi_table(
     kpis,
     trends,
 ):
+    """Create kpi table."""
     data = [
         [
             Paragraph(
@@ -851,12 +811,7 @@ def create_kpi_table(
         ],
         [
             "Free Cash Flow",
-            (
-                fmt_number(kpis["FCF"])
-                + " Cr"
-                if not pd.isna(kpis["FCF"])
-                else "N/A"
-            ),
+            (fmt_number(kpis["FCF"]) + " Cr" if not pd.isna(kpis["FCF"]) else "N/A"),
             "→",
         ],
         [
@@ -883,9 +838,7 @@ def create_kpi_table(
 
         for col_index, value in enumerate(row):
             if row_index == 0:
-                formatted_row.append(
-                    value
-                )
+                formatted_row.append(value)
             else:
                 if col_index == 2:
                     formatted_row.append(
@@ -902,9 +855,7 @@ def create_kpi_table(
                         )
                     )
 
-        formatted.append(
-            formatted_row
-        )
+        formatted.append(formatted_row)
 
     table = Table(
         formatted,
@@ -930,9 +881,7 @@ def create_kpi_table(
                     (0, 0),
                     (-1, -1),
                     0.4,
-                    colors.HexColor(
-                        "#D1D5DB"
-                    ),
+                    colors.HexColor("#D1D5DB"),
                 ),
                 (
                     "VALIGN",
@@ -981,10 +930,12 @@ def create_kpi_table(
 # PROS / CONS
 # ============================================================
 
+
 def create_pros_cons_table(
     pros,
     cons,
 ):
+    """Create pros cons table."""
     rows = [
         [
             Paragraph(
@@ -1046,26 +997,20 @@ def create_pros_cons_table(
                     "BACKGROUND",
                     (0, 0),
                     (0, 0),
-                    colors.HexColor(
-                        "#E8F5E9"
-                    ),
+                    colors.HexColor("#E8F5E9"),
                 ),
                 (
                     "BACKGROUND",
                     (1, 0),
                     (1, 0),
-                    colors.HexColor(
-                        "#FDECEC"
-                    ),
+                    colors.HexColor("#FDECEC"),
                 ),
                 (
                     "GRID",
                     (0, 0),
                     (-1, -1),
                     0.4,
-                    colors.HexColor(
-                        "#D1D5DB"
-                    ),
+                    colors.HexColor("#D1D5DB"),
                 ),
                 (
                     "VALIGN",
@@ -1108,7 +1053,9 @@ def create_pros_cons_table(
 # CAPITAL ALLOCATION
 # ============================================================
 
+
 def create_capital_table(pattern):
+    """Create capital table."""
     table = Table(
         [
             [
@@ -1124,9 +1071,7 @@ def create_capital_table(pattern):
                 )
             ],
         ],
-        colWidths=[
-            174 * mm
-        ],
+        colWidths=[174 * mm],
         rowHeights=[
             8 * mm,
             12 * mm,
@@ -1159,9 +1104,7 @@ def create_capital_table(pattern):
                     (0, 0),
                     (-1, -1),
                     0.6,
-                    colors.HexColor(
-                        "#CBD5E1"
-                    ),
+                    colors.HexColor("#CBD5E1"),
                 ),
                 (
                     "VALIGN",
@@ -1180,11 +1123,13 @@ def create_capital_table(pattern):
 # BUILD ONE COMPANY PAGE
 # ============================================================
 
+
 def add_company_page(
     story,
     company_id,
     data,
 ):
+    """Process add company page."""
     info = get_company_info(
         company_id,
         data,
@@ -1215,9 +1160,7 @@ def add_company_page(
         )
     )
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     story.append(
         Paragraph(
@@ -1233,9 +1176,7 @@ def add_company_page(
         )
     )
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     story.append(
         Paragraph(
@@ -1251,9 +1192,7 @@ def add_company_page(
         )
     )
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     story.append(
         create_capital_table(
@@ -1261,9 +1200,7 @@ def add_company_page(
         )
     )
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     story.append(
         Paragraph(
@@ -1277,9 +1214,7 @@ def add_company_page(
         )
     )
 
-    story.append(
-        Spacer(1, 3 * mm)
-    )
+    story.append(Spacer(1, 3 * mm))
 
     story.append(
         Paragraph(
@@ -1299,21 +1234,17 @@ def add_company_page(
 # MAIN
 # ============================================================
 
+
 def main():
+    """Run the main workflow."""
     print("=" * 70)
-    print(
-        "NIFTY 100 PORTFOLIO SUMMARY GENERATOR"
-    )
+    print("NIFTY 100 PORTFOLIO SUMMARY GENERATOR")
     print("=" * 70)
     print()
 
-    print(
-        f"Database : {DB_PATH}"
-    )
+    print(f"Database : {DB_PATH}")
 
-    print(
-        f"Output   : {OUTPUT_FILE}"
-    )
+    print(f"Output   : {OUTPUT_FILE}")
 
     print()
 
@@ -1330,26 +1261,15 @@ def main():
         )
 
         if not id_col:
-            raise RuntimeError(
-                "Company ID column not found."
-            )
+            raise RuntimeError("Company ID column not found.")
 
         company_ids = sorted(
-            companies[id_col]
-            .dropna()
-            .astype(str)
-            .str.upper()
-            .unique()
-            .tolist()
+            companies[id_col].dropna().astype(str).str.upper().unique().tolist()
         )
 
-        print(
-            f"Companies : {len(company_ids)}"
-        )
+        print(f"Companies : {len(company_ids)}")
 
-        print(
-            "Ordering   : Alphabetical by ticker"
-        )
+        print("Ordering   : Alphabetical by ticker")
 
         print()
 
@@ -1360,23 +1280,14 @@ def main():
             leftMargin=15 * mm,
             topMargin=12 * mm,
             bottomMargin=14 * mm,
-            title=(
-                "NIFTY 100 Portfolio Summary"
-            ),
-            author=(
-                "NIFTY 100 Financial Intelligence Platform"
-            ),
+            title=("NIFTY 100 Portfolio Summary"),
+            author=("NIFTY 100 Financial Intelligence Platform"),
         )
 
         story = []
 
-        for index, company_id in enumerate(
-            company_ids
-        ):
-            print(
-                f"Adding {company_id} "
-                f"({index + 1}/{len(company_ids)})..."
-            )
+        for index, company_id in enumerate(company_ids):
+            print(f"Adding {company_id} " f"({index + 1}/{len(company_ids)})...")
 
             add_company_page(
                 story,
@@ -1385,9 +1296,7 @@ def main():
             )
 
             if index < len(company_ids) - 1:
-                story.append(
-                    PageBreak()
-                )
+                story.append(PageBreak())
 
         doc.build(
             story,
@@ -1395,36 +1304,23 @@ def main():
             onLaterPages=draw_page,
         )
 
-        size_kb = (
-            OUTPUT_FILE.stat().st_size
-            / 1024
-        )
+        size_kb = OUTPUT_FILE.stat().st_size / 1024
 
         print()
         print("=" * 70)
         print("PORTFOLIO SUMMARY COMPLETE")
         print("=" * 70)
 
-        print(
-            f"Companies : {len(company_ids)}"
-        )
+        print(f"Companies : {len(company_ids)}")
 
-        print(
-            f"Pages     : {len(company_ids)}"
-        )
+        print(f"Pages     : {len(company_ids)}")
 
-        print(
-            f"PDF size  : {size_kb:.1f} KB"
-        )
+        print(f"PDF size  : {size_kb:.1f} KB")
 
-        print(
-            f"Output    : {OUTPUT_FILE}"
-        )
+        print(f"Output    : {OUTPUT_FILE}")
 
         print()
-        print(
-            "PORTFOLIO SUMMARY GENERATION COMPLETE"
-        )
+        print("PORTFOLIO SUMMARY GENERATION COMPLETE")
 
     finally:
         conn.close()

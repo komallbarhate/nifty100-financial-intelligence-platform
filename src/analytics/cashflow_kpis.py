@@ -1,9 +1,8 @@
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -17,6 +16,7 @@ DISTRESS_PATH = OUTPUT_DIR / "distress_alerts.csv"
 # ============================================================
 # UNIT-LEVEL KPI FUNCTIONS
 # ============================================================
+
 
 def free_cash_flow(operating_activity, investing_activity):
     """
@@ -229,6 +229,7 @@ def calculate_cashflow_kpis(
 # EXISTING SPRINT 5 COMPATIBILITY FUNCTIONS
 # ============================================================
 
+
 def classify_capex(intensity):
     """
     Existing Sprint 5 alias.
@@ -237,6 +238,7 @@ def classify_capex(intensity):
 
 
 def calculate_cagr(series, years):
+    """Calculate cagr."""
     series = pd.to_numeric(
         series,
         errors="coerce",
@@ -250,17 +252,10 @@ def calculate_cagr(series, years):
     start = values.iloc[0]
     end = values.iloc[-1]
 
-    if (
-        pd.isna(start)
-        or pd.isna(end)
-        or start <= 0
-        or end <= 0
-    ):
+    if pd.isna(start) or pd.isna(end) or start <= 0 or end <= 0:
         return np.nan
 
-    return (
-        (end / start) ** (1 / years) - 1
-    ) * 100
+    return ((end / start) ** (1 / years) - 1) * 100
 
 
 def calculate_fcf_conversion(cfo, pat):
@@ -286,57 +281,28 @@ def classify_capital_allocation(
     Existing Sprint 5 capital-allocation classification.
     """
 
-    if (
-        cfo > 0
-        and cfi < 0
-        and cff < 0
-    ):
+    if cfo > 0 and cfi < 0 and cff < 0:
         return "Reinvestment + Deleveraging"
 
-    if (
-        cfo > 0
-        and cfi < 0
-        and cff > 0
-    ):
+    if cfo > 0 and cfi < 0 and cff > 0:
         return "Growth + External Financing"
 
-    if (
-        cfo > 0
-        and cfi > 0
-        and cff < 0
-    ):
+    if cfo > 0 and cfi > 0 and cff < 0:
         return "Cash Generation + Deleveraging"
 
-    if (
-        cfo > 0
-        and cfi > 0
-        and cff > 0
-    ):
+    if cfo > 0 and cfi > 0 and cff > 0:
         return "Strong Cash Generation"
 
-    if (
-        cfo < 0
-        and cff > 0
-    ):
+    if cfo < 0 and cff > 0:
         return "Financing Supported"
 
-    if (
-        cfo < 0
-        and cfi < 0
-    ):
+    if cfo < 0 and cfi < 0:
         return "Cash Burn + Investment"
 
-    if (
-        cfo > 0
-        and abs(cfi) < 1e-9
-    ):
+    if cfo > 0 and abs(cfi) < 1e-9:
         return "Operating Cash Generation"
 
-    if (
-        not pd.isna(borrowing_change)
-        and borrowing_change < 0
-        and cff < 0
-    ):
+    if not pd.isna(borrowing_change) and borrowing_change < 0 and cff < 0:
         return "Deleveraging"
 
     return "Mixed"
@@ -346,8 +312,9 @@ def classify_capital_allocation(
 # LOAD DATA
 # ============================================================
 
-def load_data():
 
+def load_data():
+    """Load data."""
     conn = sqlite3.connect(DB_PATH)
 
     companies = pd.read_sql_query(
@@ -436,16 +403,15 @@ def load_data():
 # MAIN
 # ============================================================
 
-def main():
 
+def main():
+    """Run the main workflow."""
     print("=" * 70)
     print("NIFTY 100 CASH FLOW INTELLIGENCE")
     print("=" * 70)
 
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     OUTPUT_DIR.mkdir(
         parents=True,
@@ -511,9 +477,7 @@ def main():
         errors="coerce",
     )
 
-    sectors = sectors.drop_duplicates(
-        subset=["company_id"]
-    )
+    sectors = sectors.drop_duplicates(subset=["company_id"])
 
     company_info = companies.merge(
         sectors,
@@ -522,36 +486,25 @@ def main():
         how="left",
     )
 
-    company_info["sector"] = (
-        company_info["sector"]
-        .fillna("Unknown")
-    )
+    company_info["sector"] = company_info["sector"].fillna("Unknown")
 
     intelligence_rows = []
     distress_rows = []
 
-    company_ids = (
-        companies["id"]
-        .astype(str)
-        .str.strip()
-        .unique()
-    )
+    company_ids = companies["id"].astype(str).str.strip().unique()
 
     for company_id in company_ids:
 
         company_cf = cashflow[
-            cashflow["company_id"].astype(str).str.strip()
-            == str(company_id).strip()
+            cashflow["company_id"].astype(str).str.strip() == str(company_id).strip()
         ].copy()
 
         company_ratios = ratios[
-            ratios["company_id"].astype(str).str.strip()
-            == str(company_id).strip()
+            ratios["company_id"].astype(str).str.strip() == str(company_id).strip()
         ].copy()
 
         company_pl = profit_loss[
-            profit_loss["company_id"].astype(str).str.strip()
-            == str(company_id).strip()
+            profit_loss["company_id"].astype(str).str.strip() == str(company_id).strip()
         ].copy()
 
         company_bs = balance_sheet[
@@ -568,8 +521,7 @@ def main():
             continue
 
         company_row = company_info[
-            company_info["id"].astype(str).str.strip()
-            == str(company_id).strip()
+            company_info["id"].astype(str).str.strip() == str(company_id).strip()
         ]
 
         if company_row.empty:
@@ -579,14 +531,10 @@ def main():
             company_name = company_row.iloc[0]["company_name"]
             sector = company_row.iloc[0]["sector"]
 
-        ratio_values = company_ratios[
-            "cfo_pat_ratio"
-        ].dropna()
+        ratio_values = company_ratios["cfo_pat_ratio"].dropna()
 
         if not ratio_values.empty:
-            cfo_quality_score = (
-                ratio_values.tail(5).mean()
-            )
+            cfo_quality_score = ratio_values.tail(5).mean()
         else:
             merged = company_cf[
                 [
@@ -604,12 +552,11 @@ def main():
                 how="inner",
             )
 
-            merged["ratio"] = (
-                merged["operating_activity"]
-                / merged["net_profit"].replace(
-                    0,
-                    np.nan,
-                )
+            merged["ratio"] = merged["operating_activity"] / merged[
+                "net_profit"
+            ].replace(
+                0,
+                np.nan,
             )
 
             cfo_quality_score = (
@@ -623,62 +570,40 @@ def main():
                 .mean()
             )
 
-        cfo_quality_label = classify_cfo_quality(
-            cfo_quality_score
-        )
+        cfo_quality_label = classify_cfo_quality(cfo_quality_score)
 
         latest_cf = company_cf.iloc[-1]
 
-        latest_cfo = latest_cf[
-            "operating_activity"
-        ]
+        latest_cfo = latest_cf["operating_activity"]
 
-        latest_cfi = latest_cf[
-            "investing_activity"
-        ]
+        latest_cfi = latest_cf["investing_activity"]
 
-        latest_cff = latest_cf[
-            "financing_activity"
-        ]
+        latest_cff = latest_cf["financing_activity"]
 
         latest_year = latest_cf["year"]
 
-        latest_ratio = (
-            company_ratios.iloc[-1]
-            if not company_ratios.empty
-            else None
-        )
+        latest_ratio = company_ratios.iloc[-1] if not company_ratios.empty else None
 
         if latest_ratio is not None:
-            capex_intensity_value = latest_ratio[
-                "capex_intensity_pct"
-            ]
+            capex_intensity_value = latest_ratio["capex_intensity_pct"]
         else:
             capex_intensity_value = np.nan
 
-        capex_label = classify_capex(
-            capex_intensity_value
-        )
+        capex_label = classify_capex(capex_intensity_value)
 
         fcf_cagr_5yr = calculate_cagr(
-            company_ratios[
-                "free_cash_flow_cr"
-            ],
+            company_ratios["free_cash_flow_cr"],
             5,
         )
 
         latest_pat = np.nan
 
         if not company_pl.empty:
-            latest_pat = company_pl.iloc[-1][
-                "net_profit"
-            ]
+            latest_pat = company_pl.iloc[-1]["net_profit"]
 
-        fcf_conversion_pct = (
-            calculate_fcf_conversion(
-                latest_cfo,
-                latest_pat,
-            )
+        fcf_conversion_pct = calculate_fcf_conversion(
+            latest_cfo,
+            latest_pat,
         )
 
         distress_flag = bool(
@@ -691,96 +616,82 @@ def main():
         borrowing_change = np.nan
 
         if len(company_bs) >= 2:
-            previous_debt = company_bs.iloc[-2][
-                "borrowings"
-            ]
+            previous_debt = company_bs.iloc[-2]["borrowings"]
 
-            current_debt = company_bs.iloc[-1][
-                "borrowings"
-            ]
+            current_debt = company_bs.iloc[-1]["borrowings"]
 
-            if (
-                not pd.isna(previous_debt)
-                and not pd.isna(current_debt)
-            ):
-                borrowing_change = (
-                    current_debt
-                    - previous_debt
-                )
+            if not pd.isna(previous_debt) and not pd.isna(current_debt):
+                borrowing_change = current_debt - previous_debt
 
         deleveraging_flag = bool(
-            not pd.isna(borrowing_change)
-            and borrowing_change < 0
-            and latest_cff < 0
+            not pd.isna(borrowing_change) and borrowing_change < 0 and latest_cff < 0
         )
 
-        capital_allocation_label = (
-            classify_capital_allocation(
-                latest_cfo,
-                latest_cfi,
-                latest_cff,
-                borrowing_change,
-            )
+        capital_allocation_label = classify_capital_allocation(
+            latest_cfo,
+            latest_cfi,
+            latest_cff,
+            borrowing_change,
         )
 
-        intelligence_rows.append({
-            "company_id": company_id,
-            "sector": sector,
-            "cfo_quality_score": (
-                round(
-                    cfo_quality_score,
-                    4,
-                )
-                if not pd.isna(cfo_quality_score)
-                else np.nan
-            ),
-            "cfo_quality_label": cfo_quality_label,
-            "capex_intensity_pct": (
-                round(
-                    capex_intensity_value,
-                    2,
-                )
-                if not pd.isna(capex_intensity_value)
-                else np.nan
-            ),
-            "capex_label": capex_label,
-            "fcf_cagr_5yr": (
-                round(
-                    fcf_cagr_5yr,
-                    2,
-                )
-                if not pd.isna(fcf_cagr_5yr)
-                else np.nan
-            ),
-            "fcf_conversion_pct": (
-                round(
-                    fcf_conversion_pct,
-                    2,
-                )
-                if not pd.isna(fcf_conversion_pct)
-                else np.nan
-            ),
-            "distress_flag": distress_flag,
-            "deleveraging_flag": deleveraging_flag,
-            "capital_allocation_label": (
-                capital_allocation_label
-            ),
-        })
+        intelligence_rows.append(
+            {
+                "company_id": company_id,
+                "sector": sector,
+                "cfo_quality_score": (
+                    round(
+                        cfo_quality_score,
+                        4,
+                    )
+                    if not pd.isna(cfo_quality_score)
+                    else np.nan
+                ),
+                "cfo_quality_label": cfo_quality_label,
+                "capex_intensity_pct": (
+                    round(
+                        capex_intensity_value,
+                        2,
+                    )
+                    if not pd.isna(capex_intensity_value)
+                    else np.nan
+                ),
+                "capex_label": capex_label,
+                "fcf_cagr_5yr": (
+                    round(
+                        fcf_cagr_5yr,
+                        2,
+                    )
+                    if not pd.isna(fcf_cagr_5yr)
+                    else np.nan
+                ),
+                "fcf_conversion_pct": (
+                    round(
+                        fcf_conversion_pct,
+                        2,
+                    )
+                    if not pd.isna(fcf_conversion_pct)
+                    else np.nan
+                ),
+                "distress_flag": distress_flag,
+                "deleveraging_flag": deleveraging_flag,
+                "capital_allocation_label": (capital_allocation_label),
+            }
+        )
 
         if distress_flag:
-            distress_rows.append({
-                "company_id": company_id,
-                "company_name": company_name,
-                "sector": sector,
-                "year": latest_year,
-                "operating_cash_flow": latest_cfo,
-                "financing_cash_flow": latest_cff,
-                "net_profit": latest_pat,
-            })
+            distress_rows.append(
+                {
+                    "company_id": company_id,
+                    "company_name": company_name,
+                    "sector": sector,
+                    "year": latest_year,
+                    "operating_cash_flow": latest_cfo,
+                    "financing_cash_flow": latest_cff,
+                    "net_profit": latest_pat,
+                }
+            )
 
-    intelligence = pd.DataFrame(
-        intelligence_rows
-    )
+    intelligence = pd.DataFrame(intelligence_rows)
 
     distress = pd.DataFrame(
         distress_rows,
@@ -795,13 +706,9 @@ def main():
         ],
     )
 
-    intelligence = intelligence.sort_values(
-        "company_id"
-    ).reset_index(drop=True)
+    intelligence = intelligence.sort_values("company_id").reset_index(drop=True)
 
-    distress = distress.sort_values(
-        "company_id"
-    ).reset_index(drop=True)
+    distress = distress.sort_values("company_id").reset_index(drop=True)
 
     with pd.ExcelWriter(
         INTELLIGENCE_PATH,
@@ -814,68 +721,50 @@ def main():
             index=False,
         )
 
-        summary = pd.DataFrame([
-            {
-                "metric": "Companies",
-                "value": len(intelligence),
-            },
-            {
-                "metric": "High Quality CFO",
-                "value": (
-                    intelligence["cfo_quality_label"]
-                    == "High Quality"
-                ).sum(),
-            },
-            {
-                "metric": "Moderate CFO",
-                "value": (
-                    intelligence["cfo_quality_label"]
-                    == "Moderate"
-                ).sum(),
-            },
-            {
-                "metric": "Accrual Risk",
-                "value": (
-                    intelligence["cfo_quality_label"]
-                    == "Accrual Risk"
-                ).sum(),
-            },
-            {
-                "metric": "Asset Light",
-                "value": (
-                    intelligence["capex_label"]
-                    == "Asset Light"
-                ).sum(),
-            },
-            {
-                "metric": "Moderate CapEx",
-                "value": (
-                    intelligence["capex_label"]
-                    == "Moderate"
-                ).sum(),
-            },
-            {
-                "metric": "Capital Intensive",
-                "value": (
-                    intelligence["capex_label"]
-                    == "Capital Intensive"
-                ).sum(),
-            },
-            {
-                "metric": "Distress Flags",
-                "value": (
-                    intelligence["distress_flag"]
-                    == True
-                ).sum(),
-            },
-            {
-                "metric": "Deleveraging Flags",
-                "value": (
-                    intelligence["deleveraging_flag"]
-                    == True
-                ).sum(),
-            },
-        ])
+        summary = pd.DataFrame(
+            [
+                {
+                    "metric": "Companies",
+                    "value": len(intelligence),
+                },
+                {
+                    "metric": "High Quality CFO",
+                    "value": (
+                        intelligence["cfo_quality_label"] == "High Quality"
+                    ).sum(),
+                },
+                {
+                    "metric": "Moderate CFO",
+                    "value": (intelligence["cfo_quality_label"] == "Moderate").sum(),
+                },
+                {
+                    "metric": "Accrual Risk",
+                    "value": (
+                        intelligence["cfo_quality_label"] == "Accrual Risk"
+                    ).sum(),
+                },
+                {
+                    "metric": "Asset Light",
+                    "value": (intelligence["capex_label"] == "Asset Light").sum(),
+                },
+                {
+                    "metric": "Moderate CapEx",
+                    "value": (intelligence["capex_label"] == "Moderate").sum(),
+                },
+                {
+                    "metric": "Capital Intensive",
+                    "value": (intelligence["capex_label"] == "Capital Intensive").sum(),
+                },
+                {
+                    "metric": "Distress Flags",
+                    "value": intelligence["distress_flag"].astype(bool).sum(),
+                },
+                {
+                    "metric": "Deleveraging Flags",
+                    "value": intelligence["deleveraging_flag"].astype(bool).sum(),
+                },
+            ]
+        )
 
         summary.to_excel(
             writer,
@@ -892,46 +781,22 @@ def main():
     print("CASH FLOW INTELLIGENCE OUTPUT")
     print("=" * 70)
 
-    print(
-        f"Companies processed : "
-        f"{len(intelligence)}"
-    )
+    print(f"Companies processed : " f"{len(intelligence)}")
 
-    print(
-        f"Required rows       : "
-        f"{len(intelligence) == 92}"
-    )
+    print(f"Required rows       : " f"{len(intelligence) == 92}")
 
     print("\nCFO Quality:")
-    print(
-        intelligence["cfo_quality_label"]
-        .value_counts()
-        .to_string()
-    )
+    print(intelligence["cfo_quality_label"].value_counts().to_string())
 
     print("\nCapEx Classification:")
-    print(
-        intelligence["capex_label"]
-        .value_counts()
-        .to_string()
-    )
+    print(intelligence["capex_label"].value_counts().to_string())
 
     print("\nCapital Allocation:")
-    print(
-        intelligence["capital_allocation_label"]
-        .value_counts()
-        .to_string()
-    )
+    print(intelligence["capital_allocation_label"].value_counts().to_string())
 
-    print(
-        "\nDistress flags      : "
-        f"{intelligence['distress_flag'].sum()}"
-    )
+    print("\nDistress flags      : " f"{intelligence['distress_flag'].sum()}")
 
-    print(
-        "Deleveraging flags  : "
-        f"{intelligence['deleveraging_flag'].sum()}"
-    )
+    print("Deleveraging flags  : " f"{intelligence['deleveraging_flag'].sum()}")
 
     print("\nOutput files:")
     print(f"  {INTELLIGENCE_PATH}")

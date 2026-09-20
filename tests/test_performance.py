@@ -10,16 +10,15 @@ These tests measure:
 - database query performance
 """
 
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
 import sqlite3
 import statistics
 import time
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
 from src.api.main import app
-
 
 client = TestClient(app)
 
@@ -37,9 +36,7 @@ def measure_request(method, path, **kwargs):
         **kwargs,
     )
 
-    elapsed_ms = (
-        time.perf_counter() - start
-    ) * 1000
+    elapsed_ms = (time.perf_counter() - start) * 1000
 
     return response.status_code, elapsed_ms
 
@@ -131,9 +128,7 @@ def test_repeated_health_requests():
         timings.append(elapsed_ms)
 
     average_ms = statistics.mean(timings)
-    p95_ms = sorted(timings)[
-        int(len(timings) * 0.95) - 1
-    ]
+    p95_ms = sorted(timings)[int(len(timings) * 0.95) - 1]
 
     print()
     print("Repeated health requests")
@@ -167,15 +162,9 @@ def test_concurrent_health_requests():
             )
         )
 
-    status_codes = [
-        result[0]
-        for result in results
-    ]
+    status_codes = [result[0] for result in results]
 
-    timings = [
-        result[1]
-        for result in results
-    ]
+    timings = [result[1] for result in results]
 
     successful = status_codes.count(200)
 
@@ -225,43 +214,24 @@ def test_concurrent_company_requests():
             )
         )
 
-    status_codes = [
-        result[0]
-        for result in results
-    ]
+    status_codes = [result[0] for result in results]
 
-    timings = [
-        result[1]
-        for result in results
-    ]
+    timings = [result[1] for result in results]
 
     print()
     print("Concurrent company requests")
     print(f"Requests: {len(company_ids)}")
     print(f"Successful: {status_codes.count(200)}")
-    print(
-        f"Average: "
-        f"{statistics.mean(timings):.2f} ms"
-    )
-    print(
-        f"Maximum: "
-        f"{max(timings):.2f} ms"
-    )
+    print(f"Average: " f"{statistics.mean(timings):.2f} ms")
+    print(f"Maximum: " f"{max(timings):.2f} ms")
 
-    assert all(
-        status_code == 200
-        for status_code in status_codes
-    )
+    assert all(status_code == 200 for status_code in status_codes)
 
 
 def test_database_query_performance():
     """Verify a representative SQLite query completes quickly."""
 
-    db_path = (
-        Path(__file__).resolve().parents[1]
-        / "data"
-        / "nifty100.db"
-    )
+    db_path = Path(__file__).resolve().parents[1] / "data" / "nifty100.db"
 
     assert db_path.exists()
 
@@ -273,8 +243,7 @@ def test_database_query_performance():
 
             start = time.perf_counter()
 
-            rows = conn.execute(
-                """
+            rows = conn.execute("""
                 SELECT
                     company_id,
                     year,
@@ -285,12 +254,9 @@ def test_database_query_performance():
                 FROM financial_ratios
                 ORDER BY year DESC
                 LIMIT 100
-                """
-            ).fetchall()
+                """).fetchall()
 
-            elapsed_ms = (
-                time.perf_counter() - start
-            ) * 1000
+            elapsed_ms = (time.perf_counter() - start) * 1000
 
             timings.append(elapsed_ms)
 

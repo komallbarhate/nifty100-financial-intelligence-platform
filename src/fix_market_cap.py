@@ -1,10 +1,13 @@
-﻿from pathlib import Path
-import sqlite3
+﻿import sqlite3
+from pathlib import Path
+
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
-SOURCE_PATH = PROJECT_ROOT / "data" / "supporting" / "1788501620397-69ae3e7f-market_cap.xlsx"
+SOURCE_PATH = (
+    PROJECT_ROOT / "data" / "supporting" / "1788501620397-69ae3e7f-market_cap.xlsx"
+)
 
 df = pd.read_excel(SOURCE_PATH)
 
@@ -47,19 +50,22 @@ CREATE TABLE market_cap (
 
 rows = []
 for row in df.itertuples(index=False):
-    rows.append((
-        row.id,
-        row.company_id,
-        row.year,
-        row.market_cap_crore,
-        row.enterprise_value_crore,
-        row.pe_ratio,
-        row.pb_ratio,
-        row.ev_ebitda,
-        row.dividend_yield_pct,
-    ))
+    rows.append(
+        (
+            row.id,
+            row.company_id,
+            row.year,
+            row.market_cap_crore,
+            row.enterprise_value_crore,
+            row.pe_ratio,
+            row.pb_ratio,
+            row.ev_ebitda,
+            row.dividend_yield_pct,
+        )
+    )
 
-conn.executemany("""
+conn.executemany(
+    """
 INSERT INTO market_cap (
     id,
     company_id,
@@ -72,7 +78,9 @@ INSERT INTO market_cap (
     dividend_yield_pct
 )
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-""", rows)
+""",
+    rows,
+)
 
 conn.commit()
 

@@ -1,15 +1,15 @@
 import pytest
 
 from src.analytics.cagr import (
-    calculate_cagr,
-    calculate_window_cagr,
-    calculate_all_cagr_windows,
-    calculate_company_growth_metrics,
-    DECLINE_TO_LOSS,
-    TURNAROUND,
     BOTH_NEGATIVE,
-    ZERO_BASE,
+    DECLINE_TO_LOSS,
     INSUFFICIENT,
+    TURNAROUND,
+    ZERO_BASE,
+    calculate_all_cagr_windows,
+    calculate_cagr,
+    calculate_company_growth_metrics,
+    calculate_window_cagr,
 )
 
 

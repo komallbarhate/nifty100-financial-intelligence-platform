@@ -9,35 +9,33 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-
-from src.analytics.ratios import (
-    net_profit_margin,
-    operating_profit_margin,
-    return_on_equity,
-    return_on_capital_employed,
-    return_on_assets,
-    debt_to_equity,
-    high_leverage_flag,
-    interest_coverage_ratio,
-    interest_coverage_label,
-    interest_coverage_warning,
-    net_debt,
-    asset_turnover,
-)
+    # ruff: noqa: E402
 
 from src.analytics.cagr import calculate_window_cagr
-
 from src.analytics.cashflow_kpis import (
-    free_cash_flow,
-    cfo_pat_ratio,
-    classify_cfo_quality,
     capex_intensity,
-    classify_capex_intensity,
-    fcf_conversion_rate,
     capital_allocation_pattern,
+    cfo_pat_ratio,
+    classify_capex_intensity,
+    classify_cfo_quality,
+    fcf_conversion_rate,
+    free_cash_flow,
     sign,
 )
-
+from src.analytics.ratios import (
+    asset_turnover,
+    debt_to_equity,
+    high_leverage_flag,
+    interest_coverage_label,
+    interest_coverage_ratio,
+    interest_coverage_warning,
+    net_debt,
+    net_profit_margin,
+    operating_profit_margin,
+    return_on_assets,
+    return_on_capital_employed,
+    return_on_equity,
+)
 
 DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
 OUTPUT_DIR = PROJECT_ROOT / "output"

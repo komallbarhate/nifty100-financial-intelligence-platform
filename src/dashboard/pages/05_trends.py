@@ -1,4 +1,4 @@
-﻿import sqlite3
+import sqlite3
 from pathlib import Path
 
 import pandas as pd
@@ -7,11 +7,8 @@ import streamlit as st
 
 from src.dashboard.utils.db import get_companies
 
-
 st.set_page_config(
-    page_title="Trends | Nifty 100 Analytics",
-    page_icon="T",
-    layout="wide"
+    page_title="Trends | Nifty 100 Analytics", page_icon="T", layout="wide"
 )
 
 st.title("Financial Trends")
@@ -27,7 +24,7 @@ DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
 
 @st.cache_data(ttl=600)
 def get_company_trend_data(ticker):
-
+    """Return company trend data."""
     conn = sqlite3.connect(DB_PATH)
 
     pl = pd.read_sql_query(
@@ -38,7 +35,7 @@ def get_company_trend_data(ticker):
         ORDER BY year
         """,
         conn,
-        params=[ticker]
+        params=[ticker],
     )
 
     ratios = pd.read_sql_query(
@@ -49,7 +46,7 @@ def get_company_trend_data(ticker):
         ORDER BY year
         """,
         conn,
-        params=[ticker]
+        params=[ticker],
     )
 
     bs = pd.read_sql_query(
@@ -60,7 +57,7 @@ def get_company_trend_data(ticker):
         ORDER BY year
         """,
         conn,
-        params=[ticker]
+        params=[ticker],
     )
 
     cf = pd.read_sql_query(
@@ -71,7 +68,7 @@ def get_company_trend_data(ticker):
         ORDER BY year
         """,
         conn,
-        params=[ticker]
+        params=[ticker],
     )
 
     conn.close()
@@ -90,9 +87,7 @@ if companies.empty:
 
 
 company_map = (
-    companies[
-        ["id", "company_name"]
-    ]
+    companies[["id", "company_name"]]
     .dropna()
     .drop_duplicates()
     .sort_values("company_name")
@@ -108,15 +103,13 @@ selected_company = st.selectbox(
     "Search company",
     company_options,
     format_func=lambda x: (
-        f"{x} — "
-        f"{company_map.loc[company_map['id'] == x, 'company_name'].iloc[0]}"
-    )
+        f"{x} — " f"{company_map.loc[company_map['id'] == x, 'company_name'].iloc[0]}"
+    ),
 )
 
 
 company_name = company_map.loc[
-    company_map["id"] == selected_company,
-    "company_name"
+    company_map["id"] == selected_company, "company_name"
 ].iloc[0]
 
 
@@ -127,15 +120,11 @@ st.caption(f"NSE Ticker: {selected_company}")
 # ---------------------------------------------------------
 # LOAD COMPANY DATA
 # ---------------------------------------------------------
-pl, ratios, bs, cf = get_company_trend_data(
-    selected_company
-)
+pl, ratios, bs, cf = get_company_trend_data(selected_company)
 
 
 if pl.empty and ratios.empty and bs.empty and cf.empty:
-    st.warning(
-        "No financial trend data is available for this company."
-    )
+    st.warning("No financial trend data is available for this company.")
     st.stop()
 
 
@@ -143,28 +132,16 @@ if pl.empty and ratios.empty and bs.empty and cf.empty:
 # PREPARE DATA
 # ---------------------------------------------------------
 if not pl.empty:
-    pl["year"] = pd.to_numeric(
-        pl["year"],
-        errors="coerce"
-    )
+    pl["year"] = pd.to_numeric(pl["year"], errors="coerce")
 
 if not ratios.empty:
-    ratios["year"] = pd.to_numeric(
-        ratios["year"],
-        errors="coerce"
-    )
+    ratios["year"] = pd.to_numeric(ratios["year"], errors="coerce")
 
 if not bs.empty:
-    bs["year"] = pd.to_numeric(
-        bs["year"],
-        errors="coerce"
-    )
+    bs["year"] = pd.to_numeric(bs["year"], errors="coerce")
 
 if not cf.empty:
-    cf["year"] = pd.to_numeric(
-        cf["year"],
-        errors="coerce"
-    )
+    cf["year"] = pd.to_numeric(cf["year"], errors="coerce")
 
 
 # ---------------------------------------------------------
@@ -177,125 +154,53 @@ metric_options = {}
 if not pl.empty:
 
     if "sales" in pl.columns:
-        metric_options["Revenue"] = (
-            pl,
-            "sales",
-            "Revenue"
-        )
+        metric_options["Revenue"] = (pl, "sales", "Revenue")
 
     if "net_profit" in pl.columns:
-        metric_options["Net Profit"] = (
-            pl,
-            "net_profit",
-            "Net Profit"
-        )
+        metric_options["Net Profit"] = (pl, "net_profit", "Net Profit")
 
     if "operating_profit" in pl.columns:
         metric_options["Operating Profit"] = (
             pl,
             "operating_profit",
-            "Operating Profit"
+            "Operating Profit",
         )
 
     if "eps" in pl.columns:
-        metric_options["EPS"] = (
-            pl,
-            "eps",
-            "EPS"
-        )
+        metric_options["EPS"] = (pl, "eps", "EPS")
 
     if "opm_percentage" in pl.columns:
-        metric_options["Operating Margin"] = (
-            pl,
-            "opm_percentage",
-            "Operating Margin"
-        )
+        metric_options["Operating Margin"] = (pl, "opm_percentage", "Operating Margin")
 
 
 # Financial ratio metrics
 if not ratios.empty:
 
     ratio_candidates = [
-        (
-            "return_on_equity_pct",
-            "ROE",
-            "ROE"
-        ),
-        (
-            "roe",
-            "ROE",
-            "ROE"
-        ),
-        (
-            "return_on_capital_employed_pct",
-            "ROCE",
-            "ROCE"
-        ),
-        (
-            "roce",
-            "ROCE",
-            "ROCE"
-        ),
-        (
-            "net_profit_margin_pct",
-            "Net Profit Margin",
-            "Net Profit Margin"
-        ),
-        (
-            "npm",
-            "Net Profit Margin",
-            "Net Profit Margin"
-        ),
+        ("return_on_equity_pct", "ROE", "ROE"),
+        ("roe", "ROE", "ROE"),
+        ("return_on_capital_employed_pct", "ROCE", "ROCE"),
+        ("roce", "ROCE", "ROCE"),
+        ("net_profit_margin_pct", "Net Profit Margin", "Net Profit Margin"),
+        ("npm", "Net Profit Margin", "Net Profit Margin"),
         (
             "operating_profit_margin_pct",
             "Operating Profit Margin",
-            "Operating Profit Margin"
-        ),
-        (
-            "opm",
             "Operating Profit Margin",
-            "Operating Profit Margin"
         ),
-        (
-            "debt_to_equity",
-            "Debt to Equity",
-            "Debt to Equity"
-        ),
-        (
-            "interest_coverage",
-            "Interest Coverage",
-            "Interest Coverage"
-        ),
-        (
-            "current_ratio",
-            "Current Ratio",
-            "Current Ratio"
-        ),
-        (
-            "pe_ratio",
-            "P/E",
-            "P/E"
-        ),
-        (
-            "pb_ratio",
-            "P/B",
-            "P/B"
-        ),
-        (
-            "dividend_yield",
-            "Dividend Yield",
-            "Dividend Yield"
-        ),
+        ("opm", "Operating Profit Margin", "Operating Profit Margin"),
+        ("debt_to_equity", "Debt to Equity", "Debt to Equity"),
+        ("interest_coverage", "Interest Coverage", "Interest Coverage"),
+        ("current_ratio", "Current Ratio", "Current Ratio"),
+        ("pe_ratio", "P/E", "P/E"),
+        ("pb_ratio", "P/B", "P/B"),
+        ("dividend_yield", "Dividend Yield", "Dividend Yield"),
     ]
 
     for column, label, display_name in ratio_candidates:
 
         if column in ratios.columns:
-            metric_options[label] = (
-                ratios,
-                column,
-                display_name
-            )
+            metric_options[label] = (ratios, column, display_name)
 
 
 # Cash flow metrics
@@ -305,33 +210,21 @@ if not cf.empty:
         metric_options["Operating Cash Flow"] = (
             cf,
             "operating_activity",
-            "Operating Cash Flow"
+            "Operating Cash Flow",
         )
 
     if "net_cash_flow" in cf.columns:
-        metric_options["Net Cash Flow"] = (
-            cf,
-            "net_cash_flow",
-            "Net Cash Flow"
-        )
+        metric_options["Net Cash Flow"] = (cf, "net_cash_flow", "Net Cash Flow")
 
 
 # Balance sheet metrics
 if not bs.empty:
 
     if "borrowings" in bs.columns:
-        metric_options["Borrowings"] = (
-            bs,
-            "borrowings",
-            "Borrowings"
-        )
+        metric_options["Borrowings"] = (bs, "borrowings", "Borrowings")
 
     if "reserves" in bs.columns:
-        metric_options["Reserves"] = (
-            bs,
-            "reserves",
-            "Reserves"
-        )
+        metric_options["Reserves"] = (bs, "reserves", "Reserves")
 
 
 # Remove duplicate labels while preserving order
@@ -339,9 +232,7 @@ metric_options = dict(metric_options)
 
 
 if not metric_options:
-    st.warning(
-        "No compatible financial metrics were found for this company."
-    )
+    st.warning("No compatible financial metrics were found for this company.")
     st.stop()
 
 
@@ -354,7 +245,7 @@ selected_metrics = st.multiselect(
     "Select up to 3 metrics",
     options=list(metric_options.keys()),
     default=list(metric_options.keys())[:3],
-    max_selections=3
+    max_selections=3,
 )
 
 
@@ -375,18 +266,11 @@ for metric in selected_metrics:
     if source_df.empty:
         continue
 
-    temp = source_df[
-        ["year", column]
-    ].copy()
+    temp = source_df[["year", column]].copy()
 
-    temp[column] = pd.to_numeric(
-        temp[column],
-        errors="coerce"
-    )
+    temp[column] = pd.to_numeric(temp[column], errors="coerce")
 
-    temp = temp.dropna(
-        subset=["year", column]
-    )
+    temp = temp.dropna(subset=["year", column])
 
     temp = temp.sort_values("year")
 
@@ -396,28 +280,17 @@ for metric in selected_metrics:
     temp["metric"] = display_name
     temp["value"] = temp[column]
 
-    trend_frames.append(
-        temp[
-            ["year", "metric", "value"]
-        ]
-    )
+    trend_frames.append(temp[["year", "metric", "value"]])
 
 
 if not trend_frames:
-    st.warning(
-        "No numeric data is available for the selected metrics."
-    )
+    st.warning("No numeric data is available for the selected metrics.")
     st.stop()
 
 
-trend_data = pd.concat(
-    trend_frames,
-    ignore_index=True
-)
+trend_data = pd.concat(trend_frames, ignore_index=True)
 
-trend_data["year"] = trend_data[
-    "year"
-].astype(int)
+trend_data["year"] = trend_data["year"].astype(int)
 
 
 # ---------------------------------------------------------
@@ -430,9 +303,7 @@ fig = go.Figure()
 
 for metric in selected_metrics:
 
-    metric_data = trend_data[
-        trend_data["metric"] == metric
-    ].sort_values("year")
+    metric_data = trend_data[trend_data["metric"] == metric].sort_values("year")
 
     if metric_data.empty:
         continue
@@ -448,7 +319,7 @@ for metric in selected_metrics:
                 "Year: %{x}<br>"
                 "Value: %{y:.2f}"
                 "<extra></extra>"
-            )
+            ),
         )
     )
 
@@ -458,13 +329,10 @@ fig.update_layout(
     xaxis_title="Year",
     yaxis_title="Value",
     hovermode="x unified",
-    legend_title="Metric"
+    legend_title="Metric",
 )
 
-st.plotly_chart(
-    fig,
-    use_container_width=True
-)
+st.plotly_chart(fig, use_container_width=True)
 
 
 # ---------------------------------------------------------
@@ -474,37 +342,23 @@ st.subheader("Year-over-Year Changes")
 
 for metric in selected_metrics:
 
-    metric_data = trend_data[
-        trend_data["metric"] == metric
-    ].sort_values("year").copy()
+    metric_data = trend_data[trend_data["metric"] == metric].sort_values("year").copy()
 
     if len(metric_data) < 2:
         continue
 
-    metric_data["YoY Change %"] = (
-        metric_data["value"].pct_change() * 100
-    )
+    metric_data["YoY Change %"] = metric_data["value"].pct_change() * 100
 
-    metric_data["YoY Change %"] = (
-        metric_data["YoY Change %"]
-        .replace(
-            [float("inf"), float("-inf")],
-            pd.NA
-        )
+    metric_data["YoY Change %"] = metric_data["YoY Change %"].replace(
+        [float("inf"), float("-inf")], pd.NA
     )
 
     st.markdown(f"**{metric}**")
 
-    yoy_table = metric_data[
-        ["year", "value", "YoY Change %"]
-    ].copy()
+    yoy_table = metric_data[["year", "value", "YoY Change %"]].copy()
 
     yoy_table = yoy_table.rename(
-        columns={
-            "year": "Year",
-            "value": "Value",
-            "YoY Change %": "YoY Change %"
-        }
+        columns={"year": "Year", "value": "Value", "YoY Change %": "YoY Change %"}
     )
 
     st.dataframe(
@@ -512,13 +366,9 @@ for metric in selected_metrics:
         use_container_width=True,
         hide_index=True,
         column_config={
-            "Value": st.column_config.NumberColumn(
-                format="%.2f"
-            ),
-            "YoY Change %": st.column_config.NumberColumn(
-                format="%.2f%%"
-            )
-        }
+            "Value": st.column_config.NumberColumn(format="%.2f"),
+            "YoY Change %": st.column_config.NumberColumn(format="%.2f%%"),
+        },
     )
 
 
@@ -527,18 +377,8 @@ for metric in selected_metrics:
 # ---------------------------------------------------------
 st.subheader("Trend Data")
 
-pivot = trend_data.pivot(
-    index="year",
-    columns="metric",
-    values="value"
-).reset_index()
+pivot = trend_data.pivot(index="year", columns="metric", values="value").reset_index()
 
-pivot = pivot.rename(
-    columns={"year": "Year"}
-)
+pivot = pivot.rename(columns={"year": "Year"})
 
-st.dataframe(
-    pivot,
-    use_container_width=True,
-    hide_index=True
-)
+st.dataframe(pivot, use_container_width=True, hide_index=True)

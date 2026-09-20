@@ -1,8 +1,8 @@
-﻿from pathlib import Path
 import sqlite3
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
-
 
 # ------------------------------------------------------------------
 # DATABASE PATH
@@ -16,6 +16,7 @@ DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
 # CONNECTION HELPER
 # ------------------------------------------------------------------
 
+
 def _get_connection():
     return sqlite3.connect(DB_PATH)
 
@@ -24,8 +25,10 @@ def _get_connection():
 # COMPANIES
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_companies():
+    """Return companies."""
     conn = _get_connection()
 
     query = """
@@ -56,8 +59,10 @@ def get_companies():
 # FINANCIAL RATIOS
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_ratios(ticker, year=None):
+    """Return ratios."""
     conn = _get_connection()
 
     query = """
@@ -74,11 +79,7 @@ def get_ratios(ticker, year=None):
 
     query += " ORDER BY year"
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=params
-    )
+    df = pd.read_sql_query(query, conn, params=params)
 
     conn.close()
 
@@ -89,8 +90,10 @@ def get_ratios(ticker, year=None):
 # PROFIT & LOSS
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_pl(ticker):
+    """Return pl."""
     conn = _get_connection()
 
     query = """
@@ -100,11 +103,7 @@ def get_pl(ticker):
         ORDER BY year
     """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=[ticker]
-    )
+    df = pd.read_sql_query(query, conn, params=[ticker])
 
     conn.close()
 
@@ -115,8 +114,10 @@ def get_pl(ticker):
 # BALANCE SHEET
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_bs(ticker):
+    """Return bs."""
     conn = _get_connection()
 
     query = """
@@ -126,11 +127,7 @@ def get_bs(ticker):
         ORDER BY year
     """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=[ticker]
-    )
+    df = pd.read_sql_query(query, conn, params=[ticker])
 
     conn.close()
 
@@ -141,8 +138,10 @@ def get_bs(ticker):
 # CASH FLOW
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_cf(ticker):
+    """Return cf."""
     conn = _get_connection()
 
     query = """
@@ -152,11 +151,7 @@ def get_cf(ticker):
         ORDER BY year
     """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=[ticker]
-    )
+    df = pd.read_sql_query(query, conn, params=[ticker])
 
     conn.close()
 
@@ -167,8 +162,10 @@ def get_cf(ticker):
 # SECTORS
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_sectors():
+    """Return sectors."""
     conn = _get_connection()
 
     query = """
@@ -193,8 +190,10 @@ def get_sectors():
 # PEER GROUPS
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_peers(group_name):
+    """Return peers."""
     conn = _get_connection()
 
     query = """
@@ -209,11 +208,7 @@ def get_peers(group_name):
         ORDER BY c.company_name
     """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=[group_name]
-    )
+    df = pd.read_sql_query(query, conn, params=[group_name])
 
     conn.close()
 
@@ -224,8 +219,10 @@ def get_peers(group_name):
 # VALUATION
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_valuation(ticker):
+    """Return valuation."""
     conn = _get_connection()
 
     query = """
@@ -246,11 +243,7 @@ def get_valuation(ticker):
         ORDER BY mc.year
     """
 
-    df = pd.read_sql_query(
-        query,
-        conn,
-        params=[ticker]
-    )
+    df = pd.read_sql_query(query, conn, params=[ticker])
 
     conn.close()
 
@@ -261,13 +254,14 @@ def get_valuation(ticker):
 # SUPPORTING HELPERS
 # ------------------------------------------------------------------
 
+
 @st.cache_data(ttl=600)
 def get_company(ticker):
+    """Return company."""
     companies = get_companies()
 
     result = companies[
-        companies["id"].astype(str).str.upper()
-        == str(ticker).upper()
+        companies["id"].astype(str).str.upper() == str(ticker).upper()
     ].copy()
 
     return result
@@ -275,6 +269,7 @@ def get_company(ticker):
 
 @st.cache_data(ttl=600)
 def get_latest_ratios(ticker):
+    """Return latest ratios."""
     ratios = get_ratios(ticker)
 
     if ratios.empty:
@@ -285,6 +280,7 @@ def get_latest_ratios(ticker):
 
 @st.cache_data(ttl=600)
 def get_latest_valuation(ticker):
+    """Return latest valuation."""
     valuation = get_valuation(ticker)
 
     if valuation.empty:
@@ -295,6 +291,7 @@ def get_latest_valuation(ticker):
 
 @st.cache_data(ttl=600)
 def get_all_latest_ratios():
+    """Return all latest ratios."""
     conn = _get_connection()
 
     query = """
@@ -318,6 +315,7 @@ def get_all_latest_ratios():
 
 @st.cache_data(ttl=600)
 def get_all_latest_valuations():
+    """Return all latest valuations."""
     conn = _get_connection()
 
     query = """
@@ -341,6 +339,7 @@ def get_all_latest_valuations():
 
 @st.cache_data(ttl=600)
 def get_years():
+    """Return years."""
     conn = _get_connection()
 
     query = """
@@ -358,6 +357,7 @@ def get_years():
 
 @st.cache_data(ttl=600)
 def get_peer_groups():
+    """Return peer groups."""
     conn = _get_connection()
 
     query = """
@@ -376,6 +376,7 @@ def get_peer_groups():
 
 @st.cache_data(ttl=600)
 def get_capital_allocation_data():
+    """Return capital allocation data."""
     conn = _get_connection()
 
     tables = pd.read_sql_query(
@@ -384,7 +385,7 @@ def get_capital_allocation_data():
         FROM sqlite_master
         WHERE type='table'
         """,
-        conn
+        conn,
     )
 
     table_names = set(tables["name"].tolist())

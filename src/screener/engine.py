@@ -1,10 +1,8 @@
-﻿from pathlib import Path
 import sqlite3
-from typing import Dict, Optional
+from pathlib import Path
 
 import pandas as pd
 import yaml
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
@@ -108,12 +106,7 @@ class ScreenerEngine:
             market_cap,
         ]:
 
-            df["company_id"] = (
-                df["company_id"]
-                .astype(str)
-                .str.strip()
-                .str.upper()
-            )
+            df["company_id"] = df["company_id"].astype(str).str.strip().str.upper()
 
         # ---------------------------------------------------------
         # Latest P&L record per company
@@ -131,18 +124,14 @@ class ScreenerEngine:
             ]
         )
 
-        pnl = (
-            pnl
-            .sort_values(
-                [
-                    "company_id",
-                    "year",
-                ]
-            )
-            .drop_duplicates(
+        pnl = pnl.sort_values(
+            [
                 "company_id",
-                keep="last",
-            )
+                "year",
+            ]
+        ).drop_duplicates(
+            "company_id",
+            keep="last",
         )
 
         # ---------------------------------------------------------
@@ -161,18 +150,14 @@ class ScreenerEngine:
             ]
         )
 
-        market_cap = (
-            market_cap
-            .sort_values(
-                [
-                    "company_id",
-                    "year",
-                ]
-            )
-            .drop_duplicates(
+        market_cap = market_cap.sort_values(
+            [
                 "company_id",
-                keep="last",
-            )
+                "year",
+            ]
+        ).drop_duplicates(
+            "company_id",
+            keep="last",
         )
 
         # ---------------------------------------------------------
@@ -265,20 +250,14 @@ class ScreenerEngine:
         if "icr_label" in df.columns:
 
             df["is_debt_free"] = (
-                df["icr_label"]
-                .astype(str)
-                .str.strip()
-                .str.lower()
-                .eq("debt free")
+                df["icr_label"].astype(str).str.strip().str.lower().eq("debt free")
             )
 
         else:
 
             df["is_debt_free"] = False
 
-        df["icr_for_filter"] = (
-            df["interest_coverage"]
-        )
+        df["icr_for_filter"] = df["interest_coverage"]
 
         df.loc[
             df["is_debt_free"],
@@ -290,21 +269,15 @@ class ScreenerEngine:
         # ---------------------------------------------------------
 
         df["is_financials"] = (
-            df["sector"]
-            .astype(str)
-            .str.strip()
-            .str.lower()
-            .eq("financials")
+            df["sector"].astype(str).str.strip().str.lower().eq("financials")
         )
 
         # ---------------------------------------------------------
         # Debt declining flag
         # ---------------------------------------------------------
 
-        df["debt_to_equity_declining"] = (
-            self._calculate_debt_decline_flags(
-                df["company_id"].tolist()
-            )
+        df["debt_to_equity_declining"] = self._calculate_debt_decline_flags(
+            df["company_id"].tolist()
         )
 
         # ---------------------------------------------------------
@@ -317,8 +290,7 @@ class ScreenerEngine:
         )
 
         df = (
-            df
-            .sort_values(
+            df.sort_values(
                 [
                     "company_id",
                     "year",
@@ -338,9 +310,7 @@ class ScreenerEngine:
         company_ids,
     ):
 
-        conn = sqlite3.connect(
-            self.db_path
-        )
+        conn = sqlite3.connect(self.db_path)
 
         history = pd.read_sql_query(
             """
@@ -359,10 +329,7 @@ class ScreenerEngine:
         conn.close()
 
         history["company_id"] = (
-            history["company_id"]
-            .astype(str)
-            .str.strip()
-            .str.upper()
+            history["company_id"].astype(str).str.strip().str.upper()
         )
 
         history["year"] = pd.to_numeric(
@@ -379,19 +346,13 @@ class ScreenerEngine:
 
         for company_id in company_ids:
 
-            company_history = history[
-                history["company_id"] == company_id
-            ].dropna(
+            company_history = history[history["company_id"] == company_id].dropna(
                 subset=["year"]
             )
 
-            company_history = (
-                company_history
-                .sort_values("year")
-                .drop_duplicates(
-                    "year",
-                    keep="last",
-                )
+            company_history = company_history.sort_values("year").drop_duplicates(
+                "year",
+                keep="last",
             )
 
             if len(company_history) < 2:
@@ -399,18 +360,12 @@ class ScreenerEngine:
                 result[company_id] = False
                 continue
 
-            latest = company_history.iloc[-1][
-                "debt_to_equity"
-            ]
+            latest = company_history.iloc[-1]["debt_to_equity"]
 
-            previous = company_history.iloc[-2][
-                "debt_to_equity"
-            ]
+            previous = company_history.iloc[-2]["debt_to_equity"]
 
             result[company_id] = (
-                pd.notna(latest)
-                and pd.notna(previous)
-                and latest < previous
+                pd.notna(latest) and pd.notna(previous) and latest < previous
             )
 
         return pd.Series(
@@ -445,9 +400,7 @@ class ScreenerEngine:
 
         if metric == "debt_to_equity_declining":
 
-            return df[metric].eq(
-                condition.get("equals")
-            )
+            return df[metric].eq(condition.get("equals"))
 
         actual_metric = metric
 
@@ -459,10 +412,7 @@ class ScreenerEngine:
 
         if actual_metric not in df.columns:
 
-            raise ValueError(
-                f"Required screener metric "
-                f"'{metric}' is unavailable."
-            )
+            raise ValueError(f"Required screener metric " f"'{metric}' is unavailable.")
 
         series = self._numeric_series(
             df,
@@ -478,47 +428,33 @@ class ScreenerEngine:
 
         if "min" in condition:
 
-            mask &= (
-                series
-                >= float(condition["min"])
-            )
+            mask &= series >= float(condition["min"])
 
         # Maximum
 
         if "max" in condition:
 
-            maximum = float(
-                condition["max"]
-            )
+            maximum = float(condition["max"])
 
             # Financial companies skip D/E filter
 
             if metric == "debt_to_equity":
 
-                mask &= (
-                    df["is_financials"]
-                    | (
-                        series
-                        <= maximum
-                    )
-                )
+                mask &= df["is_financials"] | (series <= maximum)
 
             else:
 
-                mask &= (
-                    series
-                    <= maximum
-                )
+                mask &= series <= maximum
 
         return mask.fillna(False)
 
     def apply_filters(
         self,
-        filters: Optional[Dict] = None,
+        filters: dict | None = None,
         sort_by="composite_quality_score",
         ascending=False,
     ):
-
+        """Apply filters."""
         result = self.data.copy()
 
         if filters is None:
@@ -533,9 +469,7 @@ class ScreenerEngine:
                 condition,
             )
 
-            result = result.loc[
-                mask
-            ].copy()
+            result = result.loc[mask].copy()
 
         if sort_by in result.columns:
 
@@ -545,115 +479,52 @@ class ScreenerEngine:
                 na_position="last",
             )
 
-        return result.reset_index(
-            drop=True
-        )
+        return result.reset_index(drop=True)
 
     def apply_preset(
         self,
         preset_name,
     ):
-
-        presets = self.config[
-            "presets"
-        ]
+        """Apply preset."""
+        presets = self.config["presets"]
 
         if preset_name not in presets:
 
-            raise ValueError(
-                f"Unknown preset: "
-                f"{preset_name}"
-            )
+            raise ValueError(f"Unknown preset: " f"{preset_name}")
 
-        return self.apply_filters(
-            presets[preset_name][
-                "filters"
-            ]
-        )
+        return self.apply_filters(presets[preset_name]["filters"])
 
     def list_presets(self):
-
-        return {
-            key: value["name"]
-            for key, value
-            in self.config[
-                "presets"
-            ].items()
-        }
+        """Process list presets."""
+        return {key: value["name"] for key, value in self.config["presets"].items()}
 
     def available_metrics(self):
-
+        """Process available metrics."""
         return [
             metric
-            for metric
-            in self.config[
-                "filterable_metrics"
-            ]
+            for metric in self.config["filterable_metrics"]
             if metric in self.data.columns
         ]
 
     def summary(self):
-
+        """Process summary."""
         return {
-            "companies": int(
-                self.data[
-                    "company_id"
-                ].nunique()
-            ),
-            "rows": int(
-                len(self.data)
-            ),
-            "years": sorted(
-                self.data[
-                    "year"
-                ]
-                .dropna()
-                .astype(int)
-                .unique()
-                .tolist()
-            ),
-            "presets": list(
-                self.list_presets()
-                .keys()
-            ),
-            "filterable_metrics": len(
-                self.config[
-                    "filterable_metrics"
-                ]
-            ),
-            "market_cap_available": int(
-                self.data[
-                    "market_cap_crore"
-                ]
-                .notna()
-                .sum()
-            ),
-            "pe_available": int(
-                self.data[
-                    "pe_ratio"
-                ]
-                .notna()
-                .sum()
-            ),
-            "pb_available": int(
-                self.data[
-                    "pb_ratio"
-                ]
-                .notna()
-                .sum()
-            ),
+            "companies": int(self.data["company_id"].nunique()),
+            "rows": len(self.data),
+            "years": sorted(self.data["year"].dropna().astype(int).unique().tolist()),
+            "presets": list(self.list_presets().keys()),
+            "filterable_metrics": len(self.config["filterable_metrics"]),
+            "market_cap_available": int(self.data["market_cap_crore"].notna().sum()),
+            "pe_available": int(self.data["pe_ratio"].notna().sum()),
+            "pb_available": int(self.data["pb_ratio"].notna().sum()),
             "dividend_yield_available": int(
-                self.data[
-                    "dividend_yield_pct"
-                ]
-                .notna()
-                .sum()
+                self.data["dividend_yield_pct"].notna().sum()
             ),
         }
 
 
 def main():
-
+    """Run the main workflow."""
     print("=" * 70)
     print("NIFTY 100 SCREENER ENGINE")
     print("=" * 70)
@@ -662,57 +533,28 @@ def main():
 
     summary = engine.summary()
 
-    print(
-        f"Companies: "
-        f"{summary['companies']}"
-    )
+    print(f"Companies: " f"{summary['companies']}")
 
-    print(
-        f"Rows: "
-        f"{summary['rows']}"
-    )
+    print(f"Rows: " f"{summary['rows']}")
 
-    print(
-        f"Years: "
-        f"{summary['years']}"
-    )
+    print(f"Years: " f"{summary['years']}")
 
-    print(
-        f"Presets: "
-        f"{summary['presets']}"
-    )
+    print(f"Presets: " f"{summary['presets']}")
 
-    print(
-        f"Filterable metrics: "
-        f"{summary['filterable_metrics']}"
-    )
+    print(f"Filterable metrics: " f"{summary['filterable_metrics']}")
 
-    print(
-        f"Market Cap available: "
-        f"{summary['market_cap_available']}"
-    )
+    print(f"Market Cap available: " f"{summary['market_cap_available']}")
 
-    print(
-        f"P/E available: "
-        f"{summary['pe_available']}"
-    )
+    print(f"P/E available: " f"{summary['pe_available']}")
 
-    print(
-        f"P/B available: "
-        f"{summary['pb_available']}"
-    )
+    print(f"P/B available: " f"{summary['pb_available']}")
 
-    print(
-        f"Dividend Yield available: "
-        f"{summary['dividend_yield_available']}"
-    )
+    print(f"Dividend Yield available: " f"{summary['dividend_yield_available']}")
 
     print()
     print("Quality Compounder preview:")
 
-    result = engine.apply_preset(
-        "quality_compounder"
-    )
+    result = engine.apply_preset("quality_compounder")
 
     columns = [
         "company_id",
@@ -724,15 +566,7 @@ def main():
         "composite_quality_score",
     ]
 
-    print(
-        result[
-            columns
-        ]
-        .head(10)
-        .to_string(
-            index=False
-        )
-    )
+    print(result[columns].head(10).to_string(index=False))
 
 
 if __name__ == "__main__":

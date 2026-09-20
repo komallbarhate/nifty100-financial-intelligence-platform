@@ -10,14 +10,13 @@ Outputs:
 Uses the existing Day 36 K-Means cluster assignments.
 """
 
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-
 
 # ============================================================
 # PATHS
@@ -71,13 +70,12 @@ KPI_LABELS = {
 # DATABASE
 # ============================================================
 
+
 def load_data():
     """Load the required tables from SQLite."""
 
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     with sqlite3.connect(DB_PATH) as conn:
         companies = pd.read_sql_query(
@@ -115,6 +113,7 @@ def load_data():
 # FCF CAGR
 # ============================================================
 
+
 def calculate_fcf_cagr(group):
     """
     Calculate 5-year CAGR of free cash flow.
@@ -125,9 +124,9 @@ def calculate_fcf_cagr(group):
 
     group = group.sort_values("year")
 
-    valid = group[
-        group["free_cash_flow_cr"].notna()
-    ][["year", "free_cash_flow_cr"]].copy()
+    valid = group[group["free_cash_flow_cr"].notna()][
+        ["year", "free_cash_flow_cr"]
+    ].copy()
 
     if len(valid) < 2:
         return np.nan
@@ -149,14 +148,13 @@ def calculate_fcf_cagr(group):
     if start_value <= 0 or end_value <= 0:
         return np.nan
 
-    return (
-        (end_value / start_value) ** (1 / years) - 1
-    ) * 100
+    return ((end_value / start_value) ** (1 / years) - 1) * 100
 
 
 # ============================================================
 # PREPARE LATEST-YEAR DATA
 # ============================================================
+
 
 def prepare_latest_data(companies, sectors, ratios):
     """
@@ -184,9 +182,7 @@ def prepare_latest_data(companies, sectors, ratios):
         errors="coerce",
     )
 
-    ratios["company_id"] = ratios[
-        "company_id"
-    ].astype(str)
+    ratios["company_id"] = ratios["company_id"].astype(str)
 
     companies = companies.copy()
     sectors = sectors.copy()
@@ -199,11 +195,8 @@ def prepare_latest_data(companies, sectors, ratios):
     # --------------------------------------------------------
 
     fcf_cagr = (
-        ratios
-        .groupby("company_id", group_keys=False)
-        .apply(
-            calculate_fcf_cagr
-        )
+        ratios.groupby("company_id", group_keys=False)
+        .apply(calculate_fcf_cagr)
         .reset_index(name="fcf_cagr_5yr")
     )
 
@@ -211,16 +204,9 @@ def prepare_latest_data(companies, sectors, ratios):
     # Latest financial-ratio record per company
     # --------------------------------------------------------
 
-    ratios = ratios.sort_values(
-        ["company_id", "year"]
-    )
+    ratios = ratios.sort_values(["company_id", "year"])
 
-    latest = (
-        ratios
-        .groupby("company_id", as_index=False)
-        .tail(1)
-        .copy()
-    )
+    latest = ratios.groupby("company_id", as_index=False).tail(1).copy()
 
     # --------------------------------------------------------
     # Merge FCF CAGR
@@ -237,11 +223,7 @@ def prepare_latest_data(companies, sectors, ratios):
     # --------------------------------------------------------
 
     latest = latest.merge(
-        companies.rename(
-            columns={
-                "id": "company_id"
-            }
-        ),
+        companies.rename(columns={"id": "company_id"}),
         on="company_id",
         how="left",
     )
@@ -260,36 +242,23 @@ def prepare_latest_data(companies, sectors, ratios):
     # Explicitly verify KPI columns
     # --------------------------------------------------------
 
-    missing = [
-        column
-        for column in KPI_COLUMNS
-        if column not in latest.columns
-    ]
+    missing = [column for column in KPI_COLUMNS if column not in latest.columns]
 
     if missing:
         raise ValueError(
-            "Required KPI columns missing after data preparation: "
-            + ", ".join(missing)
+            "Required KPI columns missing after data preparation: " + ", ".join(missing)
         )
 
     # --------------------------------------------------------
     # Remove duplicate columns if any
     # --------------------------------------------------------
 
-    latest = latest.loc[
-        :,
-        ~latest.columns.duplicated()
-    ]
+    latest = latest.loc[:, ~latest.columns.duplicated()]
 
-    print(
-        f"Latest-year company records: {len(latest)}"
-    )
+    print(f"Latest-year company records: {len(latest)}")
 
     if len(latest) != 92:
-        raise ValueError(
-            f"Expected 92 latest company records, "
-            f"found {len(latest)}"
-        )
+        raise ValueError(f"Expected 92 latest company records, " f"found {len(latest)}")
 
     return latest
 
@@ -298,13 +267,12 @@ def prepare_latest_data(companies, sectors, ratios):
 # LOAD CLUSTERS
 # ============================================================
 
+
 def load_cluster_labels():
     """Load Day 36 K-Means assignments."""
 
     if not CLUSTER_FILE.exists():
-        raise FileNotFoundError(
-            f"Cluster labels not found: {CLUSTER_FILE}"
-        )
+        raise FileNotFoundError(f"Cluster labels not found: {CLUSTER_FILE}")
 
     clusters = pd.read_csv(CLUSTER_FILE)
 
@@ -314,31 +282,19 @@ def load_cluster_labels():
         "cluster_name",
     ]
 
-    missing = [
-        column
-        for column in required
-        if column not in clusters.columns
-    ]
+    missing = [column for column in required if column not in clusters.columns]
 
     if missing:
-        raise ValueError(
-            "Cluster file is missing columns: "
-            + ", ".join(missing)
-        )
+        raise ValueError("Cluster file is missing columns: " + ", ".join(missing))
 
-    clusters["company_id"] = (
-        clusters["company_id"]
-        .astype(str)
-    )
+    clusters["company_id"] = clusters["company_id"].astype(str)
 
     clusters["cluster_id"] = pd.to_numeric(
         clusters["cluster_id"],
         errors="raise",
     ).astype(int)
 
-    print(
-        f"Cluster records loaded: {len(clusters)}"
-    )
+    print(f"Cluster records loaded: {len(clusters)}")
 
     return clusters
 
@@ -346,6 +302,7 @@ def load_cluster_labels():
 # ============================================================
 # MERGE ANALYTICS DATA
 # ============================================================
+
 
 def build_analysis_dataset(latest, clusters):
     """Combine financial metrics with Day 36 cluster assignments."""
@@ -364,20 +321,14 @@ def build_analysis_dataset(latest, clusters):
 
     if len(data) != 92:
         raise ValueError(
-            "Cluster merge did not produce 92 companies. "
-            f"Found {len(data)}."
+            "Cluster merge did not produce 92 companies. " f"Found {len(data)}."
         )
 
-    missing_kpis = [
-        column
-        for column in KPI_COLUMNS
-        if column not in data.columns
-    ]
+    missing_kpis = [column for column in KPI_COLUMNS if column not in data.columns]
 
     if missing_kpis:
         raise ValueError(
-            "KPI columns missing after cluster merge: "
-            + ", ".join(missing_kpis)
+            "KPI columns missing after cluster merge: " + ", ".join(missing_kpis)
         )
 
     return data
@@ -387,6 +338,7 @@ def build_analysis_dataset(latest, clusters):
 # CLUSTER PROFILES
 # ============================================================
 
+
 def create_cluster_profiles(data):
     """
     Create mean and median profiles for all five clusters.
@@ -394,25 +346,14 @@ def create_cluster_profiles(data):
 
     rows = []
 
-    for cluster_id in sorted(
-        data["cluster_id"].unique()
-    ):
+    for cluster_id in sorted(data["cluster_id"].unique()):
 
-        group = data[
-            data["cluster_id"] == cluster_id
-        ]
+        group = data[data["cluster_id"] == cluster_id]
 
-        cluster_names = (
-            group["cluster_name"]
-            .dropna()
-            .astype(str)
-            .unique()
-        )
+        cluster_names = group["cluster_name"].dropna().astype(str).unique()
 
         cluster_name = (
-            cluster_names[0]
-            if len(cluster_names) > 0
-            else f"Cluster {cluster_id}"
+            cluster_names[0] if len(cluster_names) > 0 else f"Cluster {cluster_id}"
         )
 
         for metric in KPI_COLUMNS:
@@ -439,19 +380,14 @@ def create_cluster_profiles(data):
 
     profiles = pd.DataFrame(rows)
 
-    output_path = (
-        OUTPUT_DIR
-        / "cluster_profiles.csv"
-    )
+    output_path = OUTPUT_DIR / "cluster_profiles.csv"
 
     profiles.to_csv(
         output_path,
         index=False,
     )
 
-    print(
-        f"Saved: {output_path}"
-    )
+    print(f"Saved: {output_path}")
 
     return profiles
 
@@ -460,23 +396,18 @@ def create_cluster_profiles(data):
 # CORRELATION HEATMAP
 # ============================================================
 
+
 def create_correlation_heatmap(data):
     """Create Pearson correlation heatmap for the 10 KPIs."""
 
-    correlation_data = data[
-        KPI_COLUMNS
-    ].apply(
+    correlation_data = data[KPI_COLUMNS].apply(
         pd.to_numeric,
         errors="coerce",
     )
 
-    correlation = correlation_data.corr(
-        method="pearson"
-    )
+    correlation = correlation_data.corr(method="pearson")
 
-    plt.figure(
-        figsize=(14, 11)
-    )
+    plt.figure(figsize=(14, 11))
 
     sns.heatmap(
         correlation,
@@ -486,14 +417,8 @@ def create_correlation_heatmap(data):
         center=0,
         square=True,
         linewidths=0.5,
-        xticklabels=[
-            KPI_LABELS[column]
-            for column in KPI_COLUMNS
-        ],
-        yticklabels=[
-            KPI_LABELS[column]
-            for column in KPI_COLUMNS
-        ],
+        xticklabels=[KPI_LABELS[column] for column in KPI_COLUMNS],
+        yticklabels=[KPI_LABELS[column] for column in KPI_COLUMNS],
     )
 
     plt.title(
@@ -507,16 +432,11 @@ def create_correlation_heatmap(data):
         ha="right",
     )
 
-    plt.yticks(
-        rotation=0
-    )
+    plt.yticks(rotation=0)
 
     plt.tight_layout()
 
-    output_path = (
-        REPORTS_DIR
-        / "correlation_heatmap.png"
-    )
+    output_path = REPORTS_DIR / "correlation_heatmap.png"
 
     plt.savefig(
         output_path,
@@ -526,14 +446,13 @@ def create_correlation_heatmap(data):
 
     plt.close()
 
-    print(
-        f"Saved: {output_path}"
-    )
+    print(f"Saved: {output_path}")
 
 
 # ============================================================
 # OUTLIER REPORT
 # ============================================================
+
 
 def create_outlier_report(data):
     """
@@ -560,20 +479,14 @@ def create_outlier_report(data):
             )
 
             mean = values.mean()
-            std = values.std(
-                ddof=0
-            )
+            std = values.std(ddof=0)
 
             if pd.isna(std) or std == 0:
                 continue
 
-            zscores = (
-                values - mean
-            ) / std
+            zscores = (values - mean) / std
 
-            for index in zscores[
-                zscores.abs() > 3
-            ].index:
+            for index in zscores[zscores.abs() > 3].index:
 
                 rows.append(
                     {
@@ -597,12 +510,8 @@ def create_outlier_report(data):
                         ],
                         "sector_mean": mean,
                         "sector_std": std,
-                        "z_score": zscores.loc[
-                            index
-                        ],
-                        "abs_z_score": abs(
-                            zscores.loc[index]
-                        ),
+                        "z_score": zscores.loc[index],
+                        "abs_z_score": abs(zscores.loc[index]),
                     }
                 )
 
@@ -629,23 +538,16 @@ def create_outlier_report(data):
         ascending=False,
     )
 
-    output_path = (
-        OUTPUT_DIR
-        / "outlier_report.csv"
-    )
+    output_path = OUTPUT_DIR / "outlier_report.csv"
 
     outliers.to_csv(
         output_path,
         index=False,
     )
 
-    print(
-        f"Saved: {output_path}"
-    )
+    print(f"Saved: {output_path}")
 
-    print(
-        f"Sector KPI outliers detected: {len(outliers)}"
-    )
+    print(f"Sector KPI outliers detected: {len(outliers)}")
 
     return outliers
 
@@ -653,6 +555,7 @@ def create_outlier_report(data):
 # ============================================================
 # PORTFOLIO STATISTICS
 # ============================================================
+
 
 def create_portfolio_stats(data):
     """
@@ -692,19 +595,14 @@ def create_portfolio_stats(data):
 
     stats = pd.DataFrame(rows)
 
-    output_path = (
-        OUTPUT_DIR
-        / "portfolio_stats.csv"
-    )
+    output_path = OUTPUT_DIR / "portfolio_stats.csv"
 
     stats.to_csv(
         output_path,
         index=False,
     )
 
-    print(
-        f"Saved: {output_path}"
-    )
+    print(f"Saved: {output_path}")
 
     return stats
 
@@ -712,6 +610,7 @@ def create_portfolio_stats(data):
 # ============================================================
 # PRINT CLUSTER REVIEW
 # ============================================================
+
 
 def print_cluster_review(data):
     """Print a readable summary of the five clusters."""
@@ -722,8 +621,7 @@ def print_cluster_review(data):
     print("=" * 70)
 
     summary = (
-        data
-        .groupby(
+        data.groupby(
             [
                 "cluster_id",
                 "cluster_name",
@@ -762,45 +660,28 @@ def print_cluster_review(data):
     for _, row in summary.iterrows():
 
         print()
-        print(
-            f"Cluster {int(row['cluster_id'])}: "
-            f"{row['cluster_name']}"
-        )
+        print(f"Cluster {int(row['cluster_id'])}: " f"{row['cluster_name']}")
 
-        print(
-            f"  Companies: {int(row['company_count'])}"
-        )
+        print(f"  Companies: {int(row['company_count'])}")
 
-        print(
-            f"  ROE: {row['roe_mean']:.2f}%"
-        )
+        print(f"  ROE: {row['roe_mean']:.2f}%")
 
-        print(
-            f"  Debt/Equity: "
-            f"{row['debt_equity_mean']:.2f}"
-        )
+        print(f"  Debt/Equity: " f"{row['debt_equity_mean']:.2f}")
 
-        print(
-            f"  Revenue CAGR 5Y: "
-            f"{row['revenue_cagr_mean']:.2f}%"
-        )
+        print(f"  Revenue CAGR 5Y: " f"{row['revenue_cagr_mean']:.2f}%")
 
-        print(
-            f"  FCF CAGR 5Y: "
-            f"{row['fcf_cagr_mean']:.2f}%"
-        )
+        print(f"  FCF CAGR 5Y: " f"{row['fcf_cagr_mean']:.2f}%")
 
-        print(
-            f"  OPM: {row['opm_mean']:.2f}%"
-        )
+        print(f"  OPM: {row['opm_mean']:.2f}%")
 
 
 # ============================================================
 # MAIN
 # ============================================================
 
-def main():
 
+def main():
+    """Run the main workflow."""
     print("=" * 70)
     print("DAY 37 — CLUSTER PROFILING & STATISTICS")
     print("=" * 70)
@@ -836,9 +717,7 @@ def main():
         clusters,
     )
 
-    print(
-        f"Analytical records ready: {len(data)}"
-    )
+    print(f"Analytical records ready: {len(data)}")
 
     # --------------------------------------------------------
     # Day 37 outputs
@@ -847,38 +726,28 @@ def main():
     print()
     print("Creating cluster profiles...")
 
-    profiles = create_cluster_profiles(
-        data
-    )
+    profiles = create_cluster_profiles(data)
 
     print()
     print("Creating correlation heatmap...")
 
-    create_correlation_heatmap(
-        data
-    )
+    create_correlation_heatmap(data)
 
     print()
     print("Creating sector outlier report...")
 
-    outliers = create_outlier_report(
-        data
-    )
+    outliers = create_outlier_report(data)
 
     print()
     print("Creating portfolio statistics...")
 
-    portfolio_stats = create_portfolio_stats(
-        data
-    )
+    portfolio_stats = create_portfolio_stats(data)
 
     # --------------------------------------------------------
     # Review
     # --------------------------------------------------------
 
-    print_cluster_review(
-        data
-    )
+    print_cluster_review(data)
 
     # --------------------------------------------------------
     # Validation
@@ -894,25 +763,15 @@ def main():
     print("DAY 37 COMPLETE")
     print("=" * 70)
 
-    print(
-        "Cluster profiles: output/cluster_profiles.csv"
-    )
+    print("Cluster profiles: output/cluster_profiles.csv")
 
-    print(
-        "Correlation heatmap: reports/correlation_heatmap.png"
-    )
+    print("Correlation heatmap: reports/correlation_heatmap.png")
 
-    print(
-        "Outlier report: output/outlier_report.csv"
-    )
+    print("Outlier report: output/outlier_report.csv")
 
-    print(
-        "Portfolio statistics: output/portfolio_stats.csv"
-    )
+    print("Portfolio statistics: output/portfolio_stats.csv")
 
-    print(
-        f"Outliers detected: {len(outliers)}"
-    )
+    print(f"Outliers detected: {len(outliers)}")
 
 
 if __name__ == "__main__":

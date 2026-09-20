@@ -1,0 +1,13 @@
+dataset,source_rows,duplicate_rows_removed,rows_after_deduplication,out_of_universe_rows_removed,rows_loaded,status
+analysis,20,0,20,4,16,LOADED
+balancesheet,1312,92,1220,80,1140,LOADED
+cashflow,1187,34,1153,89,1064,LOADED
+companies,92,0,92,0,92,LOADED
+documents,1585,1,1584,128,1456,LOADED
+profitandloss,1276,111,1165,91,1074,LOADED
+prosandcons,16,0,16,2,14,LOADED
+financial_ratios,1184,119,1065,24,1041,LOADED
+market_cap,552,0,552,0,552,LOADED
+peer_groups,56,0,56,0,56,LOADED
+sectors,92,0,92,0,92,LOADED
+stock_prices,5520,0,5520,0,5520,LOADED

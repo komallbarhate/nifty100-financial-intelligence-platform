@@ -1,6 +1,7 @@
-﻿from pathlib import Path
-import sys
 import sqlite3
+import sys
+from pathlib import Path
+
 import pandas as pd
 from openpyxl import load_workbook
 
@@ -24,6 +25,7 @@ checks = []
 
 
 def check(name, condition, detail=""):
+    """Process check."""
     status = "PASS" if condition else "FAIL"
     checks.append((name, condition))
     print(f"[{status}] {name}")
@@ -41,35 +43,23 @@ print()
 # DQ-01: peer_percentiles table exists
 # ------------------------------------------------------------------
 
-tables = {
-    row[0]
-    for row in conn.execute(
-        """
+tables = {row[0] for row in conn.execute("""
         SELECT name
         FROM sqlite_master
         WHERE type='table'
-        """
-    ).fetchall()
-}
+        """).fetchall()}
 
-check(
-    "DQ-01 peer_percentiles table exists",
-    "peer_percentiles" in tables
-)
+check("DQ-01 peer_percentiles table exists", "peer_percentiles" in tables)
 
 
 # ------------------------------------------------------------------
 # DQ-02: percentile row count
 # ------------------------------------------------------------------
 
-peer_rows = conn.execute(
-    "SELECT COUNT(*) FROM peer_percentiles"
-).fetchone()[0]
+peer_rows = conn.execute("SELECT COUNT(*) FROM peer_percentiles").fetchone()[0]
 
 check(
-    "DQ-02 percentile row count",
-    peer_rows == 560,
-    f"Expected 560, found {peer_rows}"
+    "DQ-02 percentile row count", peer_rows == 560, f"Expected 560, found {peer_rows}"
 )
 
 
@@ -84,7 +74,7 @@ peer_companies = conn.execute(
 check(
     "DQ-03 peer company count",
     peer_companies == 56,
-    f"Expected 56, found {peer_companies}"
+    f"Expected 56, found {peer_companies}",
 )
 
 
@@ -96,11 +86,7 @@ peer_groups = conn.execute(
     "SELECT COUNT(DISTINCT peer_group) FROM peer_percentiles"
 ).fetchone()[0]
 
-check(
-    "DQ-04 peer group count",
-    peer_groups == 11,
-    f"Expected 11, found {peer_groups}"
-)
+check("DQ-04 peer group count", peer_groups == 11, f"Expected 11, found {peer_groups}")
 
 
 # ------------------------------------------------------------------
@@ -111,44 +97,30 @@ metrics = conn.execute(
     "SELECT COUNT(DISTINCT metric) FROM peer_percentiles"
 ).fetchone()[0]
 
-check(
-    "DQ-05 metric count",
-    metrics == 10,
-    f"Expected 10, found {metrics}"
-)
+check("DQ-05 metric count", metrics == 10, f"Expected 10, found {metrics}")
 
 
 # ------------------------------------------------------------------
 # DQ-06: percentile range
 # ------------------------------------------------------------------
 
-min_pct, max_pct = conn.execute(
-    """
+min_pct, max_pct = conn.execute("""
     SELECT MIN(percentile_rank), MAX(percentile_rank)
     FROM peer_percentiles
-    """
-).fetchone()
+    """).fetchone()
 
 range_valid = (
-    min_pct is not None
-    and max_pct is not None
-    and min_pct >= 0
-    and max_pct <= 1
+    min_pct is not None and max_pct is not None and min_pct >= 0 and max_pct <= 1
 )
 
-check(
-    "DQ-06 percentile range",
-    range_valid,
-    f"Range = {min_pct} to {max_pct}"
-)
+check("DQ-06 percentile range", range_valid, f"Range = {min_pct} to {max_pct}")
 
 
 # ------------------------------------------------------------------
 # DQ-07: duplicate percentile records
 # ------------------------------------------------------------------
 
-duplicate_groups = conn.execute(
-    """
+duplicate_groups = conn.execute("""
     SELECT COUNT(*)
     FROM (
         SELECT company_id, peer_group, metric, year, COUNT(*) AS cnt
@@ -156,13 +128,12 @@ duplicate_groups = conn.execute(
         GROUP BY company_id, peer_group, metric, year
         HAVING COUNT(*) > 1
     )
-    """
-).fetchone()[0]
+    """).fetchone()[0]
 
 check(
     "DQ-07 duplicate percentile records",
     duplicate_groups == 0,
-    f"Duplicate groups = {duplicate_groups}"
+    f"Duplicate groups = {duplicate_groups}",
 )
 
 
@@ -170,8 +141,7 @@ check(
 # DQ-08: 10 metrics per company
 # ------------------------------------------------------------------
 
-metric_failures = conn.execute(
-    """
+metric_failures = conn.execute("""
     SELECT COUNT(*)
     FROM (
         SELECT company_id, COUNT(DISTINCT metric) AS metric_count
@@ -179,13 +149,12 @@ metric_failures = conn.execute(
         GROUP BY company_id
         HAVING metric_count != 10
     )
-    """
-).fetchone()[0]
+    """).fetchone()[0]
 
 check(
     "DQ-08 10 metrics per company",
     metric_failures == 0,
-    f"Companies failing = {metric_failures}"
+    f"Companies failing = {metric_failures}",
 )
 
 
@@ -193,19 +162,17 @@ check(
 # DQ-09: peer-group assignments populated
 # ------------------------------------------------------------------
 
-empty_groups = conn.execute(
-    """
+empty_groups = conn.execute("""
     SELECT COUNT(*)
     FROM peer_groups
     WHERE peer_group IS NULL
        OR TRIM(peer_group) = ''
-    """
-).fetchone()[0]
+    """).fetchone()[0]
 
 check(
     "DQ-09 peer-group assignments populated",
     empty_groups == 0,
-    f"Empty groups = {empty_groups}"
+    f"Empty groups = {empty_groups}",
 )
 
 
@@ -216,7 +183,7 @@ check(
 check(
     "DQ-10 screener_output.xlsx exists",
     SCREENER_PATH.exists(),
-    str(SCREENER_PATH.relative_to(PROJECT_ROOT))
+    str(SCREENER_PATH.relative_to(PROJECT_ROOT)),
 )
 
 
@@ -239,21 +206,15 @@ if SCREENER_PATH.exists():
     actual_screener_sheets = set(wb.sheetnames)
     wb.close()
 
-    missing_screener = sorted(
-        expected_screener_sheets - actual_screener_sheets
-    )
+    missing_screener = sorted(expected_screener_sheets - actual_screener_sheets)
 
     check(
         "DQ-11 six screener preset sheets",
         not missing_screener,
-        f"Missing = {missing_screener}"
+        f"Missing = {missing_screener}",
     )
 else:
-    check(
-        "DQ-11 six screener preset sheets",
-        False,
-        "Workbook missing"
-    )
+    check("DQ-11 six screener preset sheets", False, "Workbook missing")
 
 
 # ------------------------------------------------------------------
@@ -279,21 +240,15 @@ if PEER_PATH.exists():
     actual_peer_sheets = set(wb.sheetnames)
     wb.close()
 
-    missing_peer = sorted(
-        expected_peer_sheets - actual_peer_sheets
-    )
+    missing_peer = sorted(expected_peer_sheets - actual_peer_sheets)
 
     check(
         "DQ-12 eleven peer workbook sheets",
         not missing_peer,
-        f"Missing = {missing_peer}"
+        f"Missing = {missing_peer}",
     )
 else:
-    check(
-        "DQ-12 eleven peer workbook sheets",
-        False,
-        "Workbook missing"
-    )
+    check("DQ-12 eleven peer workbook sheets", False, "Workbook missing")
 
 
 # ------------------------------------------------------------------
@@ -301,38 +256,28 @@ else:
 # ------------------------------------------------------------------
 
 if RADAR_DIR.exists():
-    radar_count = len(
-        list(RADAR_DIR.glob("*.png"))
-    )
+    radar_count = len(list(RADAR_DIR.glob("*.png")))
 else:
     radar_count = 0
 
-check(
-    "DQ-13 radar chart count",
-    radar_count == 56,
-    f"Expected 56, found {radar_count}"
-)
+check("DQ-13 radar chart count", radar_count == 56, f"Expected 56, found {radar_count}")
 
 
 # ------------------------------------------------------------------
 # DQ-14: database integrity and foreign keys
 # ------------------------------------------------------------------
 
-integrity = conn.execute(
-    "PRAGMA integrity_check"
-).fetchone()[0]
+integrity = conn.execute("PRAGMA integrity_check").fetchone()[0]
 
 try:
-    foreign_key_errors = conn.execute(
-        "PRAGMA foreign_key_check"
-    ).fetchall()
+    foreign_key_errors = conn.execute("PRAGMA foreign_key_check").fetchall()
 except sqlite3.DatabaseError:
     foreign_key_errors = [("foreign_key_check_error",)]
 
 check(
     "DQ-14 database integrity",
     integrity == "ok" and len(foreign_key_errors) == 0,
-    f"integrity={integrity}, FK failures={len(foreign_key_errors)}"
+    f"integrity={integrity}, FK failures={len(foreign_key_errors)}",
 )
 
 
@@ -361,41 +306,23 @@ try:
 
     quality = results["quality_compounder"].copy()
 
-    top5 = quality.sort_values(
-        "sprint3_composite_score",
-        ascending=False
-    ).head(5)
+    top5 = quality.sort_values("sprint3_composite_score", ascending=False).head(5)
 
-    quality_valid = (
-        len(top5) == 5
-        and (top5["return_on_equity_pct"] > 15).all()
-    )
+    quality_valid = len(top5) == 5 and (top5["return_on_equity_pct"] > 15).all()
 
-    non_financial = ~(
-        top5["sector"]
-        .astype(str)
-        .str.strip()
-        .eq("Financials")
-    )
+    non_financial = ~(top5["sector"].astype(str).str.strip().eq("Financials"))
 
-    debt_valid = (
-        (top5.loc[non_financial, "debt_to_equity"] < 1)
-        .all()
-    )
+    debt_valid = (top5.loc[non_financial, "debt_to_equity"] < 1).all()
 
     check(
         "Acceptance-01 Quality Compounder top 5",
         quality_valid and debt_valid,
-        f"Top 5 companies = {top5['company_id'].tolist()}"
+        f"Top 5 companies = {top5['company_id'].tolist()}",
     )
 
 except Exception as exc:
 
-    check(
-        "Acceptance-01 Quality Compounder top 5",
-        False,
-        str(exc)
-    )
+    check("Acceptance-01 Quality Compounder top 5", False, str(exc))
 
 
 # ------------------------------------------------------------------
@@ -413,30 +340,23 @@ it_data = pd.read_sql_query(
     WHERE pp.peer_group = 'IT Services'
       AND pp.metric = 'roe'
     """,
-    conn
+    conn,
 )
 
 if not it_data.empty:
 
     max_roe = it_data["value"].max()
 
-    highest_roe = it_data[
-        it_data["value"] == max_roe
-    ]
+    highest_roe = it_data[it_data["value"] == max_roe]
 
-    highest_percentile = (
-        it_data["percentile_rank"].max()
-    )
+    highest_percentile = it_data["percentile_rank"].max()
 
-    it_valid = (
-        (highest_roe["percentile_rank"] == highest_percentile)
-        .all()
-    )
+    it_valid = (highest_roe["percentile_rank"] == highest_percentile).all()
 
     check(
         "Acceptance-02 IT Services ROE percentile",
         it_valid,
-        f"Highest ROE={max_roe}, highest percentile={highest_percentile}"
+        f"Highest ROE={max_roe}, highest percentile={highest_percentile}",
     )
 
 else:
@@ -444,7 +364,7 @@ else:
     check(
         "Acceptance-02 IT Services ROE percentile",
         False,
-        "No IT Services ROE data found"
+        "No IT Services ROE data found",
     )
 
 
@@ -454,10 +374,7 @@ else:
 
 conn.close()
 
-passed = sum(
-    1 for _, condition in checks
-    if condition
-)
+passed = sum(1 for _, condition in checks if condition)
 
 total = len(checks)
 

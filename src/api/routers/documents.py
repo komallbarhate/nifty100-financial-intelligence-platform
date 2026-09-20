@@ -1,5 +1,5 @@
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 from fastapi import APIRouter, Query
 
@@ -10,6 +10,7 @@ DB_PATH = BASE_DIR / "data" / "nifty100.db"
 
 
 def get_connection():
+    """Return connection."""
     if not DB_PATH.exists():
         raise RuntimeError(f"Database not found: {DB_PATH}")
 
@@ -23,6 +24,7 @@ def search_documents(
     company_id: str | None = Query(default=None),
     year: int | None = Query(default=None),
 ):
+    """Process search documents."""
     connection = get_connection()
 
     try:

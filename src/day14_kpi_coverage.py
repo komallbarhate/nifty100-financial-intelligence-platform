@@ -1,4 +1,5 @@
 ﻿import sqlite3
+
 import pandas as pd
 
 DB_PATH = "data/nifty100.db"
@@ -9,10 +10,7 @@ print("=" * 80)
 print("DAY 14 - KPI COVERAGE VALIDATION")
 print("=" * 80)
 
-df = pd.read_sql_query(
-    "SELECT * FROM financial_ratios",
-    conn
-)
+df = pd.read_sql_query("SELECT * FROM financial_ratios", conn)
 
 print("\n1. RATIO TABLE")
 print("-" * 80)
@@ -58,23 +56,22 @@ results = []
 
 for kpi in kpis:
     if kpi not in df.columns:
-        results.append({
-            "kpi": kpi,
-            "non_null": 0,
-            "population_pct": 0,
-            "status": "MISSING COLUMN"
-        })
+        results.append(
+            {"kpi": kpi, "non_null": 0, "population_pct": 0, "status": "MISSING COLUMN"}
+        )
         continue
 
     non_null = int(df[kpi].notna().sum())
     population_pct = round(non_null / len(df) * 100, 2)
 
-    results.append({
-        "kpi": kpi,
-        "non_null": non_null,
-        "population_pct": population_pct,
-        "status": "PASS" if non_null > 0 else "FAIL"
-    })
+    results.append(
+        {
+            "kpi": kpi,
+            "non_null": non_null,
+            "population_pct": population_pct,
+            "status": "PASS" if non_null > 0 else "FAIL",
+        }
+    )
 
 coverage = pd.DataFrame(results)
 
@@ -99,10 +96,7 @@ key_kpis = [
 
 for kpi in key_kpis:
     if kpi in df.columns:
-        print(
-            f"{kpi:35} "
-            f"{df[kpi].notna().sum():4}/{len(df)}"
-        )
+        print(f"{kpi:35} " f"{df[kpi].notna().sum():4}/{len(df)}")
 
 print("\n4. FINANCIAL RATIOS TABLE COLUMNS")
 print("-" * 80)

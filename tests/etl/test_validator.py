@@ -17,10 +17,10 @@ from src.etl.validator import (
     dq16_year_coverage,
 )
 
-
 # ============================================================
 # DQ-01 PRIMARY KEY
 # ============================================================
+
 
 def test_dq01_detects_duplicate_company_id():
     df = pd.DataFrame(
@@ -63,6 +63,7 @@ def test_dq01_no_failure_for_unique_ids():
 # ============================================================
 # DQ-02 COMPANY-YEAR UNIQUENESS
 # ============================================================
+
 
 def test_dq02_detects_duplicate_business_key():
     df = pd.DataFrame(
@@ -109,6 +110,7 @@ def test_dq02_allows_different_years():
 # ============================================================
 # DQ-03 FOREIGN KEYS
 # ============================================================
+
 
 def test_dq03_detects_missing_company_id():
     datasets = {
@@ -165,6 +167,7 @@ def test_dq03_accepts_known_company():
 # DQ-05 OPM CROSS-CHECK
 # ============================================================
 
+
 def test_dq05_detects_opm_mismatch():
     datasets = {
         "profitandloss": pd.DataFrame(
@@ -215,6 +218,7 @@ def test_dq05_accepts_correct_opm():
 # DQ-06 POSITIVE SALES
 # ============================================================
 
+
 def test_dq06_detects_negative_sales():
     datasets = {
         "profitandloss": pd.DataFrame(
@@ -263,6 +267,7 @@ def test_dq06_accepts_positive_sales():
 # DQ-07 NET CASH
 # ============================================================
 
+
 def test_dq07_is_currently_noop():
     failures = []
 
@@ -277,6 +282,7 @@ def test_dq07_is_currently_noop():
 # ============================================================
 # DQ-09 TAX RATE
 # ============================================================
+
 
 def test_dq09_detects_invalid_tax_rate():
     datasets = {
@@ -322,6 +328,7 @@ def test_dq09_accepts_valid_tax_rate():
 # DQ-10 DIVIDEND CAP
 # ============================================================
 
+
 def test_dq10_is_currently_noop():
     failures = []
 
@@ -336,6 +343,7 @@ def test_dq10_is_currently_noop():
 # ============================================================
 # DQ-11 URL VALIDATION
 # ============================================================
+
 
 def test_dq11_detects_invalid_url():
     datasets = {
@@ -380,6 +388,7 @@ def test_dq11_accepts_valid_url():
 # ============================================================
 # DQ-12 TO DQ-16 CURRENT NO-OP RULES
 # ============================================================
+
 
 def test_dq12_is_currently_noop():
     failures = []

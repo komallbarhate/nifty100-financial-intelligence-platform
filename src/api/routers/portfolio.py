@@ -1,5 +1,5 @@
-from pathlib import Path
 import csv
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
@@ -11,6 +11,7 @@ STATS_PATH = BASE_DIR / "output" / "portfolio_stats.csv"
 
 @router.get("/stats")
 def portfolio_statistics():
+    """Process portfolio statistics."""
     if not STATS_PATH.exists():
         raise HTTPException(
             status_code=404,

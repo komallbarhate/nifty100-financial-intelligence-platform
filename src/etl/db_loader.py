@@ -1,8 +1,8 @@
-from pathlib import Path
-import sqlite3
 import re
-import pandas as pd
+import sqlite3
+from pathlib import Path
 
+import pandas as pd
 
 # ============================================================
 # PATHS
@@ -20,45 +20,35 @@ AUDIT_PATH = PROJECT_ROOT / "output" / "load_audit.csv"
 # FILE HELPERS
 # ============================================================
 
+
 def find_excel_file(folder, keyword):
+    """Find excel file."""
     files = list(folder.glob("*.xlsx"))
 
-    matches = [
-        file
-        for file in files
-        if keyword.lower() in file.name.lower()
-    ]
+    matches = [file for file in files if keyword.lower() in file.name.lower()]
 
     if not matches:
-        raise FileNotFoundError(
-            f"Could not find Excel file for: {keyword}"
-        )
+        raise FileNotFoundError(f"Could not find Excel file for: {keyword}")
 
     return matches[0]
 
 
 def load_excel(folder, keyword, header):
-    file_path = find_excel_file(
-        folder,
-        keyword
-    )
+    """Load excel."""
+    file_path = find_excel_file(folder, keyword)
 
-    print(
-        f"Loading {keyword}: "
-        f"{file_path.name}"
-    )
+    print(f"Loading {keyword}: " f"{file_path.name}")
 
-    return pd.read_excel(
-        file_path,
-        header=header
-    )
+    return pd.read_excel(file_path, header=header)
 
 
 # ============================================================
 # NORMALIZATION
 # ============================================================
 
+
 def normalize_columns(df):
+    """Normalize columns."""
     df = df.copy()
 
     df.columns = (
@@ -74,6 +64,7 @@ def normalize_columns(df):
 
 
 def normalize_company_id(value):
+    """Normalize company id."""
     if pd.isna(value):
         return None
 
@@ -82,31 +73,20 @@ def normalize_company_id(value):
     if not value:
         return None
 
-    value = re.sub(
-        r"\.(NS|BO)$",
-        "",
-        value
-    )
+    value = re.sub(r"\.(NS|BO)$", "", value)
 
-    value = re.sub(
-        r"[-_](BSE|NSE)$",
-        "",
-        value
-    )
+    value = re.sub(r"[-_](BSE|NSE)$", "", value)
 
     if value == "AGTL":
         value = "ATGL"
 
-    value = re.sub(
-        r"[^A-Z0-9&]",
-        "",
-        value
-    )
+    value = re.sub(r"[^A-Z0-9&]", "", value)
 
     return value
 
 
 def normalize_year(value):
+    """Normalize year."""
     if pd.isna(value):
         return None
 
@@ -118,10 +98,7 @@ def normalize_year(value):
     if not value:
         return None
 
-    match = re.search(
-        r"\b(19|20)\d{2}\b",
-        value
-    )
+    match = re.search(r"\b(19|20)\d{2}\b", value)
 
     if match:
         return int(match.group(0))
@@ -139,6 +116,7 @@ def normalize_year(value):
 
 
 def extract_period(value):
+    """Process extract period."""
     if pd.isna(value):
         return "FY"
 
@@ -148,11 +126,9 @@ def extract_period(value):
         return "FY"
 
     match = re.search(
-        r"\b("
-        r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec"
-        r")[a-z]*",
+        r"\b(" r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec" r")[a-z]*",
         text,
-        re.IGNORECASE
+        re.IGNORECASE,
     )
 
     if match:
@@ -201,7 +177,7 @@ def is_annual_period(value):
             r"jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec"
             r")[a-z]*[-\s/]?(?:19|20)?\d{2}\b",
             text,
-            re.IGNORECASE
+            re.IGNORECASE,
         )
     )
 
@@ -210,7 +186,9 @@ def is_annual_period(value):
 # DATAFRAME PREPARATION
 # ============================================================
 
+
 def prepare_dataframe(df):
+    """Process prepare dataframe."""
     df = normalize_columns(df)
 
     # --------------------------------------------------------
@@ -220,15 +198,9 @@ def prepare_dataframe(df):
     if "year" in df.columns:
         df["_raw_year"] = df["year"].copy()
 
-        df["_period"] = (
-            df["_raw_year"]
-            .apply(extract_period)
-        )
+        df["_period"] = df["_raw_year"].apply(extract_period)
 
-        df["_normalized_year"] = (
-            df["_raw_year"]
-            .apply(normalize_year)
-        )
+        df["_normalized_year"] = df["_raw_year"].apply(normalize_year)
 
         df["year"] = df["_normalized_year"]
 
@@ -236,41 +208,27 @@ def prepare_dataframe(df):
     # Company ID normalization
     # --------------------------------------------------------
 
-    for column in [
-        "company_id",
-        "ticker",
-        "symbol",
-        "stock_ticker"
-    ]:
+    for column in ["company_id", "ticker", "symbol", "stock_ticker"]:
 
         if column in df.columns:
-            df[column] = (
-                df[column]
-                .apply(normalize_company_id)
-            )
+            df[column] = df[column].apply(normalize_company_id)
 
     # Companies master uses id
     if "id" in df.columns:
-        df["id"] = (
-            df["id"]
-            .apply(normalize_company_id)
-        )
+        df["id"] = df["id"].apply(normalize_company_id)
 
     # --------------------------------------------------------
     # Column aliases
     # --------------------------------------------------------
 
-    if "equity_capital" in df.columns:
-        if "share_capital" not in df.columns:
-            df["share_capital"] = df["equity_capital"]
+    if "equity_capital" in df.columns and "share_capital" not in df.columns:
+        df["share_capital"] = df["equity_capital"]
 
-    if "other_asset" in df.columns:
-        if "other_assets" not in df.columns:
-            df["other_assets"] = df["other_asset"]
+    if "other_asset" in df.columns and "other_assets" not in df.columns:
+        df["other_assets"] = df["other_asset"]
 
     if "dividend_payout" in df.columns:
-        if "dividend_payout" not in df.columns:
-            df["dividend_payout"] = df["dividend_payout"]
+        df["dividend_payout"] = df["dividend_payout"]
 
     return df
 
@@ -279,7 +237,9 @@ def prepare_dataframe(df):
 # BUSINESS KEY DEDUPLICATION
 # ============================================================
 
+
 def add_business_key(df):
+    """Process add business key."""
     df = df.copy()
 
     if "company_id" not in df.columns:
@@ -292,20 +252,11 @@ def add_business_key(df):
     else:
         return df
 
-    df["_business_company_id"] = (
-        df["company_id"]
-        .apply(normalize_company_id)
-    )
+    df["_business_company_id"] = df["company_id"].apply(normalize_company_id)
 
-    df["_business_year"] = (
-        raw_year
-        .apply(normalize_year)
-    )
+    df["_business_year"] = raw_year.apply(normalize_year)
 
-    df["_business_period"] = (
-        raw_year
-        .apply(extract_period)
-    )
+    df["_business_period"] = raw_year.apply(extract_period)
 
     df["_business_key"] = (
         df["_business_company_id"].astype(str)
@@ -319,15 +270,13 @@ def add_business_key(df):
 
 
 def deduplicate_dataframe(name, df):
+    """Process deduplicate dataframe."""
     before = len(df)
 
     if name == "companies":
 
         if "id" in df.columns:
-            df = df.drop_duplicates(
-                subset=["id"],
-                keep="first"
-            )
+            df = df.drop_duplicates(subset=["id"], keep="first")
 
     elif "company_id" in df.columns:
 
@@ -335,31 +284,22 @@ def deduplicate_dataframe(name, df):
 
         if "_business_key" in df.columns:
 
-            df = df.drop_duplicates(
-                subset=["_business_key"],
-                keep="first"
-            )
+            df = df.drop_duplicates(subset=["_business_key"], keep="first")
 
     else:
 
-        df = df.drop_duplicates(
-            keep="first"
-        )
+        df = df.drop_duplicates(keep="first")
 
     helper_columns = [
         "_business_company_id",
         "_business_year",
         "_business_period",
-        "_business_key"
+        "_business_key",
     ]
 
     df = df.drop(
-        columns=[
-            column
-            for column in helper_columns
-            if column in df.columns
-        ],
-        errors="ignore"
+        columns=[column for column in helper_columns if column in df.columns],
+        errors="ignore",
     )
 
     after = len(df)
@@ -371,8 +311,9 @@ def deduplicate_dataframe(name, df):
 # DATASET LOADING
 # ============================================================
 
-def load_all_datasets():
 
+def load_all_datasets():
+    """Load all datasets."""
     datasets = {}
 
     core = {
@@ -395,23 +336,11 @@ def load_all_datasets():
 
     for name, header in core.items():
 
-        datasets[name] = prepare_dataframe(
-            load_excel(
-                RAW_DIR,
-                name,
-                header
-            )
-        )
+        datasets[name] = prepare_dataframe(load_excel(RAW_DIR, name, header))
 
     for name, header in supporting.items():
 
-        datasets[name] = prepare_dataframe(
-            load_excel(
-                SUPPORTING_DIR,
-                name,
-                header
-            )
-        )
+        datasets[name] = prepare_dataframe(load_excel(SUPPORTING_DIR, name, header))
 
     return datasets
 
@@ -420,15 +349,12 @@ def load_all_datasets():
 # FILTER OUT-OF-UNIVERSE COMPANIES
 # ============================================================
 
-def filter_to_master_universe(datasets):
 
+def filter_to_master_universe(datasets):
+    """Process filter to master universe."""
     master = datasets["companies"]
 
-    master_ids = set(
-        master["id"]
-        .dropna()
-        .apply(normalize_company_id)
-    )
+    master_ids = set(master["id"].dropna().apply(normalize_company_id))
 
     filtered = {}
 
@@ -444,19 +370,12 @@ def filter_to_master_universe(datasets):
 
         before = len(df)
 
-        df = df[
-            df["company_id"]
-            .apply(normalize_company_id)
-            .isin(master_ids)
-        ].copy()
+        df = df[df["company_id"].apply(normalize_company_id).isin(master_ids)].copy()
 
         removed = before - len(df)
 
         if removed > 0:
-            print(
-                f"{name}: removed "
-                f"{removed} out-of-universe rows"
-            )
+            print(f"{name}: removed " f"{removed} out-of-universe rows")
 
         filtered[name] = df
 
@@ -468,7 +387,6 @@ def filter_to_master_universe(datasets):
 # ============================================================
 
 TABLE_COLUMNS = {
-
     "companies": [
         "id",
         "company_logo",
@@ -481,9 +399,8 @@ TABLE_COLUMNS = {
         "face_value",
         "book_value",
         "roce_percentage",
-        "roe_percentage"
+        "roe_percentage",
     ],
-
     "profitandloss": [
         "id",
         "company_id",
@@ -499,9 +416,8 @@ TABLE_COLUMNS = {
         "tax_percentage",
         "net_profit",
         "eps",
-        "dividend_payout"
+        "dividend_payout",
     ],
-
     "balancesheet": [
         "id",
         "company_id",
@@ -515,9 +431,8 @@ TABLE_COLUMNS = {
         "cwip",
         "investments",
         "other_assets",
-        "total_assets"
+        "total_assets",
     ],
-
     "cashflow": [
         "id",
         "company_id",
@@ -525,31 +440,11 @@ TABLE_COLUMNS = {
         "operating_activity",
         "investing_activity",
         "financing_activity",
-        "net_cash_flow"
+        "net_cash_flow",
     ],
-
-    "analysis": [
-        "id",
-        "company_id",
-        "year",
-        "metric",
-        "value"
-    ],
-
-    "documents": [
-        "id",
-        "company_id",
-        "year",
-        "document"
-    ],
-
-    "prosandcons": [
-        "id",
-        "company_id",
-        "pros",
-        "cons"
-    ],
-
+    "analysis": ["id", "company_id", "year", "metric", "value"],
+    "documents": ["id", "company_id", "year", "document"],
+    "prosandcons": ["id", "company_id", "pros", "cons"],
     "financial_ratios": [
         "id",
         "company_id",
@@ -564,29 +459,11 @@ TABLE_COLUMNS = {
         "interest_coverage",
         "opm",
         "npm",
-        "eps"
+        "eps",
     ],
-
-    "market_cap": [
-        "id",
-        "company_id",
-        "date",
-        "market_cap"
-    ],
-
-    "peer_groups": [
-        "id",
-        "company_id",
-        "peer_group"
-    ],
-
-    "sectors": [
-        "id",
-        "company_id",
-        "sector",
-        "industry"
-    ],
-
+    "market_cap": ["id", "company_id", "date", "market_cap"],
+    "peer_groups": ["id", "company_id", "peer_group"],
+    "sectors": ["id", "company_id", "sector", "industry"],
     "stock_prices": [
         "id",
         "company_id",
@@ -595,13 +472,13 @@ TABLE_COLUMNS = {
         "high",
         "low",
         "close",
-        "volume"
-    ]
+        "volume",
+    ],
 }
 
 
 def clean_for_sqlite(df, columns):
-
+    """Process clean for sqlite."""
     df = df.copy()
 
     for column in columns:
@@ -613,50 +490,27 @@ def clean_for_sqlite(df, columns):
 
     df = df.astype(object)
 
-    df = df.where(
-        pd.notna(df),
-        None
-    )
+    df = df.where(pd.notna(df), None)
 
     return df
 
 
 def insert_dataset(connection, name, df):
-
+    """Process insert dataset."""
     columns = TABLE_COLUMNS[name]
 
-    df = clean_for_sqlite(
-        df,
-        columns
-    )
+    df = clean_for_sqlite(df, columns)
 
-    placeholders = ",".join(
-        ["?"] * len(columns)
-    )
+    placeholders = ",".join(["?"] * len(columns))
 
-    column_sql = ",".join(
-        [f'"{column}"' for column in columns]
-    )
+    column_sql = ",".join([f'"{column}"' for column in columns])
 
-    sql = (
-        f'INSERT INTO "{name}" '
-        f'({column_sql}) '
-        f'VALUES ({placeholders})'
-    )
+    sql = f'INSERT INTO "{name}" ' f"({column_sql}) " f"VALUES ({placeholders})"
 
-    rows = [
-        tuple(row)
-        for row in df.itertuples(
-            index=False,
-            name=None
-        )
-    ]
+    rows = [tuple(row) for row in df.itertuples(index=False, name=None)]
 
     if rows:
-        connection.executemany(
-            sql,
-            rows
-        )
+        connection.executemany(sql, rows)
 
     return len(rows)
 
@@ -665,8 +519,9 @@ def insert_dataset(connection, name, df):
 # MAIN
 # ============================================================
 
-def main():
 
+def main():
+    """Run the main workflow."""
     print("=" * 70)
     print("NIFTY 100 SQLITE DATA LOADER")
     print("=" * 70)
@@ -674,23 +529,13 @@ def main():
     if DB_PATH.exists():
         DB_PATH.unlink()
 
-    DB_PATH.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    connection = sqlite3.connect(
-        DB_PATH
-    )
+    connection = sqlite3.connect(DB_PATH)
 
-    connection.execute(
-        "PRAGMA foreign_keys = ON"
-    )
+    connection.execute("PRAGMA foreign_keys = ON")
 
-    with open(
-        PROJECT_ROOT / "db" / "schema.sql",
-        encoding="utf-8"
-    ) as file:
+    with open(PROJECT_ROOT / "db" / "schema.sql", encoding="utf-8") as file:
 
         schema = file.read()
 
@@ -708,24 +553,21 @@ def main():
 
     for name, df in datasets.items():
 
-        cleaned_df, removed = (
-            deduplicate_dataframe(
-                name,
-                df
-            )
-        )
+        cleaned_df, removed = deduplicate_dataframe(name, df)
 
         cleaned[name] = cleaned_df
 
-        audit.append({
-            "dataset": name,
-            "source_rows": len(df),
-            "duplicate_rows_removed": removed,
-            "rows_after_deduplication": len(cleaned_df),
-            "out_of_universe_rows_removed": 0,
-            "rows_loaded": 0,
-            "status": "PENDING"
-        })
+        audit.append(
+            {
+                "dataset": name,
+                "source_rows": len(df),
+                "duplicate_rows_removed": removed,
+                "rows_after_deduplication": len(cleaned_df),
+                "out_of_universe_rows_removed": 0,
+                "rows_loaded": 0,
+                "status": "PENDING",
+            }
+        )
 
     datasets = cleaned
 
@@ -733,17 +575,14 @@ def main():
     print("FILTERING TO MASTER UNIVERSE")
     print("=" * 70)
 
-    datasets = filter_to_master_universe(
-        datasets
-    )
+    datasets = filter_to_master_universe(datasets)
 
     for row in audit:
 
         name = row["dataset"]
 
-        row["out_of_universe_rows_removed"] = (
-            row["rows_after_deduplication"]
-            - len(datasets[name])
+        row["out_of_universe_rows_removed"] = row["rows_after_deduplication"] - len(
+            datasets[name]
         )
 
     # ========================================================
@@ -762,7 +601,7 @@ def main():
         "prosandcons",
         "financial_ratios",
         "market_cap",
-        "stock_prices"
+        "stock_prices",
     ]
 
     print("\n" + "=" * 70)
@@ -773,11 +612,7 @@ def main():
 
         for name in load_order:
 
-            rows_loaded = insert_dataset(
-                connection,
-                name,
-                datasets[name]
-            )
+            rows_loaded = insert_dataset(connection, name, datasets[name])
 
             for row in audit:
 
@@ -786,10 +621,7 @@ def main():
                     row["rows_loaded"] = rows_loaded
                     row["status"] = "LOADED"
 
-            print(
-                f"{name:<20} "
-                f"{rows_loaded:>6} rows"
-            )
+            print(f"{name:<20} " f"{rows_loaded:>6} rows")
 
         connection.commit()
 
@@ -804,18 +636,13 @@ def main():
 
         raise
 
-    fk_result = connection.execute(
-        "PRAGMA foreign_key_check"
-    ).fetchall()
+    fk_result = connection.execute("PRAGMA foreign_key_check").fetchall()
 
     print("\n" + "=" * 70)
     print("FOREIGN KEY CHECK")
     print("=" * 70)
 
-    print(
-        f"Foreign key violations: "
-        f"{len(fk_result)}"
-    )
+    print(f"Foreign key violations: " f"{len(fk_result)}")
 
     print("\n" + "=" * 70)
     print("DATABASE ROW COUNTS")
@@ -823,25 +650,15 @@ def main():
 
     for name in load_order:
 
-        count = connection.execute(
-            f'SELECT COUNT(*) FROM "{name}"'
-        ).fetchone()[0]
+        count = connection.execute(f'SELECT COUNT(*) FROM "{name}"').fetchone()[0]
 
-        print(
-            f"{name:<20} {count:>6}"
-        )
+        print(f"{name:<20} {count:>6}")
 
     audit_df = pd.DataFrame(audit)
 
-    AUDIT_PATH.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    audit_df.to_csv(
-        AUDIT_PATH,
-        index=False
-    )
+    audit_df.to_csv(AUDIT_PATH, index=False)
 
     connection.close()
 
@@ -849,18 +666,11 @@ def main():
     print("LOAD COMPLETE")
     print("=" * 70)
 
-    print(
-        f"Database: {DB_PATH}"
-    )
+    print(f"Database: {DB_PATH}")
 
-    print(
-        f"Audit: {AUDIT_PATH}"
-    )
+    print(f"Audit: {AUDIT_PATH}")
 
-    print(
-        f"Foreign key violations: "
-        f"{len(fk_result)}"
-    )
+    print(f"Foreign key violations: " f"{len(fk_result)}")
 
 
 if __name__ == "__main__":

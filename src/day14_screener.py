@@ -1,5 +1,6 @@
 ﻿import sqlite3
 from pathlib import Path
+
 import pandas as pd
 
 DB_PATH = "data/nifty100.db"
@@ -9,7 +10,8 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
 
 # Use latest available year for each company.
-df = pd.read_sql_query("""
+df = pd.read_sql_query(
+    """
 WITH latest AS (
     SELECT
         company_id,
@@ -61,7 +63,9 @@ LEFT JOIN companies c
     ON r.company_id = c.id
 
 ORDER BY r.composite_quality_score DESC
-""", conn)
+""",
+    conn,
+)
 
 print("=" * 80)
 print("DAY 14 - FINANCIAL SCREENER")
@@ -75,15 +79,10 @@ print("Companies:", df["company_id"].nunique())
 # -------------------------------------------------------------------
 
 profitability = df[
-    (df["return_on_equity_pct"] > 15)
-    &
-    (df["net_profit_margin_pct"] > 10)
+    (df["return_on_equity_pct"] > 15) & (df["net_profit_margin_pct"] > 10)
 ].copy()
 
-profitability = profitability.sort_values(
-    "composite_quality_score",
-    ascending=False
-)
+profitability = profitability.sort_values("composite_quality_score", ascending=False)
 
 # -------------------------------------------------------------------
 # SCREEN 2 — GROWTH
@@ -91,89 +90,51 @@ profitability = profitability.sort_values(
 
 growth = df[
     (df["revenue_cagr_5yr"].notna())
-    &
-    (df["revenue_cagr_5yr"] > 10)
-    &
-    (df["pat_cagr_5yr"].notna())
-    &
-    (df["pat_cagr_5yr"] > 10)
+    & (df["revenue_cagr_5yr"] > 10)
+    & (df["pat_cagr_5yr"].notna())
+    & (df["pat_cagr_5yr"] > 10)
 ].copy()
 
-growth = growth.sort_values(
-    "revenue_cagr_5yr",
-    ascending=False
-)
+growth = growth.sort_values("revenue_cagr_5yr", ascending=False)
 
 # -------------------------------------------------------------------
 # SCREEN 3 — BALANCE SHEET
 # -------------------------------------------------------------------
 
 balance_sheet = df[
-    (
-        df["debt_to_equity"].isna()
-        |
-        (df["debt_to_equity"] < 2)
-    )
-    &
-    (
-        df["interest_coverage"].isna()
-        |
-        (df["interest_coverage"] > 3)
-    )
+    (df["debt_to_equity"].isna() | (df["debt_to_equity"] < 2))
+    & (df["interest_coverage"].isna() | (df["interest_coverage"] > 3))
 ].copy()
 
-balance_sheet = balance_sheet.sort_values(
-    "composite_quality_score",
-    ascending=False
-)
+balance_sheet = balance_sheet.sort_values("composite_quality_score", ascending=False)
 
 # -------------------------------------------------------------------
 # SCREEN 4 — CASH FLOW
 # -------------------------------------------------------------------
 
 cashflow = df[
-    (df["free_cash_flow_cr"] > 0)
-    &
-    (df["cash_from_operations_cr"] > 0)
+    (df["free_cash_flow_cr"] > 0) & (df["cash_from_operations_cr"] > 0)
 ].copy()
 
-cashflow = cashflow.sort_values(
-    "composite_quality_score",
-    ascending=False
-)
+cashflow = cashflow.sort_values("composite_quality_score", ascending=False)
 
 # -------------------------------------------------------------------
 # SAVE SCREEN RESULTS
 # -------------------------------------------------------------------
 
-profitability.to_csv(
-    OUTPUT_DIR / "screener_profitability.csv",
-    index=False
-)
+profitability.to_csv(OUTPUT_DIR / "screener_profitability.csv", index=False)
 
-growth.to_csv(
-    OUTPUT_DIR / "screener_growth.csv",
-    index=False
-)
+growth.to_csv(OUTPUT_DIR / "screener_growth.csv", index=False)
 
-balance_sheet.to_csv(
-    OUTPUT_DIR / "screener_balance_sheet.csv",
-    index=False
-)
+balance_sheet.to_csv(OUTPUT_DIR / "screener_balance_sheet.csv", index=False)
 
-cashflow.to_csv(
-    OUTPUT_DIR / "screener_cashflow.csv",
-    index=False
-)
+cashflow.to_csv(OUTPUT_DIR / "screener_cashflow.csv", index=False)
 
 # -------------------------------------------------------------------
 # 5-COMPANY DEMO
 # -------------------------------------------------------------------
 
-demo = df.sort_values(
-    "composite_quality_score",
-    ascending=False
-).head(5).copy()
+demo = df.sort_values("composite_quality_score", ascending=False).head(5).copy()
 
 demo_columns = [
     "company_id",
@@ -194,10 +155,7 @@ demo_columns = [
 
 demo = demo[demo_columns]
 
-demo.to_csv(
-    OUTPUT_DIR / "day14_five_company_demo.csv",
-    index=False
-)
+demo.to_csv(OUTPUT_DIR / "day14_five_company_demo.csv", index=False)
 
 # -------------------------------------------------------------------
 # PRINT RESULTS
@@ -215,7 +173,9 @@ print(
             "net_profit_margin_pct",
             "composite_quality_score",
         ]
-    ].head(10).to_string(index=False)
+    ]
+    .head(10)
+    .to_string(index=False)
 )
 
 print("\n2. GROWTH SCREEN")
@@ -230,7 +190,9 @@ print(
             "pat_cagr_5yr",
             "eps_cagr_5yr",
         ]
-    ].head(10).to_string(index=False)
+    ]
+    .head(10)
+    .to_string(index=False)
 )
 
 print("\n3. BALANCE-SHEET SCREEN")
@@ -245,7 +207,9 @@ print(
             "interest_coverage",
             "composite_quality_score",
         ]
-    ].head(10).to_string(index=False)
+    ]
+    .head(10)
+    .to_string(index=False)
 )
 
 print("\n4. CASH-FLOW SCREEN")
@@ -260,7 +224,9 @@ print(
             "cash_from_operations_cr",
             "composite_quality_score",
         ]
-    ].head(10).to_string(index=False)
+    ]
+    .head(10)
+    .to_string(index=False)
 )
 
 print("\n5. FIVE-COMPANY DEMO")
@@ -278,9 +244,7 @@ for filename in [
     "day14_five_company_demo.csv",
 ]:
     path = OUTPUT_DIR / filename
-    print(
-        f"{'PASS' if path.exists() else 'FAIL'} - {path}"
-    )
+    print(f"{'PASS' if path.exists() else 'FAIL'} - {path}")
 
 conn.close()
 

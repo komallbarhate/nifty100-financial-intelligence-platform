@@ -2,13 +2,13 @@ from fastapi.testclient import TestClient
 
 from src.api.main import app
 
-
 client = TestClient(app)
 
 
 # ---------------------------------------------------------------------------
 # BASIC API / HEALTH
 # ---------------------------------------------------------------------------
+
 
 def test_root():
     response = client.get("/")
@@ -59,6 +59,7 @@ def test_system_health():
 # ---------------------------------------------------------------------------
 # COMPANIES
 # ---------------------------------------------------------------------------
+
 
 def test_list_companies():
     response = client.get("/api/v1/companies/")
@@ -174,6 +175,7 @@ def test_company_documents():
 # SCREENER
 # ---------------------------------------------------------------------------
 
+
 def test_screener():
     response = client.get("/api/v1/screener/")
     assert response.status_code == 200
@@ -229,6 +231,7 @@ def test_screener_roe_filter():
 # SECTORS
 # ---------------------------------------------------------------------------
 
+
 def test_list_sectors():
     response = client.get("/api/v1/sectors/")
     assert response.status_code == 200
@@ -250,9 +253,7 @@ def test_sector_detail():
 
 
 def test_sector_summary():
-    response = client.get(
-        "/api/v1/sectors/Information%20Technology/summary"
-    )
+    response = client.get("/api/v1/sectors/Information%20Technology/summary")
 
     assert response.status_code == 200
 
@@ -264,6 +265,7 @@ def test_sector_summary():
 # ---------------------------------------------------------------------------
 # PEERS
 # ---------------------------------------------------------------------------
+
 
 def test_peer_comparison():
     response = client.get("/api/v1/peers/BAJAJAUTO")
@@ -284,6 +286,7 @@ def test_peer_comparison_missing_company():
 # ---------------------------------------------------------------------------
 # VALUATION
 # ---------------------------------------------------------------------------
+
 
 def test_market_cap():
     response = client.get("/api/v1/valuation/market-cap")
@@ -312,6 +315,7 @@ def test_company_market_cap():
 # PORTFOLIO
 # ---------------------------------------------------------------------------
 
+
 def test_portfolio_stats():
     response = client.get("/api/v1/portfolio/stats")
     assert response.status_code == 200
@@ -326,6 +330,7 @@ def test_portfolio_stats():
 # ---------------------------------------------------------------------------
 # DOCUMENTS
 # ---------------------------------------------------------------------------
+
 
 def test_documents():
     response = client.get("/api/v1/documents/")
@@ -359,6 +364,7 @@ def test_documents_company_filter():
 # OPENAPI
 # ---------------------------------------------------------------------------
 
+
 def test_openapi():
     response = client.get("/openapi.json")
     assert response.status_code == 200
@@ -366,10 +372,7 @@ def test_openapi():
     data = response.json()
 
     assert data["openapi"].startswith("3.")
-    assert (
-        data["info"]["title"]
-        == "NIFTY 100 Financial Intelligence Platform API"
-    )
+    assert data["info"]["title"] == "NIFTY 100 Financial Intelligence Platform API"
 
     paths = data["paths"]
 

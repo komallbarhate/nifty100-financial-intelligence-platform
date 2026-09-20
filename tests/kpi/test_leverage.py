@@ -1,14 +1,14 @@
 import pytest
 
 from src.analytics.ratios import (
-    debt_to_equity,
-    high_leverage_flag,
-    interest_coverage_ratio,
-    interest_coverage_label,
-    interest_coverage_warning,
-    net_debt,
     asset_turnover,
     calculate_leverage_efficiency_ratios,
+    debt_to_equity,
+    high_leverage_flag,
+    interest_coverage_label,
+    interest_coverage_ratio,
+    interest_coverage_warning,
+    net_debt,
 )
 
 

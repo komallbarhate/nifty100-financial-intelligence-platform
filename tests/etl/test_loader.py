@@ -4,9 +4,8 @@ import pytest
 from src.etl.loader import prepare_dataset
 from src.etl.validator import (
     find_excel_file,
-    load_excel,
-    normalize_company_id,
     normalize_columns,
+    normalize_company_id,
 )
 
 

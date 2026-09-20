@@ -1,5 +1,5 @@
-import sqlite3
 import os
+import sqlite3
 
 DB_PATH = "data/nifty100.db"
 
@@ -15,17 +15,11 @@ tables = conn.execute(
     "SELECT COUNT(*) FROM sqlite_master WHERE type='table'"
 ).fetchone()[0]
 
-companies = conn.execute(
-    "SELECT COUNT(*) FROM companies"
-).fetchone()[0]
+companies = conn.execute("SELECT COUNT(*) FROM companies").fetchone()[0]
 
-fk_errors = conn.execute(
-    "PRAGMA foreign_key_check"
-).fetchall()
+fk_errors = conn.execute("PRAGMA foreign_key_check").fetchall()
 
-integrity = conn.execute(
-    "PRAGMA integrity_check"
-).fetchone()[0]
+integrity = conn.execute("PRAGMA integrity_check").fetchone()[0]
 
 tables_expected = [
     "analysis",
@@ -59,9 +53,7 @@ actual_tables = [
 
 for table in tables_expected:
     if table in actual_tables:
-        count = conn.execute(
-            f"SELECT COUNT(*) FROM {table}"
-        ).fetchone()[0]
+        count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
         print(f"{table}: {count}")
     else:
         print(f"{table}: MISSING")

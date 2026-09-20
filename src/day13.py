@@ -1,7 +1,8 @@
-﻿import sqlite3
+import sqlite3
 from pathlib import Path
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 DB_PATH = "data/nifty100.db"
 SECTOR_SOURCE = "data/supporting/1788501621129-8684701e-sectors.xlsx"
@@ -33,33 +34,16 @@ required_columns = [
 missing = [c for c in required_columns if c not in sector_df.columns]
 
 if missing:
-    raise ValueError(
-        f"Sector source is missing required columns: {missing}"
-    )
+    raise ValueError(f"Sector source is missing required columns: {missing}")
 
-sector_df["company_id"] = (
-    sector_df["company_id"]
-    .astype(str)
-    .str.strip()
-    .str.upper()
-)
+sector_df["company_id"] = sector_df["company_id"].astype(str).str.strip().str.upper()
 
 # Source uses BAJAJ-AUTO while DB company master uses BAJAJAUTO.
-sector_df["company_id"] = sector_df["company_id"].replace({
-    "BAJAJ-AUTO": "BAJAJAUTO"
-})
+sector_df["company_id"] = sector_df["company_id"].replace({"BAJAJ-AUTO": "BAJAJAUTO"})
 
-sector_df["broad_sector"] = (
-    sector_df["broad_sector"]
-    .astype(str)
-    .str.strip()
-)
+sector_df["broad_sector"] = sector_df["broad_sector"].astype(str).str.strip()
 
-sector_df["sub_sector"] = (
-    sector_df["sub_sector"]
-    .astype(str)
-    .str.strip()
-)
+sector_df["sub_sector"] = sector_df["sub_sector"].astype(str).str.strip()
 
 print("Source rows:", len(sector_df))
 print("Unique companies:", sector_df["company_id"].nunique())
@@ -126,22 +110,16 @@ sector_check = pd.read_sql_query(
 )
 
 total_sector_rows = int(sector_check.iloc[0]["total_rows"])
-populated_sector_rows = int(
-    sector_check.iloc[0]["populated_sector_rows"]
-)
+populated_sector_rows = int(sector_check.iloc[0]["populated_sector_rows"])
 
 print("Sector rows:", total_sector_rows)
 print("Populated sectors:", populated_sector_rows)
 
 if total_sector_rows != 92:
-    raise RuntimeError(
-        f"Expected 92 sector rows, found {total_sector_rows}"
-    )
+    raise RuntimeError(f"Expected 92 sector rows, found {total_sector_rows}")
 
 if populated_sector_rows != 92:
-    raise RuntimeError(
-        f"Expected 92 populated sectors, found {populated_sector_rows}"
-    )
+    raise RuntimeError(f"Expected 92 populated sectors, found {populated_sector_rows}")
 
 # -------------------------------------------------------------------
 # 4. IDENTIFY FINANCIALS FROM SOURCE
@@ -149,9 +127,7 @@ if populated_sector_rows != 92:
 
 print("\n[3/7] Identifying Financials...")
 
-financials = sector_df[
-    sector_df["broad_sector"].str.lower() == "financials"
-].copy()
+financials = sector_df[sector_df["broad_sector"].str.lower() == "financials"].copy()
 
 financial_ids = sorted(financials["company_id"].tolist())
 
@@ -187,9 +163,7 @@ for _, row in ratios.iterrows():
     company_id = row["company_id"]
     de = row["debt_to_equity"]
 
-    if pd.isna(de):
-        flag = 0
-    elif company_id in financial_set:
+    if pd.isna(de) or company_id in financial_set:
         flag = 0
     else:
         flag = int(float(de) > 5.0)
@@ -262,16 +236,16 @@ for col in numeric_columns:
     )
 
 comparison["roe_difference_pct_points"] = (
-    comparison["calculated_roe"]
-    - comparison["source_roe"]
+    comparison["calculated_roe"] - comparison["source_roe"]
 ).abs()
 
 comparison["roce_difference_pct_points"] = (
-    comparison["calculated_roce"]
-    - comparison["source_roce"]
+    comparison["calculated_roce"] - comparison["source_roce"]
 ).abs()
 
+
 def classify_difference(value):
+    """Classify difference."""
     if pd.isna(value):
         return "SOURCE_OR_CALCULATED_VALUE_UNAVAILABLE"
     if value <= 5:
@@ -280,13 +254,14 @@ def classify_difference(value):
         return "MODERATE_DIFFERENCE"
     return "MATERIAL_DIFFERENCE"
 
-comparison["roe_category"] = comparison[
-    "roe_difference_pct_points"
-].apply(classify_difference)
 
-comparison["roce_category"] = comparison[
-    "roce_difference_pct_points"
-].apply(classify_difference)
+comparison["roe_category"] = comparison["roe_difference_pct_points"].apply(
+    classify_difference
+)
+
+comparison["roce_category"] = comparison["roce_difference_pct_points"].apply(
+    classify_difference
+)
 
 # Keep only actual source-comparison anomalies for the edge-case file.
 edge_cases = comparison[
@@ -294,8 +269,7 @@ edge_cases = comparison[
         comparison["roe_difference_pct_points"].notna()
         & (comparison["roe_difference_pct_points"] > 5)
     )
-    |
-    (
+    | (
         comparison["roce_difference_pct_points"].notna()
         & (comparison["roce_difference_pct_points"] > 5)
     )
@@ -306,8 +280,7 @@ edge_cases["edge_case_type"] = np.select(
         (
             edge_cases["roe_difference_pct_points"].notna()
             & (edge_cases["roe_difference_pct_points"] > 5)
-            &
-            edge_cases["roce_difference_pct_points"].notna()
+            & edge_cases["roce_difference_pct_points"].notna()
             & (edge_cases["roce_difference_pct_points"] > 5)
         ),
         (
@@ -338,41 +311,35 @@ edge_cases.to_csv(
 
 print("\n[6/7] Creating Day 13 report...")
 
-financial_ratio_rows = int(
-    comparison["company_id"].notna().sum()
-)
+financial_ratio_rows = int(comparison["company_id"].notna().sum())
 
 financial_ratio_rows_financials = int(
     comparison["company_id"].isin(financial_set).sum()
 )
 
 financial_high_leverage_flags = int(
-    comparison.loc[
-        comparison["company_id"].isin(financial_set),
-        "high_leverage_flag"
-    ].fillna(0).sum()
+    comparison.loc[comparison["company_id"].isin(financial_set), "high_leverage_flag"]
+    .fillna(0)
+    .sum()
 )
 
 nonfinancial_high_leverage_flags = int(
-    comparison.loc[
-        ~comparison["company_id"].isin(financial_set),
-        "high_leverage_flag"
-    ].fillna(0).sum()
+    comparison.loc[~comparison["company_id"].isin(financial_set), "high_leverage_flag"]
+    .fillna(0)
+    .sum()
 )
 
 roe_anomalies = int(
     (
         comparison["roe_difference_pct_points"].notna()
-        &
-        (comparison["roe_difference_pct_points"] > 5)
+        & (comparison["roe_difference_pct_points"] > 5)
     ).sum()
 )
 
 roce_anomalies = int(
     (
         comparison["roce_difference_pct_points"].notna()
-        &
-        (comparison["roce_difference_pct_points"] > 5)
+        & (comparison["roce_difference_pct_points"] > 5)
     ).sum()
 )
 
@@ -398,9 +365,7 @@ report_lines.append("DAY 13 IMPLEMENTATION: COMPLETE")
 report_lines.append("")
 report_lines.append("## Sector Coverage")
 report_lines.append("")
-report_lines.append(
-    f"- Companies in sectors table: **{total_sector_rows}**"
-)
+report_lines.append(f"- Companies in sectors table: **{total_sector_rows}**")
 report_lines.append(
     f"- Companies with populated broad sector: **{populated_sector_rows}**"
 )
@@ -411,9 +376,7 @@ report_lines.append("| Sector | Companies |")
 report_lines.append("|---|---:|")
 
 for _, row in sector_distribution.iterrows():
-    report_lines.append(
-        f"| {row['sector']} | {int(row['companies'])} |"
-    )
+    report_lines.append(f"| {row['sector']} | {int(row['companies'])} |")
 
 report_lines.append("")
 report_lines.append("## Financials Carve-Out")
@@ -433,16 +396,12 @@ report_lines.append(
 report_lines.append("")
 report_lines.append("### Financial company IDs")
 report_lines.append("")
-report_lines.append(
-    ", ".join(financial_ids)
-)
+report_lines.append(", ".join(financial_ids))
 
 report_lines.append("")
 report_lines.append("## ROE Source Comparison")
 report_lines.append("")
-report_lines.append(
-    f"- ROE differences >5 percentage points: **{roe_anomalies}**"
-)
+report_lines.append(f"- ROE differences >5 percentage points: **{roe_anomalies}**")
 report_lines.append(
     "- These are logged as source/calculation comparison edge cases; "
     "the calculated KPI is not silently overwritten."
@@ -451,12 +410,8 @@ report_lines.append(
 report_lines.append("")
 report_lines.append("## ROCE Source Comparison")
 report_lines.append("")
-report_lines.append(
-    f"- ROCE differences >5 percentage points: **{roce_anomalies}**"
-)
-report_lines.append(
-    "- These are logged as source/calculation comparison edge cases."
-)
+report_lines.append(f"- ROCE differences >5 percentage points: **{roce_anomalies}**")
+report_lines.append("- These are logged as source/calculation comparison edge cases.")
 
 report_lines.append("")
 report_lines.append("## Edge-Case Categories")
@@ -477,12 +432,8 @@ report_lines.append(
 report_lines.append("")
 report_lines.append("## Output Files")
 report_lines.append("")
-report_lines.append(
-    f"- {EDGE_FILE.as_posix()}"
-)
-report_lines.append(
-    f"- {REPORT_FILE.as_posix()}"
-)
+report_lines.append(f"- {EDGE_FILE.as_posix()}")
+report_lines.append(f"- {REPORT_FILE.as_posix()}")
 
 report_lines.append("")
 report_lines.append("## Day 13 Validation")
@@ -496,9 +447,7 @@ report_lines.append(
 report_lines.append(
     f"- Financials D/E warnings = 0: {'PASS' if financial_high_leverage_flags == 0 else 'FAIL'}"
 )
-report_lines.append(
-    "- ROE/ROCE anomalies logged rather than silently altered: PASS"
-)
+report_lines.append("- ROE/ROCE anomalies logged rather than silently altered: PASS")
 report_lines.append("")
 report_lines.append("### Final result")
 report_lines.append("")
@@ -525,9 +474,7 @@ checks = {
 }
 
 for name, passed in checks.items():
-    print(
-        f"{'PASS' if passed else 'FAIL'} - {name}"
-    )
+    print(f"{'PASS' if passed else 'FAIL'} - {name}")
 
 conn.close()
 

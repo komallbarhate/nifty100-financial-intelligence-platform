@@ -1,5 +1,6 @@
-from pathlib import Path
 import re
+from pathlib import Path
+
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -18,7 +19,9 @@ DEDUPE_AUDIT_FILE = OUTPUT_DIR / "deduplication_audit.csv"
 # NORMALIZATION HELPERS
 # ============================================================
 
+
 def normalize_year(value):
+    """Normalize year."""
     if pd.isna(value):
         return None
 
@@ -45,6 +48,7 @@ def normalize_year(value):
 
 
 def normalize_company_id(value):
+    """Normalize company id."""
     if pd.isna(value):
         return None
 
@@ -102,6 +106,7 @@ def extract_period(value):
 
 
 def normalize_columns(df):
+    """Normalize columns."""
     df = df.copy()
 
     df.columns = (
@@ -120,31 +125,26 @@ def normalize_columns(df):
 # FILE LOADING
 # ============================================================
 
+
 def find_excel_file(folder, keyword):
+    """Find excel file."""
     files = list(folder.glob("*.xlsx"))
 
-    matches = [
-        file for file in files
-        if keyword.lower() in file.name.lower()
-    ]
+    matches = [file for file in files if keyword.lower() in file.name.lower()]
 
     if not matches:
-        raise FileNotFoundError(
-            f"No Excel file found for '{keyword}' in {folder}"
-        )
+        raise FileNotFoundError(f"No Excel file found for '{keyword}' in {folder}")
 
     return matches[0]
 
 
 def load_excel(folder, keyword, header_row=0):
+    """Load excel."""
     file_path = find_excel_file(folder, keyword)
 
     print(f"Loading: {file_path.name}")
 
-    df = pd.read_excel(
-        file_path,
-        header=header_row
-    )
+    df = pd.read_excel(file_path, header=header_row)
 
     print(f"Rows: {len(df)}")
 
@@ -155,8 +155,9 @@ def load_excel(folder, keyword, header_row=0):
 # DATASET LOADING
 # ============================================================
 
-def load_all_datasets():
 
+def load_all_datasets():
+    """Load all datasets."""
     datasets = {}
 
     core_datasets = {
@@ -178,18 +179,10 @@ def load_all_datasets():
     }
 
     for name, header in core_datasets.items():
-        datasets[name] = load_excel(
-            RAW_DIR,
-            name,
-            header
-        )
+        datasets[name] = load_excel(RAW_DIR, name, header)
 
     for name, header in supporting_datasets.items():
-        datasets[name] = load_excel(
-            SUPPORTING_DIR,
-            name,
-            header
-        )
+        datasets[name] = load_excel(SUPPORTING_DIR, name, header)
 
     return datasets
 
@@ -198,8 +191,9 @@ def load_all_datasets():
 # PREPARE DATASET
 # ============================================================
 
-def prepare_dataset(name, df):
 
+def prepare_dataset(name, df):
+    """Process prepare dataset."""
     df = normalize_columns(df)
 
     # IMPORTANT:
@@ -243,8 +237,9 @@ def prepare_dataset(name, df):
 # BUSINESS KEY
 # ============================================================
 
-def create_business_key(df):
 
+def create_business_key(df):
+    """Create business key."""
     df = df.copy()
 
     if "company_id" not in df.columns:
@@ -266,20 +261,11 @@ def create_business_key(df):
     if year_column is None:
         return df
 
-    df["_business_company_id"] = (
-        df["company_id"]
-        .apply(normalize_company_id)
-    )
+    df["_business_company_id"] = df["company_id"].apply(normalize_company_id)
 
-    df["_business_year"] = (
-        df[year_column]
-        .apply(normalize_year)
-    )
+    df["_business_year"] = df[year_column].apply(normalize_year)
 
-    df["_business_period"] = (
-        df["_raw_year"]
-        .apply(extract_period)
-    )
+    df["_business_period"] = df["_raw_year"].apply(extract_period)
 
     df["_business_key"] = (
         df["_business_company_id"].astype(str)
@@ -296,8 +282,9 @@ def create_business_key(df):
 # DATASET-SPECIFIC DEDUPLICATION
 # ============================================================
 
-def remove_duplicates(name, df):
 
+def remove_duplicates(name, df):
+    """Process remove duplicates."""
     df = df.copy()
 
     rows_before = len(df)
@@ -305,10 +292,7 @@ def remove_duplicates(name, df):
     # Companies master is a reference table.
     if name == "companies":
 
-        df = df.drop_duplicates(
-            subset=["id"],
-            keep="first"
-        )
+        df = df.drop_duplicates(subset=["id"], keep="first")
 
     # Datasets containing company + year use the
     # business key:
@@ -319,18 +303,13 @@ def remove_duplicates(name, df):
 
         if "_business_key" in df.columns:
 
-            df = df.drop_duplicates(
-                subset=["_business_key"],
-                keep="first"
-            )
+            df = df.drop_duplicates(subset=["_business_key"], keep="first")
 
     else:
 
         # For tables without a company/year business key,
         # remove exact duplicate rows.
-        df = df.drop_duplicates(
-            keep="first"
-        )
+        df = df.drop_duplicates(keep="first")
 
     rows_after = len(df)
 
@@ -343,8 +322,9 @@ def remove_duplicates(name, df):
 # DQ-01
 # ============================================================
 
-def dq01_primary_key(dataset_name, df, failures):
 
+def dq01_primary_key(dataset_name, df, failures):
+    """Process dq01 primary key."""
     if dataset_name == "companies":
 
         if "id" not in df.columns:
@@ -354,20 +334,23 @@ def dq01_primary_key(dataset_name, df, failures):
 
         for _, row in duplicates.iterrows():
 
-            failures.append({
-                "rule_id": "DQ-01",
-                "dataset": dataset_name,
-                "severity": "CRITICAL",
-                "message": f"Duplicate company ID: {row['id']}"
-            })
+            failures.append(
+                {
+                    "rule_id": "DQ-01",
+                    "dataset": dataset_name,
+                    "severity": "CRITICAL",
+                    "message": f"Duplicate company ID: {row['id']}",
+                }
+            )
 
 
 # ============================================================
 # DQ-02
 # ============================================================
 
-def dq02_company_year_uniqueness(dataset_name, df, failures):
 
+def dq02_company_year_uniqueness(dataset_name, df, failures):
+    """Process dq02 company year uniqueness."""
     if "company_id" not in df.columns:
         return
 
@@ -392,9 +375,7 @@ def dq02_company_year_uniqueness(dataset_name, df, failures):
     if "_business_key" not in check_df.columns:
         return
 
-    duplicate_mask = check_df["_business_key"].duplicated(
-        keep=False
-    )
+    duplicate_mask = check_df["_business_key"].duplicated(keep=False)
 
     duplicates = check_df[duplicate_mask]
 
@@ -405,25 +386,28 @@ def dq02_company_year_uniqueness(dataset_name, df, failures):
     # happens before validation.
     for _, row in duplicates.iterrows():
 
-        failures.append({
-            "rule_id": "DQ-02",
-            "dataset": dataset_name,
-            "severity": "CRITICAL",
-            "message": (
-                f"Duplicate business key: "
-                f"{row['_business_company_id']} "
-                f"{row['_business_year']} "
-                f"{row['_business_period']}"
-            )
-        })
+        failures.append(
+            {
+                "rule_id": "DQ-02",
+                "dataset": dataset_name,
+                "severity": "CRITICAL",
+                "message": (
+                    f"Duplicate business key: "
+                    f"{row['_business_company_id']} "
+                    f"{row['_business_year']} "
+                    f"{row['_business_period']}"
+                ),
+            }
+        )
 
 
 # ============================================================
 # DQ-03
 # ============================================================
 
-def dq03_foreign_keys(datasets, failures):
 
+def dq03_foreign_keys(datasets, failures):
+    """Process dq03 foreign keys."""
     if "companies" not in datasets:
         return
 
@@ -432,11 +416,7 @@ def dq03_foreign_keys(datasets, failures):
     if "id" not in companies.columns:
         return
 
-    master_ids = set(
-        companies["id"]
-        .dropna()
-        .apply(normalize_company_id)
-    )
+    master_ids = set(companies["id"].dropna().apply(normalize_company_id))
 
     known_out_of_universe = {
         "ULTRACEMCO",
@@ -459,9 +439,7 @@ def dq03_foreign_keys(datasets, failures):
 
         for company_id in df["company_id"].dropna().unique():
 
-            normalized_id = normalize_company_id(
-                company_id
-            )
+            normalized_id = normalize_company_id(company_id)
 
             if normalized_id in master_ids:
                 continue
@@ -475,25 +453,25 @@ def dq03_foreign_keys(datasets, failures):
                 )
             else:
                 severity = "CRITICAL"
-                message = (
-                    f"{normalized_id} does not exist "
-                    f"in companies master"
-                )
+                message = f"{normalized_id} does not exist " f"in companies master"
 
-            failures.append({
-                "rule_id": "DQ-03",
-                "dataset": dataset_name,
-                "severity": severity,
-                "message": message
-            })
+            failures.append(
+                {
+                    "rule_id": "DQ-03",
+                    "dataset": dataset_name,
+                    "severity": severity,
+                    "message": message,
+                }
+            )
 
 
 # ============================================================
 # DQ-05
 # ============================================================
 
-def dq05_opm_crosscheck(datasets, failures):
 
+def dq05_opm_crosscheck(datasets, failures):
+    """Process dq05 opm crosscheck."""
     if "profitandloss" not in datasets:
         return
 
@@ -513,30 +491,28 @@ def dq05_opm_crosscheck(datasets, failures):
         try:
 
             sales = float(row["sales"])
-            operating_profit = float(
-                row["operating_profit"]
-            )
+            operating_profit = float(row["operating_profit"])
             reported_opm = float(row["opm"])
 
             if sales == 0:
                 continue
 
-            calculated_opm = (
-                operating_profit / sales
-            ) * 100
+            calculated_opm = (operating_profit / sales) * 100
 
             if abs(calculated_opm - reported_opm) > 1:
 
-                failures.append({
-                    "rule_id": "DQ-05",
-                    "dataset": "profitandloss",
-                    "severity": "WARNING",
-                    "message": (
-                        f"OPM mismatch: "
-                        f"calculated={calculated_opm:.2f}, "
-                        f"reported={reported_opm:.2f}"
-                    )
-                })
+                failures.append(
+                    {
+                        "rule_id": "DQ-05",
+                        "dataset": "profitandloss",
+                        "severity": "WARNING",
+                        "message": (
+                            f"OPM mismatch: "
+                            f"calculated={calculated_opm:.2f}, "
+                            f"reported={reported_opm:.2f}"
+                        ),
+                    }
+                )
 
         except (ValueError, TypeError):
             continue
@@ -546,8 +522,9 @@ def dq05_opm_crosscheck(datasets, failures):
 # DQ-06
 # ============================================================
 
-def dq06_positive_sales(datasets, failures):
 
+def dq06_positive_sales(datasets, failures):
+    """Process dq06 positive sales."""
     if "profitandloss" not in datasets:
         return
 
@@ -564,16 +541,18 @@ def dq06_positive_sales(datasets, failures):
 
             if sales < 0:
 
-                failures.append({
-                    "rule_id": "DQ-06",
-                    "dataset": "profitandloss",
-                    "severity": "CRITICAL",
-                    "message": (
-                        f"Sales <= 0 for "
-                        f"{row.get('company_id', 'UNKNOWN')} "
-                        f"{row.get('year', 'UNKNOWN')}"
-                    )
-                })
+                failures.append(
+                    {
+                        "rule_id": "DQ-06",
+                        "dataset": "profitandloss",
+                        "severity": "CRITICAL",
+                        "message": (
+                            f"Sales <= 0 for "
+                            f"{row.get('company_id', 'UNKNOWN')} "
+                            f"{row.get('year', 'UNKNOWN')}"
+                        ),
+                    }
+                )
 
         except (ValueError, TypeError):
             continue
@@ -583,13 +562,15 @@ def dq06_positive_sales(datasets, failures):
 # GENERIC WARNING CHECKS
 # ============================================================
 
+
 def dq07_net_cash(datasets, failures):
     # Informational validation retained for sprint review.
+    """Process dq07 net cash."""
     return
 
 
 def dq09_tax_rate(datasets, failures):
-
+    """Process dq09 tax rate."""
     if "profitandloss" not in datasets:
         return
 
@@ -606,25 +587,26 @@ def dq09_tax_rate(datasets, failures):
 
             if value < 0 or value > 100:
 
-                failures.append({
-                    "rule_id": "DQ-09",
-                    "dataset": "profitandloss",
-                    "severity": "WARNING",
-                    "message": (
-                        f"Tax rate outside 0-100: {value}"
-                    )
-                })
+                failures.append(
+                    {
+                        "rule_id": "DQ-09",
+                        "dataset": "profitandloss",
+                        "severity": "WARNING",
+                        "message": (f"Tax rate outside 0-100: {value}"),
+                    }
+                )
 
         except (ValueError, TypeError):
             continue
 
 
 def dq10_dividend_cap(datasets, failures):
+    """Process dq10 dividend cap."""
     return
 
 
 def dq11_url_validation(datasets, failures):
-
+    """Process dq11 url validation."""
     if "companies" not in datasets:
         return
 
@@ -642,38 +624,40 @@ def dq11_url_validation(datasets, failures):
 
         value = str(value).strip()
 
-        if value and not (
-            value.startswith("http://")
-            or value.startswith("https://")
-        ):
+        if value and not (value.startswith(("http://", "https://"))):
 
-            failures.append({
-                "rule_id": "DQ-11",
-                "dataset": "companies",
-                "severity": "WARNING",
-                "message": (
-                    f"Invalid website URL: {value}"
-                )
-            })
+            failures.append(
+                {
+                    "rule_id": "DQ-11",
+                    "dataset": "companies",
+                    "severity": "WARNING",
+                    "message": (f"Invalid website URL: {value}"),
+                }
+            )
 
 
 def dq12_eps_sign(datasets, failures):
+    """Process dq12 eps sign."""
     return
 
 
 def dq13_bse_balance(datasets, failures):
+    """Process dq13 bse balance."""
     return
 
 
 def dq14_coverage(datasets, failures):
+    """Process dq14 coverage."""
     return
 
 
 def dq15_missing_values(datasets, failures):
+    """Process dq15 missing values."""
     return
 
 
 def dq16_year_coverage(datasets, failures):
+    """Process dq16 year coverage."""
     return
 
 
@@ -681,83 +665,40 @@ def dq16_year_coverage(datasets, failures):
 # VALIDATION
 # ============================================================
 
-def validate_all(datasets):
 
+def validate_all(datasets):
+    """Validate all."""
     failures = []
 
-    dq01_primary_key(
-        "companies",
-        datasets.get("companies", pd.DataFrame()),
-        failures
-    )
+    dq01_primary_key("companies", datasets.get("companies", pd.DataFrame()), failures)
 
     for dataset_name, df in datasets.items():
 
-        dq02_company_year_uniqueness(
-            dataset_name,
-            df,
-            failures
-        )
+        dq02_company_year_uniqueness(dataset_name, df, failures)
 
-    dq03_foreign_keys(
-        datasets,
-        failures
-    )
+    dq03_foreign_keys(datasets, failures)
 
-    dq05_opm_crosscheck(
-        datasets,
-        failures
-    )
+    dq05_opm_crosscheck(datasets, failures)
 
-    dq06_positive_sales(
-        datasets,
-        failures
-    )
+    dq06_positive_sales(datasets, failures)
 
-    dq07_net_cash(
-        datasets,
-        failures
-    )
+    dq07_net_cash(datasets, failures)
 
-    dq09_tax_rate(
-        datasets,
-        failures
-    )
+    dq09_tax_rate(datasets, failures)
 
-    dq10_dividend_cap(
-        datasets,
-        failures
-    )
+    dq10_dividend_cap(datasets, failures)
 
-    dq11_url_validation(
-        datasets,
-        failures
-    )
+    dq11_url_validation(datasets, failures)
 
-    dq12_eps_sign(
-        datasets,
-        failures
-    )
+    dq12_eps_sign(datasets, failures)
 
-    dq13_bse_balance(
-        datasets,
-        failures
-    )
+    dq13_bse_balance(datasets, failures)
 
-    dq14_coverage(
-        datasets,
-        failures
-    )
+    dq14_coverage(datasets, failures)
 
-    dq15_missing_values(
-        datasets,
-        failures
-    )
+    dq15_missing_values(datasets, failures)
 
-    dq16_year_coverage(
-        datasets,
-        failures
-    )
+    dq16_year_coverage(datasets, failures)
 
     return failures
 
@@ -766,8 +707,9 @@ def validate_all(datasets):
 # MAIN
 # ============================================================
 
-def main():
 
+def main():
+    """Run the main workflow."""
     print("\n" + "=" * 70)
     print("NIFTY 100 DATA QUALITY VALIDATOR")
     print("=" * 70)
@@ -780,10 +722,7 @@ def main():
 
     for name, df in raw_datasets.items():
 
-        datasets[name] = prepare_dataset(
-            name,
-            df
-        )
+        datasets[name] = prepare_dataset(name, df)
 
     # --------------------------------------------------------
     # DEDUPLICATION
@@ -799,26 +738,22 @@ def main():
 
     for name, df in datasets.items():
 
-        cleaned_df, removed = remove_duplicates(
-            name,
-            df
-        )
+        cleaned_df, removed = remove_duplicates(name, df)
 
         cleaned_datasets[name] = cleaned_df
 
-        audit_rows.append({
-            "dataset": name,
-            "rows_before": len(df),
-            "duplicate_rows_removed": removed,
-            "rows_after": len(cleaned_df)
-        })
+        audit_rows.append(
+            {
+                "dataset": name,
+                "rows_before": len(df),
+                "duplicate_rows_removed": removed,
+                "rows_after": len(cleaned_df),
+            }
+        )
 
     audit_df = pd.DataFrame(audit_rows)
 
-    audit_df.to_csv(
-        DEDUPE_AUDIT_FILE,
-        index=False
-    )
+    audit_df.to_csv(DEDUPE_AUDIT_FILE, index=False)
 
     print("\nDeduplication audit:")
     print(audit_df.to_string(index=False))
@@ -833,24 +768,13 @@ def main():
     print("RUNNING DATA QUALITY RULES")
     print("=" * 70)
 
-    failures = validate_all(
-        datasets
-    )
+    failures = validate_all(datasets)
 
     failure_df = pd.DataFrame(
-        failures,
-        columns=[
-            "rule_id",
-            "dataset",
-            "severity",
-            "message"
-        ]
+        failures, columns=["rule_id", "dataset", "severity", "message"]
     )
 
-    failure_df.to_csv(
-        VALIDATION_FILE,
-        index=False
-    )
+    failure_df.to_csv(VALIDATION_FILE, index=False)
 
     # --------------------------------------------------------
     # SUMMARY
@@ -862,41 +786,23 @@ def main():
 
     for name, df in datasets.items():
 
-        print(
-            f"{name:<20} {len(df):>6}"
-        )
+        print(f"{name:<20} {len(df):>6}")
 
     print("\n" + "=" * 70)
 
-    print(
-        f"Total validation failures: "
-        f"{len(failure_df)}"
-    )
+    print(f"Total validation failures: " f"{len(failure_df)}")
 
     if not failure_df.empty:
 
         print("\nFailures by rule:")
 
-        print(
-            failure_df["rule_id"]
-            .value_counts()
-            .sort_index()
-            .to_string()
-        )
+        print(failure_df["rule_id"].value_counts().sort_index().to_string())
 
         print("\nFailures by severity:")
 
-        print(
-            failure_df["severity"]
-            .value_counts()
-            .to_string()
-        )
+        print(failure_df["severity"].value_counts().to_string())
 
-        critical_count = (
-            failure_df["severity"]
-            .eq("CRITICAL")
-            .sum()
-        )
+        critical_count = failure_df["severity"].eq("CRITICAL").sum()
 
     else:
 
@@ -904,21 +810,13 @@ def main():
 
         print("\nNo validation failures.")
 
-    print(
-        f"\nCRITICAL failures: "
-        f"{critical_count}"
-    )
+    print(f"\nCRITICAL failures: " f"{critical_count}")
 
     print("\nOutput files:")
 
-    print(
-        f"Validation: {VALIDATION_FILE}"
-    )
+    print(f"Validation: {VALIDATION_FILE}")
 
-    print(
-        f"Deduplication audit: "
-        f"{DEDUPE_AUDIT_FILE}"
-    )
+    print(f"Deduplication audit: " f"{DEDUPE_AUDIT_FILE}")
 
     print("\nValidation complete.")
 

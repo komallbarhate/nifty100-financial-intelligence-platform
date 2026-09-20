@@ -1,7 +1,8 @@
-﻿from pathlib import Path
-import sqlite3
+﻿import sqlite3
 import subprocess
 import sys
+from pathlib import Path
+
 import pandas as pd
 
 OUTPUT_DIR = Path("output")
@@ -20,9 +21,7 @@ print("=" * 80)
 print("\n[1/6] Running KPI tests...")
 
 result = subprocess.run(
-    [sys.executable, "-m", "pytest", "tests/kpi", "-q"],
-    capture_output=True,
-    text=True
+    [sys.executable, "-m", "pytest", "tests/kpi", "-q"], capture_output=True, text=True, check=False
 )
 
 print(result.stdout)
@@ -40,25 +39,17 @@ print("\n[2/6] Checking database...")
 
 conn = sqlite3.connect("data/nifty100.db")
 
-companies = conn.execute(
-    "SELECT COUNT(*) FROM companies"
-).fetchone()[0]
+companies = conn.execute("SELECT COUNT(*) FROM companies").fetchone()[0]
 
-ratio_rows = conn.execute(
-    "SELECT COUNT(*) FROM financial_ratios"
-).fetchone()[0]
+ratio_rows = conn.execute("SELECT COUNT(*) FROM financial_ratios").fetchone()[0]
 
 ratio_companies = conn.execute(
     "SELECT COUNT(DISTINCT company_id) FROM financial_ratios"
 ).fetchone()[0]
 
-fk_errors = conn.execute(
-    "PRAGMA foreign_key_check"
-).fetchall()
+fk_errors = conn.execute("PRAGMA foreign_key_check").fetchall()
 
-integrity = conn.execute(
-    "PRAGMA integrity_check"
-).fetchone()[0]
+integrity = conn.execute("PRAGMA integrity_check").fetchone()[0]
 
 print("Companies:", companies)
 print("Financial ratio rows:", ratio_rows)
@@ -87,9 +78,7 @@ file_results = {}
 for filename in required_files:
     path = OUTPUT_DIR / filename
     file_results[filename] = path.exists()
-    print(
-        f"{'PASS' if path.exists() else 'FAIL'} - {path}"
-    )
+    print(f"{'PASS' if path.exists() else 'FAIL'} - {path}")
 
 # -------------------------------------------------------------------
 # 4. KPI COLUMN CHECK
@@ -120,14 +109,10 @@ required_kpis = [
 ]
 
 ratio_columns = pd.read_sql_query(
-    "SELECT * FROM financial_ratios LIMIT 1",
-    conn
+    "SELECT * FROM financial_ratios LIMIT 1", conn
 ).columns.tolist()
 
-missing_kpis = [
-    kpi for kpi in required_kpis
-    if kpi not in ratio_columns
-]
+missing_kpis = [kpi for kpi in required_kpis if kpi not in ratio_columns]
 
 print("Required KPI columns:", len(required_kpis))
 print("Missing KPI columns:", missing_kpis)
@@ -145,13 +130,12 @@ financials = pd.read_sql_query(
     WHERE LOWER(sector) = 'financials'
     ORDER BY company_id
     """,
-    conn
+    conn,
 )
 
 financial_ids = financials["company_id"].tolist()
 
-financial_warning_count = conn.execute(
-    """
+financial_warning_count = conn.execute("""
     SELECT COUNT(*)
     FROM financial_ratios
     WHERE company_id IN (
@@ -160,8 +144,7 @@ financial_warning_count = conn.execute(
         WHERE LOWER(sector) = 'financials'
     )
     AND high_leverage_flag = 1
-    """
-).fetchone()[0]
+    """).fetchone()[0]
 
 print("Financials companies:", len(financial_ids))
 print("Financial high-leverage warnings:", financial_warning_count)
@@ -306,10 +289,7 @@ The annual P&L source provides **1,073 valid company-year observations across 92
 **SPRINT 2 SUCCESSFULLY COMPLETED**
 """
 
-RETRO_FILE.write_text(
-    retro,
-    encoding="utf-8"
-)
+RETRO_FILE.write_text(retro, encoding="utf-8")
 
 print("Created:", RETRO_FILE)
 
@@ -336,9 +316,7 @@ print("FINAL SPRINT 2 CHECKLIST")
 print("=" * 80)
 
 for name, passed in final_checks.items():
-    print(
-        f"{'PASS' if passed else 'FAIL'} - {name}"
-    )
+    print(f"{'PASS' if passed else 'FAIL'} - {name}")
 
 conn.close()
 

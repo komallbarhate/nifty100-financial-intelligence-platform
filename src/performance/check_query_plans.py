@@ -6,9 +6,8 @@ Checks that the performance indexes created for the API
 are actually being considered by SQLite.
 """
 
-from pathlib import Path
 import sqlite3
-
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DB_PATH = BASE_DIR / "data" / "nifty100.db"
@@ -57,9 +56,7 @@ def main():
     """Run EXPLAIN QUERY PLAN for representative API queries."""
 
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     print(f"Database: {DB_PATH}")
     print()
@@ -72,9 +69,7 @@ def main():
             print(name)
             print("=" * 70)
 
-            rows = conn.execute(
-                "EXPLAIN QUERY PLAN " + query
-            ).fetchall()
+            rows = conn.execute("EXPLAIN QUERY PLAN " + query).fetchall()
 
             for row in rows:
                 print(row)

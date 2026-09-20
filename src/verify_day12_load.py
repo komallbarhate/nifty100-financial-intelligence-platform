@@ -1,4 +1,5 @@
 ﻿import sqlite3
+
 import pandas as pd
 
 conn = sqlite3.connect("data/nifty100.db")
@@ -19,7 +20,7 @@ result = pd.read_sql_query(
         SUM(CASE WHEN borrowings IS NOT NULL THEN 1 ELSE 0 END) AS borrowings_available
     FROM balancesheet
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -41,7 +42,7 @@ result = pd.read_sql_query(
     ORDER BY company_id, year
     LIMIT 20
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -59,7 +60,7 @@ result = pd.read_sql_query(
         MAX(year) AS max_year
     FROM profitandloss
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))

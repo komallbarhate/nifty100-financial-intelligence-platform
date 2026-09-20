@@ -1,9 +1,8 @@
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
@@ -16,17 +15,19 @@ OUTPUT_PATH = OUTPUT_DIR / "pros_cons_generated.csv"
 # HELPERS
 # ============================================================
 
+
 def numeric(series):
+    """Process numeric."""
     return pd.to_numeric(series, errors="coerce")
 
 
 def company_rows(df, company_id):
+    """Process company rows."""
     if df.empty or "company_id" not in df.columns:
         return pd.DataFrame()
 
     rows = df[
-        df["company_id"].astype(str).str.strip()
-        == str(company_id).strip()
+        df["company_id"].astype(str).str.strip() == str(company_id).strip()
     ].copy()
 
     if "year" in rows.columns:
@@ -37,6 +38,7 @@ def company_rows(df, company_id):
 
 
 def series_for(df, company_id, column):
+    """Process series for."""
     if column is None:
         return pd.Series(dtype=float)
 
@@ -49,6 +51,7 @@ def series_for(df, company_id, column):
 
 
 def latest(series):
+    """Process latest."""
     if series.empty:
         return np.nan
 
@@ -56,6 +59,7 @@ def latest(series):
 
 
 def consecutive_positive(series, years):
+    """Process consecutive positive."""
     if len(series) < years:
         return False
 
@@ -63,6 +67,7 @@ def consecutive_positive(series, years):
 
 
 def consecutive_negative(series, years):
+    """Process consecutive negative."""
     if len(series) < years:
         return False
 
@@ -70,44 +75,37 @@ def consecutive_negative(series, years):
 
 
 def increasing(series, years):
+    """Process increasing."""
     if len(series) < years:
         return False
 
     values = series.tail(years).tolist()
 
-    return all(
-        values[i] > values[i - 1]
-        for i in range(1, len(values))
-    )
+    return all(values[i] > values[i - 1] for i in range(1, len(values)))
 
 
 def decreasing(series, years):
+    """Process decreasing."""
     if len(series) < years:
         return False
 
     values = series.tail(years).tolist()
 
-    return all(
-        values[i] < values[i - 1]
-        for i in range(1, len(values))
-    )
+    return all(values[i] < values[i - 1] for i in range(1, len(values)))
 
 
 def above(series, threshold, years):
+    """Process above."""
     if len(series) < years:
         return False
 
-    return bool(
-        (series.tail(years) > threshold).all()
-    )
+    return bool((series.tail(years) > threshold).all())
 
 
 def load_table(conn, table):
+    """Load table."""
     try:
-        return pd.read_sql_query(
-            f"SELECT * FROM {table}",
-            conn
-        )
+        return pd.read_sql_query(f"SELECT * FROM {table}", conn)
     except Exception:
         return pd.DataFrame()
 
@@ -116,53 +114,31 @@ def load_table(conn, table):
 # MAIN
 # ============================================================
 
-def main():
 
+def main():
+    """Run the main workflow."""
     print("=" * 70)
     print("NIFTY 100 AUTO PROS / CONS GENERATOR")
     print("=" * 70)
 
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
-    OUTPUT_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     conn = sqlite3.connect(DB_PATH)
 
-    companies = load_table(
-        conn,
-        "companies"
-    )
+    companies = load_table(conn, "companies")
 
-    ratios = load_table(
-        conn,
-        "financial_ratios"
-    )
+    ratios = load_table(conn, "financial_ratios")
 
-    pl = load_table(
-        conn,
-        "profitandloss"
-    )
+    pl = load_table(conn, "profitandloss")
 
-    bs = load_table(
-        conn,
-        "balancesheet"
-    )
+    bs = load_table(conn, "balancesheet")
 
-    cf = load_table(
-        conn,
-        "cashflow"
-    )
+    cf = load_table(conn, "cashflow")
 
-    sectors = load_table(
-        conn,
-        "sectors"
-    )
+    sectors = load_table(conn, "sectors")
 
     conn.close()
 
@@ -230,16 +206,12 @@ def main():
 
     if not sectors.empty:
 
-        sector_rows = sectors[
-            ["company_id", "sector"]
-        ].drop_duplicates(
-            "company_id"
-        )
+        sector_rows = sectors[["company_id", "sector"]].drop_duplicates("company_id")
 
         sector_map = dict(
             zip(
                 sector_rows["company_id"].astype(str),
-                sector_rows["sector"].fillna("").astype(str)
+                sector_rows["sector"].fillna("").astype(str),
             )
         )
 
@@ -258,27 +230,16 @@ def main():
     ]
 
     def is_financial(company_id):
+        """Process is financial."""
+        sector = sector_map.get(str(company_id), "").lower()
 
-        sector = sector_map.get(
-            str(company_id),
-            ""
-        ).lower()
-
-        return any(
-            keyword in sector
-            for keyword in financial_keywords
-        )
+        return any(keyword in sector for keyword in financial_keywords)
 
     # ========================================================
     # COMPANY IDS
     # ========================================================
 
-    company_ids = (
-        companies["id"]
-        .astype(str)
-        .str.strip()
-        .unique()
-    )
+    company_ids = companies["id"].astype(str).str.strip().unique()
 
     records = []
 
@@ -288,114 +249,46 @@ def main():
 
     for company_id in company_ids:
 
-        roe = series_for(
-            ratios,
-            company_id,
-            roe_col
-        )
+        roe = series_for(ratios, company_id, roe_col)
 
-        roce = series_for(
-            ratios,
-            company_id,
-            roce_col
-        )
+        roce = series_for(ratios, company_id, roce_col)
 
-        de = series_for(
-            ratios,
-            company_id,
-            de_col
-        )
+        de = series_for(ratios, company_id, de_col)
 
-        opm = series_for(
-            ratios,
-            company_id,
-            opm_col
-        )
+        opm = series_for(ratios, company_id, opm_col)
 
-        revenue_cagr = series_for(
-            ratios,
-            company_id,
-            revenue_cagr_col
-        )
+        revenue_cagr = series_for(ratios, company_id, revenue_cagr_col)
 
-        pat_cagr = series_for(
-            ratios,
-            company_id,
-            pat_cagr_col
-        )
+        pat_cagr = series_for(ratios, company_id, pat_cagr_col)
 
-        eps_cagr = series_for(
-            ratios,
-            company_id,
-            eps_cagr_col
-        )
+        eps_cagr = series_for(ratios, company_id, eps_cagr_col)
 
-        fcf = series_for(
-            ratios,
-            company_id,
-            fcf_col
-        )
+        fcf = series_for(ratios, company_id, fcf_col)
 
-        icr = series_for(
-            ratios,
-            company_id,
-            icr_col
-        )
+        icr = series_for(ratios, company_id, icr_col)
 
-        payout = series_for(
-            ratios,
-            company_id,
-            payout_col
-        )
+        payout = series_for(ratios, company_id, payout_col)
 
-        net_debt = series_for(
-            ratios,
-            company_id,
-            net_debt_col
-        )
 
-        revenue = series_for(
-            pl,
-            company_id,
-            revenue_col
-        )
+        revenue = series_for(pl, company_id, revenue_col)
 
-        net_profit = series_for(
-            pl,
-            company_id,
-            net_profit_col
-        )
+        net_profit = series_for(pl, company_id, net_profit_col)
 
-        eps = series_for(
-            pl,
-            company_id,
-            eps_col
-        )
+        eps = series_for(pl, company_id, eps_col)
 
-        assets = series_for(
-            bs,
-            company_id,
-            assets_col
-        )
+        assets = series_for(bs, company_id, assets_col)
 
-        debt = series_for(
-            bs,
-            company_id,
-            debt_col
-        )
+        debt = series_for(bs, company_id, debt_col)
 
-        latest_roe = latest(roe)
         latest_roce = latest(roce)
         latest_de = latest(de)
         latest_opm = latest(opm)
         latest_revenue_cagr = latest(revenue_cagr)
         latest_pat_cagr = latest(pat_cagr)
         latest_eps_cagr = latest(eps_cagr)
-        latest_fcf = latest(fcf)
         latest_icr = latest(icr)
         latest_payout = latest(payout)
         latest_net_profit = latest(net_profit)
-        latest_net_debt = latest(net_debt)
 
         # ====================================================
         # PRO RULES
@@ -403,119 +296,117 @@ def main():
 
         # PRO-01
         if above(roe, 20, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-01",
-                "text": (
-                    "Consistently high return on equity "
-                    "above 20% demonstrates exceptional "
-                    "capital efficiency"
-                ),
-                "confidence_pct": 90,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-01",
+                    "text": (
+                        "Consistently high return on equity "
+                        "above 20% demonstrates exceptional "
+                        "capital efficiency"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # PRO-02
         if consecutive_positive(fcf, 5):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-02",
-                "text": (
-                    "Strong free cash flow generation "
-                    "over 5 years signals healthy "
-                    "business fundamentals"
-                ),
-                "confidence_pct": 90,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-02",
+                    "text": (
+                        "Strong free cash flow generation "
+                        "over 5 years signals healthy "
+                        "business fundamentals"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # PRO-03
         if not pd.isna(latest_de) and latest_de == 0:
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-03",
-                "text": (
-                    "Debt-free balance sheet provides "
-                    "financial flexibility and eliminates "
-                    "interest burden"
-                ),
-                "confidence_pct": 95,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-03",
+                    "text": (
+                        "Debt-free balance sheet provides "
+                        "financial flexibility and eliminates "
+                        "interest burden"
+                    ),
+                    "confidence_pct": 95,
+                }
+            )
 
         # PRO-04
-        if (
-            not pd.isna(latest_revenue_cagr)
-            and latest_revenue_cagr > 15
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-04",
-                "text": (
-                    "Revenue growing at above 15% CAGR "
-                    "over 5 years reflects strong "
-                    "business momentum"
-                ),
-                "confidence_pct": 90,
-            })
+        if not pd.isna(latest_revenue_cagr) and latest_revenue_cagr > 15:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-04",
+                    "text": (
+                        "Revenue growing at above 15% CAGR "
+                        "over 5 years reflects strong "
+                        "business momentum"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # PRO-05
-        if (
-            not pd.isna(latest_opm)
-            and latest_opm > 25
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-05",
-                "text": (
-                    "Operating profit margin above 25% "
-                    "indicates strong pricing power "
-                    "and cost discipline"
-                ),
-                "confidence_pct": 88,
-            })
+        if not pd.isna(latest_opm) and latest_opm > 25:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-05",
+                    "text": (
+                        "Operating profit margin above 25% "
+                        "indicates strong pricing power "
+                        "and cost discipline"
+                    ),
+                    "confidence_pct": 88,
+                }
+            )
 
         # PRO-06
-        if (
-            not pd.isna(latest_pat_cagr)
-            and latest_pat_cagr > 20
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-06",
-                "text": (
-                    "Net profit compounding at above "
-                    "20% over 5 years creates significant "
-                    "shareholder value"
-                ),
-                "confidence_pct": 90,
-            })
+        if not pd.isna(latest_pat_cagr) and latest_pat_cagr > 20:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-06",
+                    "text": (
+                        "Net profit compounding at above "
+                        "20% over 5 years creates significant "
+                        "shareholder value"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # PRO-07
-        if (
-            (
-                not pd.isna(latest_icr)
-                and latest_icr > 10
-            )
-            or (
-                not pd.isna(latest_de)
-                and latest_de == 0
-            )
+        if (not pd.isna(latest_icr) and latest_icr > 10) or (
+            not pd.isna(latest_de) and latest_de == 0
         ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-07",
-                "text": (
-                    "Very high interest coverage ratio "
-                    "reflects negligible financial stress "
-                    "from debt servicing"
-                ),
-                "confidence_pct": 92,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-07",
+                    "text": (
+                        "Very high interest coverage ratio "
+                        "reflects negligible financial stress "
+                        "from debt servicing"
+                    ),
+                    "confidence_pct": 92,
+                }
+            )
 
         # PRO-08
         # Dividend yield is NOT present in the database,
@@ -523,35 +414,36 @@ def main():
         # We deliberately do not fabricate it.
 
         # PRO-09
-        if (
-            not pd.isna(latest_eps_cagr)
-            and latest_eps_cagr > 15
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-09",
-                "text": (
-                    "Earnings per share growing above "
-                    "15% CAGR indicates strong earnings "
-                    "quality and compounding"
-                ),
-                "confidence_pct": 88,
-            })
+        if not pd.isna(latest_eps_cagr) and latest_eps_cagr > 15:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-09",
+                    "text": (
+                        "Earnings per share growing above "
+                        "15% CAGR indicates strong earnings "
+                        "quality and compounding"
+                    ),
+                    "confidence_pct": 88,
+                }
+            )
 
         # PRO-10
         if increasing(roe, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-10",
-                "text": (
-                    "Return on equity improving for "
-                    "3 consecutive years shows "
-                    "strengthening business quality"
-                ),
-                "confidence_pct": 82,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-10",
+                    "text": (
+                        "Return on equity improving for "
+                        "3 consecutive years shows "
+                        "strengthening business quality"
+                    ),
+                    "confidence_pct": 82,
+                }
+            )
 
         # PRO-11
         if (
@@ -559,194 +451,199 @@ def main():
             and not pd.isna(latest_pat_cagr)
             and latest_revenue_cagr < latest_pat_cagr
         ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-11",
-                "text": (
-                    "Revenue growing slower than profits "
-                    "shows improving operating leverage "
-                    "and scale benefits"
-                ),
-                "confidence_pct": 78,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-11",
+                    "text": (
+                        "Revenue growing slower than profits "
+                        "shows improving operating leverage "
+                        "and scale benefits"
+                    ),
+                    "confidence_pct": 78,
+                }
+            )
 
         # PRO-12
-        if (
-            increasing(assets, 3)
-            and decreasing(debt, 3)
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "pro",
-                "rule_id": "PRO-12",
-                "text": (
-                    "Growing asset base funded by internal "
-                    "accruals reflects self-sustaining growth"
-                ),
-                "confidence_pct": 84,
-            })
+        if increasing(assets, 3) and decreasing(debt, 3):
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "pro",
+                    "rule_id": "PRO-12",
+                    "text": (
+                        "Growing asset base funded by internal "
+                        "accruals reflects self-sustaining growth"
+                    ),
+                    "confidence_pct": 84,
+                }
+            )
 
         # ====================================================
         # CON RULES
         # ====================================================
 
         # CON-01
-        if (
-            not is_financial(company_id)
-            and not pd.isna(latest_de)
-            and latest_de > 2
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-01",
-                "text": (
-                    f"Debt-to-equity ratio of "
-                    f"{latest_de:.2f} is elevated for "
-                    "a non-financial company and warrants "
-                    "monitoring"
-                ),
-                "confidence_pct": 90,
-            })
+        if not is_financial(company_id) and not pd.isna(latest_de) and latest_de > 2:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-01",
+                    "text": (
+                        f"Debt-to-equity ratio of "
+                        f"{latest_de:.2f} is elevated for "
+                        "a non-financial company and warrants "
+                        "monitoring"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # CON-02
         if consecutive_negative(fcf, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-02",
-                "text": (
-                    "Free cash flow negative for "
-                    "3 consecutive years raises concern "
-                    "about cash generation quality"
-                ),
-                "confidence_pct": 92,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-02",
+                    "text": (
+                        "Free cash flow negative for "
+                        "3 consecutive years raises concern "
+                        "about cash generation quality"
+                    ),
+                    "confidence_pct": 92,
+                }
+            )
 
         # CON-03
         if decreasing(opm, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-03",
-                "text": (
-                    "Operating margins declining for "
-                    "3 consecutive years suggest pricing "
-                    "or cost pressure"
-                ),
-                "confidence_pct": 85,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-03",
+                    "text": (
+                        "Operating margins declining for "
+                        "3 consecutive years suggest pricing "
+                        "or cost pressure"
+                    ),
+                    "confidence_pct": 85,
+                }
+            )
 
         # CON-04
-        if (
-            not pd.isna(latest_net_profit)
-            and latest_net_profit < 0
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-04",
-                "text": (
-                    "Company reported a net loss in "
-                    "the most recent financial year"
-                ),
-                "confidence_pct": 98,
-            })
+        if not pd.isna(latest_net_profit) and latest_net_profit < 0:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-04",
+                    "text": (
+                        "Company reported a net loss in "
+                        "the most recent financial year"
+                    ),
+                    "confidence_pct": 98,
+                }
+            )
 
         # CON-05
         if decreasing(revenue, 2):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-05",
-                "text": (
-                    "Revenue contraction over "
-                    "2 consecutive years indicates "
-                    "demand weakness or market share loss"
-                ),
-                "confidence_pct": 88,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-05",
+                    "text": (
+                        "Revenue contraction over "
+                        "2 consecutive years indicates "
+                        "demand weakness or market share loss"
+                    ),
+                    "confidence_pct": 88,
+                }
+            )
 
         # CON-06
-        if (
-            not pd.isna(latest_icr)
-            and latest_icr < 1.5
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-06",
-                "text": (
-                    "Interest coverage ratio below 1.5x "
-                    "indicates the company is at risk "
-                    "of not meeting its debt obligations"
-                ),
-                "confidence_pct": 94,
-            })
+        if not pd.isna(latest_icr) and latest_icr < 1.5:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-06",
+                    "text": (
+                        "Interest coverage ratio below 1.5x "
+                        "indicates the company is at risk "
+                        "of not meeting its debt obligations"
+                    ),
+                    "confidence_pct": 94,
+                }
+            )
 
         # CON-07
-        if (
-            not pd.isna(latest_payout)
-            and latest_payout > 100
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-07",
-                "text": (
-                    "Dividend payout ratio above 100% "
-                    "means the company is paying dividends "
-                    "from reserves, which is unsustainable"
-                ),
-                "confidence_pct": 92,
-            })
+        if not pd.isna(latest_payout) and latest_payout > 100:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-07",
+                    "text": (
+                        "Dividend payout ratio above 100% "
+                        "means the company is paying dividends "
+                        "from reserves, which is unsustainable"
+                    ),
+                    "confidence_pct": 92,
+                }
+            )
 
         # CON-08
         if increasing(de, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-08",
-                "text": (
-                    "Rising debt-to-equity ratio over "
-                    "3 years suggests increasing "
-                    "financial leverage risk"
-                ),
-                "confidence_pct": 88,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-08",
+                    "text": (
+                        "Rising debt-to-equity ratio over "
+                        "3 years suggests increasing "
+                        "financial leverage risk"
+                    ),
+                    "confidence_pct": 88,
+                }
+            )
 
         # CON-09
         if decreasing(eps, 3):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-09",
-                "text": (
-                    "Earnings per share declining for "
-                    "3 consecutive years reflects "
-                    "deteriorating profitability"
-                ),
-                "confidence_pct": 90,
-            })
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-09",
+                    "text": (
+                        "Earnings per share declining for "
+                        "3 consecutive years reflects "
+                        "deteriorating profitability"
+                    ),
+                    "confidence_pct": 90,
+                }
+            )
 
         # CON-10
-        if (
-            not pd.isna(latest_roce)
-            and latest_roce < 10
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-10",
-                "text": (
-                    "Return on capital employed below "
-                    "10% suggests the business is not "
-                    "generating sufficient returns on "
-                    "invested capital"
-                ),
-                "confidence_pct": 86,
-            })
+        if not pd.isna(latest_roce) and latest_roce < 10:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-10",
+                    "text": (
+                        "Return on capital employed below "
+                        "10% suggests the business is not "
+                        "generating sufficient returns on "
+                        "invested capital"
+                    ),
+                    "confidence_pct": 86,
+                }
+            )
 
         # CON-11
         # EBITDA is not present in the database schema,
@@ -754,21 +651,20 @@ def main():
         # We deliberately do not substitute another metric.
 
         # CON-12
-        if (
-            not pd.isna(latest_revenue_cagr)
-            and latest_revenue_cagr < 5
-        ):
-            records.append({
-                "company_id": company_id,
-                "type": "con",
-                "rule_id": "CON-12",
-                "text": (
-                    "Revenue growing at below 5% over "
-                    "5 years lags inflation and suggests "
-                    "limited business momentum"
-                ),
-                "confidence_pct": 85,
-            })
+        if not pd.isna(latest_revenue_cagr) and latest_revenue_cagr < 5:
+            records.append(
+                {
+                    "company_id": company_id,
+                    "type": "con",
+                    "rule_id": "CON-12",
+                    "text": (
+                        "Revenue growing at below 5% over "
+                        "5 years lags inflation and suggests "
+                        "limited business momentum"
+                    ),
+                    "confidence_pct": 85,
+                }
+            )
 
     # ========================================================
     # DATAFRAME
@@ -782,14 +678,12 @@ def main():
             "rule_id",
             "text",
             "confidence_pct",
-        ]
+        ],
     )
 
     if not output.empty:
 
-        output = output[
-            output["confidence_pct"] > 60
-        ].copy()
+        output = output[output["confidence_pct"] > 60].copy()
 
         output = output.sort_values(
             [
@@ -799,40 +693,29 @@ def main():
             ]
         ).reset_index(drop=True)
 
-    output.to_csv(
-        OUTPUT_PATH,
-        index=False
-    )
+    output.to_csv(OUTPUT_PATH, index=False)
 
     # ========================================================
     # COVERAGE
     # ========================================================
 
-    company_set = set(
-        company_ids
+    company_set = set(company_ids)
+
+    pro_companies = (
+        set(output.loc[output["type"] == "pro", "company_id"])
+        if not output.empty
+        else set()
     )
 
-    pro_companies = set(
-        output.loc[
-            output["type"] == "pro",
-            "company_id"
-        ]
-    ) if not output.empty else set()
-
-    con_companies = set(
-        output.loc[
-            output["type"] == "con",
-            "company_id"
-        ]
-    ) if not output.empty else set()
-
-    missing_pro = sorted(
-        company_set - pro_companies
+    con_companies = (
+        set(output.loc[output["type"] == "con", "company_id"])
+        if not output.empty
+        else set()
     )
 
-    missing_con = sorted(
-        company_set - con_companies
-    )
+    missing_pro = sorted(company_set - pro_companies)
+
+    missing_con = sorted(company_set - con_companies)
 
     # ========================================================
     # REPORT
@@ -842,9 +725,7 @@ def main():
     print("PROS / CONS OUTPUT")
     print("=" * 70)
 
-    print(
-        f"Total records       : {len(output)}"
-    )
+    print(f"Total records       : {len(output)}")
 
     print(
         f"Pro records         : "
@@ -856,52 +737,31 @@ def main():
         f"{(output['type'] == 'con').sum() if not output.empty else 0}"
     )
 
-    print(
-        f"Companies           : {len(company_set)}"
-    )
+    print(f"Companies           : {len(company_set)}")
 
-    print(
-        f"Companies with pro  : {len(pro_companies)}"
-    )
+    print(f"Companies with pro  : {len(pro_companies)}")
 
-    print(
-        f"Companies with con  : {len(con_companies)}"
-    )
+    print(f"Companies with con  : {len(con_companies)}")
 
-    print(
-        f"Missing pro         : {len(missing_pro)}"
-    )
+    print(f"Missing pro         : {len(missing_pro)}")
 
-    print(
-        f"Missing con         : {len(missing_con)}"
-    )
+    print(f"Missing con         : {len(missing_con)}")
 
     if missing_pro:
 
         print("\nCompanies missing pro:")
-        print(
-            ", ".join(missing_pro)
-        )
+        print(", ".join(missing_pro))
 
     if missing_con:
 
         print("\nCompanies missing con:")
-        print(
-            ", ".join(missing_con)
-        )
+        print(", ".join(missing_con))
 
     print("\nRule distribution:")
 
     if not output.empty:
 
-        print(
-            output[
-                "rule_id"
-            ]
-            .value_counts()
-            .sort_index()
-            .to_string()
-        )
+        print(output["rule_id"].value_counts().sort_index().to_string())
 
     print("\nOutput:")
     print(OUTPUT_PATH)

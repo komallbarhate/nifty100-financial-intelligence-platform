@@ -1,4 +1,5 @@
 ﻿import sqlite3
+
 import pandas as pd
 
 conn = sqlite3.connect("data/nifty100.db")
@@ -20,7 +21,7 @@ result = pd.read_sql_query(
     WHERE company_id IS NOT NULL
       AND year IS NOT NULL
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -41,7 +42,7 @@ result = pd.read_sql_query(
     HAVING COUNT(*) > 1
     ORDER BY records DESC, company_id, year
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -55,7 +56,7 @@ result = pd.read_sql_query(
     FROM profitandloss
     WHERE year IS NULL
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -75,7 +76,7 @@ result = pd.read_sql_query(
     GROUP BY company_id
     ORDER BY pnl_records, company_id
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))

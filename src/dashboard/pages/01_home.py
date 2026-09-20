@@ -1,11 +1,11 @@
-﻿import streamlit as st
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 
 from src.dashboard.utils.db import (
-    get_companies,
     get_all_latest_ratios,
     get_all_latest_valuations,
+    get_companies,
     get_sectors,
 )
 
@@ -35,9 +35,11 @@ if companies.empty:
 # YEAR SELECTOR
 # ---------------------------------------------------------
 
-available_years = sorted(
-    ratios["year"].dropna().astype(int).unique().tolist()
-) if not ratios.empty else []
+available_years = (
+    sorted(ratios["year"].dropna().astype(int).unique().tolist())
+    if not ratios.empty
+    else []
+)
 
 selected_year = st.sidebar.selectbox(
     "Analysis Year",
@@ -64,7 +66,9 @@ if year_ratios.empty:
 # HELPER
 # ---------------------------------------------------------
 
+
 def numeric_median(df, column):
+    """Process numeric median."""
     if column not in df.columns:
         return None
 
@@ -77,6 +81,7 @@ def numeric_median(df, column):
 
 
 def numeric_mean(df, column):
+    """Process numeric mean."""
     if column not in df.columns:
         return None
 
@@ -89,6 +94,7 @@ def numeric_mean(df, column):
 
 
 def format_value(value, suffix=""):
+    """Format value."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -107,10 +113,7 @@ median_de = numeric_median(year_ratios, "debt_to_equity")
 
 total_companies = companies["id"].nunique()
 
-median_revenue_cagr = numeric_median(
-    year_ratios,
-    "revenue_cagr_5y_pct"
-)
+median_revenue_cagr = numeric_median(year_ratios, "revenue_cagr_5y_pct")
 
 if "debt_to_equity" in year_ratios.columns:
     debt_values = pd.to_numeric(
@@ -118,9 +121,7 @@ if "debt_to_equity" in year_ratios.columns:
         errors="coerce",
     )
 
-    debt_free_count = int(
-        (debt_values.fillna(999999) <= 0).sum()
-    )
+    debt_free_count = int((debt_values.fillna(999999) <= 0).sum())
 else:
     debt_free_count = 0
 
@@ -235,9 +236,7 @@ quality_columns = [
 ]
 
 available_quality_columns = [
-    column
-    for column in quality_columns
-    if column in year_ratios.columns
+    column for column in quality_columns if column in year_ratios.columns
 ]
 
 if "company_id" in year_ratios.columns and len(available_quality_columns) > 1:
@@ -253,33 +252,22 @@ if "company_id" in year_ratios.columns and len(available_quality_columns) > 1:
             )
 
     metric_columns = [
-        column
-        for column in available_quality_columns
-        if column != "company_id"
+        column for column in available_quality_columns if column != "company_id"
     ]
 
     # Percentile-based composite quality score
     for column in metric_columns:
-        quality[f"{column}_pctile"] = (
-            quality[column]
-            .rank(pct=True) * 100
-        )
+        quality[f"{column}_pctile"] = quality[column].rank(pct=True) * 100
 
     # Reverse D/E because lower debt is preferable
     if "debt_to_equity_pctile" in quality.columns:
-        quality["debt_to_equity_pctile"] = (
-            100 - quality["debt_to_equity_pctile"]
-        )
+        quality["debt_to_equity_pctile"] = 100 - quality["debt_to_equity_pctile"]
 
     percentile_columns = [
-        column
-        for column in quality.columns
-        if column.endswith("_pctile")
+        column for column in quality.columns if column.endswith("_pctile")
     ]
 
-    quality["composite_quality_score"] = quality[
-        percentile_columns
-    ].mean(axis=1)
+    quality["composite_quality_score"] = quality[percentile_columns].mean(axis=1)
 
     quality = quality.sort_values(
         "composite_quality_score",
@@ -300,15 +288,15 @@ if "company_id" in year_ratios.columns and len(available_quality_columns) > 1:
     ]
 
     st.dataframe(
-        quality[display_columns].rename(
+        quality[display_columns]
+        .rename(
             columns={
                 "company_id": "Ticker",
                 "company_name": "Company",
                 "composite_quality_score": "Quality Score",
             }
-        ).style.format(
-            {"Quality Score": "{:.2f}"}
-        ),
+        )
+        .style.format({"Quality Score": "{:.2f}"}),
         use_container_width=True,
         hide_index=True,
     )
@@ -326,6 +314,5 @@ else:
 st.divider()
 
 st.caption(
-    "Data source: Nifty 100 project SQLite database | "
-    "Dashboard cache: 10 minutes"
+    "Data source: Nifty 100 project SQLite database | " "Dashboard cache: 10 minutes"
 )

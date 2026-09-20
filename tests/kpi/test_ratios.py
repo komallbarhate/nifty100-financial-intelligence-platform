@@ -1,27 +1,27 @@
 import pytest
 
 from src.analytics.ratios import (
-    net_profit_margin,
-    operating_profit_margin,
-    opm_cross_check,
-    return_on_equity,
-    return_on_capital_employed,
-    return_on_assets,
+    asset_turnover,
+    calculate_leverage_efficiency_ratios,
     calculate_profitability_ratios,
     debt_to_equity,
     high_leverage_flag,
-    interest_coverage_ratio,
     interest_coverage_label,
+    interest_coverage_ratio,
     interest_coverage_warning,
     net_debt,
-    asset_turnover,
-    calculate_leverage_efficiency_ratios,
+    net_profit_margin,
+    operating_profit_margin,
+    opm_cross_check,
+    return_on_assets,
+    return_on_capital_employed,
+    return_on_equity,
 )
-
 
 # ============================================================
 # PROFITABILITY RATIO TESTS
 # ============================================================
+
 
 def test_net_profit_margin():
     assert net_profit_margin(100, 1000) == pytest.approx(10.0)
@@ -114,6 +114,7 @@ def test_calculate_profitability_ratios():
 # LEVERAGE & EFFICIENCY TESTS
 # ============================================================
 
+
 def test_debt_to_equity():
     assert debt_to_equity(
         500,
@@ -131,30 +132,42 @@ def test_debt_to_equity_zero_debt():
 
 
 def test_debt_to_equity_invalid_equity():
-    assert debt_to_equity(
-        500,
-        -300,
-        100,
-    ) is None
+    assert (
+        debt_to_equity(
+            500,
+            -300,
+            100,
+        )
+        is None
+    )
 
 
 def test_high_leverage_flag():
-    assert high_leverage_flag(
-        6.0,
-        "Industrial",
-    ) is True
+    assert (
+        high_leverage_flag(
+            6.0,
+            "Industrial",
+        )
+        is True
+    )
 
-    assert high_leverage_flag(
-        4.0,
-        "Industrial",
-    ) is False
+    assert (
+        high_leverage_flag(
+            4.0,
+            "Industrial",
+        )
+        is False
+    )
 
 
 def test_financial_sector_high_leverage_override():
-    assert high_leverage_flag(
-        10.0,
-        "Financials",
-    ) is False
+    assert (
+        high_leverage_flag(
+            10.0,
+            "Financials",
+        )
+        is False
+    )
 
 
 def test_interest_coverage_ratio():
@@ -166,11 +179,14 @@ def test_interest_coverage_ratio():
 
 
 def test_interest_coverage_zero_interest():
-    assert interest_coverage_ratio(
-        200,
-        50,
-        0,
-    ) is None
+    assert (
+        interest_coverage_ratio(
+            200,
+            50,
+            0,
+        )
+        is None
+    )
 
 
 def test_interest_coverage_label():
@@ -204,10 +220,13 @@ def test_asset_turnover():
 
 
 def test_asset_turnover_zero_assets():
-    assert asset_turnover(
-        1000,
-        0,
-    ) is None
+    assert (
+        asset_turnover(
+            1000,
+            0,
+        )
+        is None
+    )
 
 
 def test_calculate_leverage_efficiency_ratios():

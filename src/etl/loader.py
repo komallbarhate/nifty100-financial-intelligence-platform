@@ -4,7 +4,6 @@ import pandas as pd
 
 from src.etl.normaliser import normalize_dataframe
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
@@ -12,6 +11,7 @@ SUPPORTING_DIR = PROJECT_ROOT / "data" / "supporting"
 
 
 def load_core_data():
+    """Load core data."""
     datasets = {}
 
     datasets["analysis"] = pd.read_excel(
@@ -53,6 +53,7 @@ def load_core_data():
 
 
 def load_supporting_data():
+    """Load supporting data."""
     datasets = {}
 
     datasets["financial_ratios"] = pd.read_excel(
@@ -150,6 +151,7 @@ def prepare_dataset(name, df):
 
 
 def main():
+    """Run the main workflow."""
     print("=" * 70)
     print("NIFTY 100 FINANCIAL INTELLIGENCE PLATFORM")
     print("DAY 2 - EXCEL LOADER")
@@ -187,11 +189,7 @@ def main():
     print("=" * 70)
 
     for name, df in prepared_data.items():
-        print(
-            f"{name:20} "
-            f"{df.shape[0]:6} rows x "
-            f"{df.shape[1]:3} columns"
-        )
+        print(f"{name:20} " f"{df.shape[0]:6} rows x " f"{df.shape[1]:3} columns")
 
     print("\nDay 2 Excel loading completed successfully.")
 

@@ -1,13 +1,13 @@
 import pytest
 
 from src.analytics.ratios import (
+    calculate_profitability_ratios,
     net_profit_margin,
     operating_profit_margin,
     opm_cross_check,
-    return_on_equity,
-    return_on_capital_employed,
     return_on_assets,
-    calculate_profitability_ratios,
+    return_on_capital_employed,
+    return_on_equity,
 )
 
 
@@ -115,7 +115,5 @@ def test_combined_profitability_ratios():
     assert result["operating_profit_margin_pct"] == pytest.approx(30.0)
     assert result["return_on_equity_pct"] == pytest.approx(20.0)
     assert result["return_on_capital_employed_pct"] == pytest.approx(20.0)
-    assert result["return_on_assets_pct"] == pytest.approx(
-        13.3333333333
-    )
+    assert result["return_on_assets_pct"] == pytest.approx(13.3333333333)
     assert result["opm_mismatch_flag"] is False

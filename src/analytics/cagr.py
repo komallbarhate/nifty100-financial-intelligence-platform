@@ -1,5 +1,3 @@
-from typing import Optional
-
 
 # ============================================================
 # DAY 10 — CAGR ENGINE
@@ -15,10 +13,10 @@ INSUFFICIENT = "INSUFFICIENT"
 
 
 def calculate_cagr(
-    start_value: Optional[float],
-    end_value: Optional[float],
+    start_value: float | None,
+    end_value: float | None,
     years: int,
-) -> tuple[Optional[float], Optional[str]]:
+) -> tuple[float | None, str | None]:
     """
     CAGR = ((End / Start) ^ (1 / n) - 1) * 100
 
@@ -38,9 +36,7 @@ def calculate_cagr(
         return None, ZERO_BASE
 
     if start_value > 0 and end_value > 0:
-        cagr = (
-            ((end_value / start_value) ** (1 / years)) - 1
-        ) * 100
+        cagr = (((end_value / start_value) ** (1 / years)) - 1) * 100
 
         return cagr, VALID
 
@@ -77,17 +73,14 @@ def has_required_years(
 
     available = set(available_years)
 
-    return (
-        start_year in available
-        and end_year in available
-    )
+    return start_year in available and end_year in available
 
 
 def calculate_window_cagr(
     yearly_values: dict[int, float],
     end_year: int,
     window_years: int,
-) -> tuple[Optional[float], Optional[str]]:
+) -> tuple[float | None, str | None]:
     """
     Calculate CAGR using a fixed year window.
 
@@ -166,12 +159,8 @@ def calculate_company_growth_metrics(
                 window,
             )
 
-            result[
-                f"{metric_name}_cagr_{window}yr"
-            ] = value
+            result[f"{metric_name}_cagr_{window}yr"] = value
 
-            result[
-                f"{metric_name}_cagr_{window}yr_flag"
-            ] = flag
+            result[f"{metric_name}_cagr_{window}yr_flag"] = flag
 
     return result

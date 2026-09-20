@@ -1,4 +1,4 @@
-﻿import sqlite3
+import sqlite3
 from pathlib import Path
 
 import numpy as np
@@ -9,7 +9,6 @@ import streamlit as st
 from src.dashboard.utils.db import get_peer_groups, get_peers
 from src.screener.composite_score import CompositeScorer
 
-
 st.set_page_config(
     page_title="Peer Comparison",
     page_icon="👥",
@@ -17,9 +16,7 @@ st.set_page_config(
 )
 
 st.title("👥 Peer Comparison")
-st.caption(
-    "Compare a company against its assigned Nifty 100 peer group."
-)
+st.caption("Compare a company against its assigned Nifty 100 peer group.")
 
 
 # =========================================================
@@ -34,9 +31,10 @@ DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
 # LOAD PEER PERCENTILES
 # =========================================================
 
+
 @st.cache_data(ttl=600)
 def load_peer_percentiles():
-
+    """Load peer percentiles."""
     conn = sqlite3.connect(DB_PATH)
 
     df = pd.read_sql_query(
@@ -62,9 +60,10 @@ def load_peer_percentiles():
 # LOAD COMPANY MASTER
 # =========================================================
 
+
 @st.cache_data(ttl=600)
 def load_companies():
-
+    """Load companies."""
     conn = sqlite3.connect(DB_PATH)
 
     df = pd.read_sql_query(
@@ -87,9 +86,10 @@ def load_companies():
 # LOAD COMPOSITE SCORES
 # =========================================================
 
+
 @st.cache_data(ttl=600)
 def load_composite_scores():
-
+    """Load composite scores."""
     try:
 
         scorer = CompositeScorer()
@@ -108,20 +108,12 @@ def load_composite_scores():
             "sprint3_composite_score",
         ]
 
-        available = [
-            column
-            for column in required
-            if column in scores.columns
-        ]
+        available = [column for column in required if column in scores.columns]
 
         if len(available) < 2:
-            return pd.DataFrame(
-                columns=required
-            )
+            return pd.DataFrame(columns=required)
 
-        return scores[
-            available
-        ].copy()
+        return scores[available].copy()
 
     except Exception:
         return pd.DataFrame(
@@ -145,9 +137,7 @@ try:
 
 except Exception as error:
 
-    st.error(
-        "Unable to load peer comparison data."
-    )
+    st.error("Unable to load peer comparison data.")
 
     st.exception(error)
 
@@ -156,9 +146,7 @@ except Exception as error:
 
 if not peer_groups:
 
-    st.warning(
-        "No peer groups are available."
-    )
+    st.warning("No peer groups are available.")
 
     st.stop()
 
@@ -173,17 +161,9 @@ for frame in [
     composite_scores,
 ]:
 
-    if (
-        isinstance(frame, pd.DataFrame)
-        and "company_id" in frame.columns
-    ):
+    if isinstance(frame, pd.DataFrame) and "company_id" in frame.columns:
 
-        frame["company_id"] = (
-            frame["company_id"]
-            .astype(str)
-            .str.strip()
-            .str.upper()
-        )
+        frame["company_id"] = frame["company_id"].astype(str).str.strip().str.upper()
 
 
 # =========================================================
@@ -202,26 +182,19 @@ selected_group = st.selectbox(
 # LOAD GROUP MEMBERS
 # =========================================================
 
-group_members = get_peers(
-    selected_group
-).copy()
+group_members = get_peers(selected_group).copy()
 
 
 if group_members.empty:
 
-    st.warning(
-        f"No companies are assigned to {selected_group}."
-    )
+    st.warning(f"No companies are assigned to {selected_group}.")
 
     st.stop()
 
 
 # Normalise ID
 group_members["company_id"] = (
-    group_members["company_id"]
-    .astype(str)
-    .str.strip()
-    .str.upper()
+    group_members["company_id"].astype(str).str.strip().str.upper()
 )
 
 
@@ -242,18 +215,12 @@ if "company_name" not in group_members.columns:
 # create a safe fallback.
 if "company_name" not in group_members.columns:
 
-    group_members["company_name"] = (
-        group_members["company_id"]
-    )
+    group_members["company_name"] = group_members["company_id"]
 
 
-group_members = group_members.drop_duplicates(
-    subset=["company_id"]
-)
+group_members = group_members.drop_duplicates(subset=["company_id"])
 
-group_members = group_members.sort_values(
-    "company_name"
-)
+group_members = group_members.sort_values("company_name")
 
 
 # =========================================================
@@ -264,17 +231,11 @@ company_labels = {}
 
 for _, row in group_members.iterrows():
 
-    ticker = str(
-        row["company_id"]
-    )
+    ticker = str(row["company_id"])
 
-    name = str(
-        row["company_name"]
-    )
+    name = str(row["company_name"])
 
-    company_labels[
-        f"{ticker} — {name}"
-    ] = ticker
+    company_labels[f"{ticker} — {name}"] = ticker
 
 
 selected_label = st.selectbox(
@@ -282,9 +243,7 @@ selected_label = st.selectbox(
     list(company_labels.keys()),
 )
 
-selected_company = company_labels[
-    selected_label
-]
+selected_company = company_labels[selected_label]
 
 
 st.divider()
@@ -295,17 +254,13 @@ st.divider()
 # =========================================================
 
 group_percentiles = peer_percentiles[
-    peer_percentiles["peer_group"]
-    == selected_group
+    peer_percentiles["peer_group"] == selected_group
 ].copy()
 
 
 if group_percentiles.empty:
 
-    st.warning(
-        "Peer percentile data is unavailable "
-        "for this peer group."
-    )
+    st.warning("Peer percentile data is unavailable " "for this peer group.")
 
     st.stop()
 
@@ -330,16 +285,12 @@ radar_metrics = [
 # PIVOT PERCENTILES
 # =========================================================
 
-pivot = (
-    group_percentiles
-    .pivot_table(
-        index="company_id",
-        columns="metric",
-        values="percentile_rank",
-        aggfunc="first",
-    )
-    .reset_index()
-)
+pivot = group_percentiles.pivot_table(
+    index="company_id",
+    columns="metric",
+    values="percentile_rank",
+    aggfunc="first",
+).reset_index()
 
 
 # =========================================================
@@ -399,26 +350,19 @@ pivot = pivot.merge(
 
 if "company_name" not in pivot.columns:
 
-    pivot["company_name"] = pivot[
-        "company_id"
-    ]
+    pivot["company_name"] = pivot["company_id"]
 
 
 # =========================================================
 # SELECTED COMPANY
 # =========================================================
 
-selected_rows = pivot[
-    pivot["company_id"] == selected_company
-].copy()
+selected_rows = pivot[pivot["company_id"] == selected_company].copy()
 
 
 if selected_rows.empty:
 
-    st.warning(
-        "The selected company does not have "
-        "peer percentile data."
-    )
+    st.warning("The selected company does not have " "peer percentile data.")
 
     st.stop()
 
@@ -430,9 +374,7 @@ selected_row = selected_rows.iloc[0]
 # PEER DATA
 # =========================================================
 
-peer_rows = pivot[
-    pivot["company_id"] != selected_company
-].copy()
+peer_rows = pivot[pivot["company_id"] != selected_company].copy()
 
 
 if peer_rows.empty:
@@ -444,13 +386,9 @@ if peer_rows.empty:
 # RADAR SECTION
 # =========================================================
 
-st.subheader(
-    f"{selected_company} vs {selected_group}"
-)
+st.subheader(f"{selected_company} vs {selected_group}")
 
-radar_col, summary_col = st.columns(
-    [1.5, 1]
-)
+radar_col, summary_col = st.columns([1.5, 1])
 
 
 # =========================================================
@@ -459,15 +397,9 @@ radar_col, summary_col = st.columns(
 
 with radar_col:
 
-    labels = [
-        label
-        for label, _ in radar_metrics
-    ]
+    labels = [label for label, _ in radar_metrics]
 
-    metric_names = [
-        metric
-        for _, metric in radar_metrics
-    ]
+    metric_names = [metric for _, metric in radar_metrics]
 
     company_values = []
     peer_values = []
@@ -488,15 +420,11 @@ with radar_col:
 
         else:
 
-            peer_series = pd.Series(
-                dtype=float
-            )
-
+            peer_series = pd.Series(dtype=float)
 
         if pd.isna(company_value):
 
             company_value = 50.0
-
 
         if peer_series.empty:
 
@@ -504,53 +432,32 @@ with radar_col:
 
         else:
 
-            peer_average = float(
-                peer_series.mean()
-            )
+            peer_average = float(peer_series.mean())
 
+        company_values.append(float(company_value))
 
-        company_values.append(
-            float(company_value)
-        )
-
-        peer_values.append(
-            peer_average
-        )
-
+        peer_values.append(peer_average)
 
     fig = go.Figure()
 
-
     fig.add_trace(
         go.Scatterpolar(
-            r=company_values + [
-                company_values[0]
-            ],
-            theta=labels + [
-                labels[0]
-            ],
+            r=company_values + [company_values[0]],
+            theta=labels + [labels[0]],
             fill="toself",
             name=selected_company,
         )
     )
 
-
     fig.add_trace(
         go.Scatterpolar(
-            r=peer_values + [
-                peer_values[0]
-            ],
-            theta=labels + [
-                labels[0]
-            ],
+            r=peer_values + [peer_values[0]],
+            theta=labels + [labels[0]],
             fill="toself",
             name="Peer Average",
-            line=dict(
-                dash="dash"
-            ),
+            line=dict(dash="dash"),
         )
     )
-
 
     fig.update_layout(
         polar=dict(
@@ -568,7 +475,6 @@ with radar_col:
             b=40,
         ),
     )
-
 
     st.plotly_chart(
         fig,
@@ -594,14 +500,9 @@ with summary_col:
         len(pivot),
     )
 
-
-    st.markdown(
-        "### Percentile Comparison"
-    )
-
+    st.markdown("### Percentile Comparison")
 
     comparison_rows = []
-
 
     for label, metric in radar_metrics:
 
@@ -609,7 +510,6 @@ with summary_col:
             metric,
             np.nan,
         )
-
 
         if metric in peer_rows.columns:
 
@@ -620,10 +520,7 @@ with summary_col:
 
         else:
 
-            peer_series = pd.Series(
-                dtype=float
-            )
-
+            peer_series = pd.Series(dtype=float)
 
         if peer_series.empty:
 
@@ -633,7 +530,6 @@ with summary_col:
 
             peer_average = peer_series.mean()
 
-
         comparison_rows.append(
             {
                 "Metric": label,
@@ -642,11 +538,7 @@ with summary_col:
             }
         )
 
-
-    comparison_df = pd.DataFrame(
-        comparison_rows
-    )
-
+    comparison_df = pd.DataFrame(comparison_rows)
 
     st.dataframe(
         comparison_df.style.format(
@@ -668,9 +560,7 @@ st.divider()
 # SIDE-BY-SIDE PEER TABLE
 # =========================================================
 
-st.subheader(
-    f"Peer Companies — {selected_group}"
-)
+st.subheader(f"Peer Companies — {selected_group}")
 
 
 table_rows = []
@@ -678,15 +568,12 @@ table_rows = []
 
 for _, row in pivot.iterrows():
 
-    ticker = str(
-        row["company_id"]
-    )
+    ticker = str(row["company_id"])
 
     name = row.get(
         "company_name",
         ticker,
     )
-
 
     table_rows.append(
         {
@@ -728,9 +615,7 @@ for _, row in pivot.iterrows():
     )
 
 
-comparison_table = pd.DataFrame(
-    table_rows
-)
+comparison_table = pd.DataFrame(table_rows)
 
 
 if "Composite Score" in comparison_table.columns:
@@ -746,28 +631,21 @@ if "Composite Score" in comparison_table.columns:
 # HIGHLIGHT SELECTED COMPANY
 # =========================================================
 
-def highlight_selected(row):
 
+def highlight_selected(row):
+    """Process highlight selected."""
     if row["Ticker"] == selected_company:
 
-        return [
-            "font-weight: bold"
-            for _ in row
-        ]
+        return ["font-weight: bold" for _ in row]
 
-    return [
-        ""
-        for _ in row
-    ]
+    return ["" for _ in row]
 
 
 st.dataframe(
-    comparison_table.style
-    .apply(
+    comparison_table.style.apply(
         highlight_selected,
         axis=1,
-    )
-    .format(
+    ).format(
         {
             "ROE": "{:.1f}",
             "ROCE": "{:.1f}",

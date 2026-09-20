@@ -1,5 +1,6 @@
-﻿import pandas as pd
-from pathlib import Path
+﻿from pathlib import Path
+
+import pandas as pd
 
 path = Path("data/supporting/1788501621129-8684701e-sectors.xlsx")
 

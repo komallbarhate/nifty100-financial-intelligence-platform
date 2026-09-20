@@ -1,4 +1,3 @@
-from typing import Optional
 
 
 def _to_float(value):
@@ -17,11 +16,12 @@ def _to_float(value):
 # DAY 08 — PROFITABILITY RATIOS
 # ============================================================
 
+
 def net_profit_margin(
     net_profit,
     sales,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process net profit margin."""
     net_profit = _to_float(net_profit)
     sales = _to_float(sales)
 
@@ -39,28 +39,20 @@ def operating_profit_margin(
     sales,
     source_opm=None,
 ):
-
+    """Process operating profit margin."""
     operating_profit = _to_float(operating_profit)
     sales = _to_float(sales)
     source_opm = _to_float(source_opm)
 
-    if (
-        operating_profit is None
-        or sales is None
-        or sales <= 0
-    ):
+    if operating_profit is None or sales is None or sales <= 0:
         return None, None
 
-    computed_opm = (
-        operating_profit / sales
-    ) * 100
+    computed_opm = (operating_profit / sales) * 100
 
     difference = None
 
     if source_opm is not None:
-        difference = abs(
-            computed_opm - source_opm
-        )
+        difference = abs(computed_opm - source_opm)
 
     return computed_opm, difference
 
@@ -71,17 +63,14 @@ def opm_cross_check(
     source_opm,
     threshold=1.0,
 ):
-
+    """Process opm cross check."""
     computed, difference = operating_profit_margin(
         operating_profit,
         sales,
         source_opm,
     )
 
-    mismatch = (
-        difference is not None
-        and difference > threshold
-    )
+    mismatch = difference is not None and difference > threshold
 
     return {
         "computed_opm": computed,
@@ -95,17 +84,13 @@ def return_on_equity(
     net_profit,
     equity_capital,
     reserves,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process return on equity."""
     net_profit = _to_float(net_profit)
     equity_capital = _to_float(equity_capital)
     reserves = _to_float(reserves)
 
-    if (
-        net_profit is None
-        or equity_capital is None
-        or reserves is None
-    ):
+    if net_profit is None or equity_capital is None or reserves is None:
         return None
 
     equity = equity_capital + reserves
@@ -113,9 +98,7 @@ def return_on_equity(
     if equity <= 0:
         return None
 
-    return (
-        net_profit / equity
-    ) * 100
+    return (net_profit / equity) * 100
 
 
 def return_on_capital_employed(
@@ -123,55 +106,39 @@ def return_on_capital_employed(
     equity_capital,
     reserves,
     borrowings,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process return on capital employed."""
     ebit = _to_float(ebit)
     equity_capital = _to_float(equity_capital)
     reserves = _to_float(reserves)
     borrowings = _to_float(borrowings)
 
-    if (
-        ebit is None
-        or equity_capital is None
-        or reserves is None
-        or borrowings is None
-    ):
+    if ebit is None or equity_capital is None or reserves is None or borrowings is None:
         return None
 
-    capital_employed = (
-        equity_capital
-        + reserves
-        + borrowings
-    )
+    capital_employed = equity_capital + reserves + borrowings
 
     if capital_employed <= 0:
         return None
 
-    return (
-        ebit / capital_employed
-    ) * 100
+    return (ebit / capital_employed) * 100
 
 
 def return_on_assets(
     net_profit,
     total_assets,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process return on assets."""
     net_profit = _to_float(net_profit)
     total_assets = _to_float(total_assets)
 
-    if (
-        net_profit is None
-        or total_assets is None
-    ):
+    if net_profit is None or total_assets is None:
         return None
 
     if total_assets <= 0:
         return None
 
-    return (
-        net_profit / total_assets
-    ) * 100
+    return (net_profit / total_assets) * 100
 
 
 def calculate_profitability_ratios(
@@ -185,7 +152,7 @@ def calculate_profitability_ratios(
     total_assets=None,
     source_opm=None,
 ):
-
+    """Calculate profitability ratios."""
     npm = net_profit_margin(
         net_profit,
         sales,
@@ -218,10 +185,7 @@ def calculate_profitability_ratios(
         total_assets,
     )
 
-    opm_mismatch_flag = (
-        opm_difference is not None
-        and opm_difference > 1.0
-    )
+    opm_mismatch_flag = opm_difference is not None and opm_difference > 1.0
 
     return {
         "net_profit_margin_pct": npm,
@@ -238,21 +202,18 @@ def calculate_profitability_ratios(
 # DAY 09 — LEVERAGE & EFFICIENCY
 # ============================================================
 
+
 def debt_to_equity(
     borrowings,
     equity_capital,
     reserves,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process debt to equity."""
     borrowings = _to_float(borrowings)
     equity_capital = _to_float(equity_capital)
     reserves = _to_float(reserves)
 
-    if (
-        borrowings is None
-        or equity_capital is None
-        or reserves is None
-    ):
+    if borrowings is None or equity_capital is None or reserves is None:
         return None
 
     equity = equity_capital + reserves
@@ -271,17 +232,13 @@ def high_leverage_flag(
     broad_sector,
     threshold=5.0,
 ):
-
+    """Process high leverage flag."""
     debt_equity = _to_float(debt_equity)
 
     if debt_equity is None:
         return False
 
-    if (
-        broad_sector is not None
-        and str(broad_sector).strip().lower()
-        == "financials"
-    ):
+    if broad_sector is not None and str(broad_sector).strip().lower() == "financials":
         return False
 
     return debt_equity > threshold
@@ -291,31 +248,25 @@ def interest_coverage_ratio(
     operating_profit,
     other_income,
     interest,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process interest coverage ratio."""
     operating_profit = _to_float(operating_profit)
     other_income = _to_float(other_income)
     interest = _to_float(interest)
 
-    if (
-        operating_profit is None
-        or other_income is None
-        or interest is None
-    ):
+    if operating_profit is None or other_income is None or interest is None:
         return None
 
     if interest == 0:
         return None
 
-    return (
-        operating_profit + other_income
-    ) / interest
+    return (operating_profit + other_income) / interest
 
 
 def interest_coverage_label(
     icr,
 ):
-
+    """Process interest coverage label."""
     if icr is None:
         return "Debt Free"
 
@@ -326,7 +277,7 @@ def interest_coverage_warning(
     icr,
     threshold=1.5,
 ):
-
+    """Process interest coverage warning."""
     if icr is None:
         return False
 
@@ -337,7 +288,7 @@ def net_debt(
     borrowings,
     investments,
 ):
-
+    """Process net debt."""
     borrowings = _to_float(borrowings)
     investments = _to_float(investments)
 
@@ -353,15 +304,12 @@ def net_debt(
 def asset_turnover(
     sales,
     total_assets,
-) -> Optional[float]:
-
+) -> float | None:
+    """Process asset turnover."""
     sales = _to_float(sales)
     total_assets = _to_float(total_assets)
 
-    if (
-        sales is None
-        or total_assets is None
-    ):
+    if sales is None or total_assets is None:
         return None
 
     if total_assets == 0:
@@ -382,7 +330,7 @@ def calculate_leverage_efficiency_ratios(
     sales,
     total_assets,
 ):
-
+    """Calculate leverage efficiency ratios."""
     de = debt_to_equity(
         borrowings,
         equity_capital,

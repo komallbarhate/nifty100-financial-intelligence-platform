@@ -1,15 +1,16 @@
-﻿from pathlib import Path
-import sqlite3
+﻿import sqlite3
+from pathlib import Path
+from typing import ClassVar
 
 import pandas as pd
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill, Font, Alignment
+from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 
 class PeerComparisonWorkbook:
 
-    METRICS = [
+    METRICS: ClassVar = [
         "roe",
         "roce",
         "npm",
@@ -22,7 +23,7 @@ class PeerComparisonWorkbook:
         "asset_turnover",
     ]
 
-    METRIC_LABELS = {
+    METRIC_LABELS: ClassVar = {
         "roe": "ROE",
         "roce": "ROCE",
         "npm": "NPM",
@@ -44,19 +45,12 @@ class PeerComparisonWorkbook:
             / "supporting"
             / "1788501620796-5060f580-peer_groups.xlsx"
         )
-        self.output_path = (
-            self.project_root
-            / "output"
-            / "peer_comparison.xlsx"
-        )
+        self.output_path = self.project_root / "output" / "peer_comparison.xlsx"
 
-        self.output_path.parent.mkdir(
-            parents=True,
-            exist_ok=True
-        )
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
 
     def load_data(self):
-
+        """Load data."""
         conn = sqlite3.connect(self.db_path)
 
         percentiles = pd.read_sql_query(
@@ -70,7 +64,7 @@ class PeerComparisonWorkbook:
                 year
             FROM peer_percentiles
             """,
-            conn
+            conn,
         )
 
         companies = pd.read_sql_query(
@@ -80,23 +74,19 @@ class PeerComparisonWorkbook:
                 company_name
             FROM companies
             """,
-            conn
+            conn,
         )
 
         conn.close()
 
-        benchmark_source = pd.read_excel(
-            self.source_path
-        )
+        benchmark_source = pd.read_excel(self.source_path)
 
         benchmark_source["company_id"] = (
             benchmark_source["company_id"]
             .astype(str)
             .str.strip()
             .str.upper()
-            .replace({
-                "BAJAJ-AUTO": "BAJAJAUTO"
-            })
+            .replace({"BAJAJ-AUTO": "BAJAJAUTO"})
         )
 
         benchmark_source["is_benchmark"] = (
@@ -108,37 +98,19 @@ class PeerComparisonWorkbook:
         )
 
         benchmarks = benchmark_source[
-            [
-                "company_id",
-                "peer_group_name",
-                "is_benchmark"
-            ]
+            ["company_id", "peer_group_name", "is_benchmark"]
         ].copy()
 
-        return (
-            percentiles,
-            companies,
-            benchmarks
-        )
+        return (percentiles, companies, benchmarks)
 
     def build_data(self):
+        """Build data."""
+        percentiles, companies, benchmarks = self.load_data()
 
-        (
-            percentiles,
-            companies,
-            benchmarks
-        ) = self.load_data()
-
-        percentiles = percentiles.merge(
-            companies,
-            on="company_id",
-            how="left"
-        )
+        percentiles = percentiles.merge(companies, on="company_id", how="left")
 
         # Convert percentile to 0-100 for workbook display.
-        percentiles["percentile_100"] = (
-            percentiles["percentile_rank"] * 100
-        )
+        percentiles["percentile_100"] = percentiles["percentile_rank"] * 100
 
         value_pivot = percentiles.pivot_table(
             index=[
@@ -149,7 +121,7 @@ class PeerComparisonWorkbook:
             ],
             columns="metric",
             values="value",
-            aggfunc="first"
+            aggfunc="first",
         ).reset_index()
 
         percentile_pivot = percentiles.pivot_table(
@@ -161,7 +133,7 @@ class PeerComparisonWorkbook:
             ],
             columns="metric",
             values="percentile_100",
-            aggfunc="first"
+            aggfunc="first",
         ).reset_index()
 
         value_pivot = value_pivot.rename(
@@ -195,74 +167,37 @@ class PeerComparisonWorkbook:
             if label in value_pivot.columns:
                 result[label] = value_pivot[label]
 
-            percentile_label = (
-                f"{label} Percentile"
-            )
+            percentile_label = f"{label} Percentile"
 
             if percentile_label in percentile_pivot.columns:
-                result[percentile_label] = (
-                    percentile_pivot[percentile_label]
-                )
+                result[percentile_label] = percentile_pivot[percentile_label]
 
         result = result.merge(
-            benchmarks[
-                [
-                    "company_id",
-                    "is_benchmark"
-                ]
-            ],
-            on="company_id",
-            how="left"
+            benchmarks[["company_id", "is_benchmark"]], on="company_id", how="left"
         )
 
-        result["is_benchmark"] = (
-            result["is_benchmark"]
-            .fillna(False)
-            .astype(bool)
-        )
+        result["is_benchmark"] = result["is_benchmark"].fillna(False).astype(bool)
 
         return result
 
     def create_workbook(self):
-
+        """Create workbook."""
         data = self.build_data()
 
-        peer_groups = sorted(
-            data["peer_group"]
-            .dropna()
-            .unique()
-            .tolist()
-        )
+        peer_groups = sorted(data["peer_group"].dropna().unique().tolist())
 
-        with pd.ExcelWriter(
-            self.output_path,
-            engine="openpyxl"
-        ) as writer:
+        with pd.ExcelWriter(self.output_path, engine="openpyxl") as writer:
 
             for peer_group in peer_groups:
 
-                group = data[
-                    data["peer_group"] == peer_group
-                ].copy()
+                group = data[data["peer_group"] == peer_group].copy()
 
                 group = group.sort_values(
-                    [
-                        "is_benchmark",
-                        "company_name"
-                    ],
-                    ascending=[
-                        False,
-                        True
-                    ]
+                    ["is_benchmark", "company_name"], ascending=[False, True]
                 )
 
                 # Put benchmark indicator first.
-                group["Benchmark"] = group[
-                    "is_benchmark"
-                ].map({
-                    True: "YES",
-                    False: ""
-                })
+                group["Benchmark"] = group["is_benchmark"].map({True: "YES", False: ""})
 
                 columns = [
                     "company_id",
@@ -274,9 +209,7 @@ class PeerComparisonWorkbook:
                     label = self.METRIC_LABELS[metric]
 
                     columns.append(label)
-                    columns.append(
-                        f"{label} Percentile"
-                    )
+                    columns.append(f"{label} Percentile")
 
                 columns.append("year")
 
@@ -284,127 +217,68 @@ class PeerComparisonWorkbook:
 
                 sheet_name = peer_group[:31]
 
-                group.to_excel(
-                    writer,
-                    sheet_name=sheet_name,
-                    index=False
-                )
+                group.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        self.format_workbook(
-            peer_groups
-        )
+        self.format_workbook(peer_groups)
 
         return peer_groups
 
     def format_workbook(self, peer_groups):
+        """Format workbook."""
+        wb = load_workbook(self.output_path)
 
-        wb = load_workbook(
-            self.output_path
-        )
+        header_fill = PatternFill(fill_type="solid", fgColor="1F4E78")
 
-        header_fill = PatternFill(
-            fill_type="solid",
-            fgColor="1F4E78"
-        )
+        header_font = Font(color="FFFFFF", bold=True)
 
-        header_font = Font(
-            color="FFFFFF",
-            bold=True
-        )
+        green_fill = PatternFill(fill_type="solid", fgColor="C6EFCE")
 
-        green_fill = PatternFill(
-            fill_type="solid",
-            fgColor="C6EFCE"
-        )
+        yellow_fill = PatternFill(fill_type="solid", fgColor="FFEB9C")
 
-        yellow_fill = PatternFill(
-            fill_type="solid",
-            fgColor="FFEB9C"
-        )
+        red_fill = PatternFill(fill_type="solid", fgColor="FFC7CE")
 
-        red_fill = PatternFill(
-            fill_type="solid",
-            fgColor="FFC7CE"
-        )
-
-        benchmark_fill = PatternFill(
-            fill_type="solid",
-            fgColor="FFD966"
-        )
+        benchmark_fill = PatternFill(fill_type="solid", fgColor="FFD966")
 
         for peer_group in peer_groups:
 
             ws = wb[peer_group[:31]]
 
-            headers = {
-                cell.value: cell.column
-                for cell in ws[1]
-            }
+            headers = {cell.value: cell.column for cell in ws[1]}
 
             # Header formatting.
             for cell in ws[1]:
                 cell.fill = header_fill
                 cell.font = header_font
-                cell.alignment = Alignment(
-                    horizontal="center",
-                    vertical="center"
-                )
+                cell.alignment = Alignment(horizontal="center", vertical="center")
 
             # Benchmark rows.
-            benchmark_col = headers.get(
-                "Benchmark"
-            )
+            benchmark_col = headers.get("Benchmark")
 
             if benchmark_col:
 
-                for row in range(
-                    2,
-                    ws.max_row + 1
-                ):
+                for row in range(2, ws.max_row + 1):
 
-                    value = ws.cell(
-                        row=row,
-                        column=benchmark_col
-                    ).value
+                    value = ws.cell(row=row, column=benchmark_col).value
 
                     if value == "YES":
 
-                        for col in range(
-                            1,
-                            ws.max_column + 1
-                        ):
-                            ws.cell(
-                                row=row,
-                                column=col
-                            ).fill = benchmark_fill
+                        for col in range(1, ws.max_column + 1):
+                            ws.cell(row=row, column=col).fill = benchmark_fill
 
             # Percentile coloring.
             for header, column in headers.items():
 
-                if not str(header).endswith(
-                    " Percentile"
-                ):
+                if not str(header).endswith(" Percentile"):
                     continue
 
-                for row in range(
-                    2,
-                    ws.max_row + 1
-                ):
+                for row in range(2, ws.max_row + 1):
 
-                    cell = ws.cell(
-                        row=row,
-                        column=column
-                    )
+                    cell = ws.cell(row=row, column=column)
 
-                    if not isinstance(
-                        cell.value,
-                        (int, float)
-                    ):
+                    if not isinstance(cell.value, (int, float)):
                         continue
 
-                    value = float(
-                        cell.value
-                    )
+                    value = float(cell.value)
 
                     if value >= 75:
                         cell.fill = green_fill
@@ -427,39 +301,17 @@ class PeerComparisonWorkbook:
                     "PAT CAGR 5yr",
                     "Revenue CAGR 5yr",
                     "EPS CAGR 5yr",
-                ]:
-                    for row in range(
-                        2,
-                        ws.max_row + 1
-                    ):
-                        ws.cell(
-                            row=row,
-                            column=column
-                        ).number_format = "0.00"
-
-                elif header in [
+                ] or header in [
                     "D/E",
                     "ICR",
                     "Asset Turnover",
                 ]:
-                    for row in range(
-                        2,
-                        ws.max_row + 1
-                    ):
-                        ws.cell(
-                            row=row,
-                            column=column
-                        ).number_format = "0.00"
+                    for row in range(2, ws.max_row + 1):
+                        ws.cell(row=row, column=column).number_format = "0.00"
 
                 elif header == "FCF":
-                    for row in range(
-                        2,
-                        ws.max_row + 1
-                    ):
-                        ws.cell(
-                            row=row,
-                            column=column
-                        ).number_format = "#,##0.00"
+                    for row in range(2, ws.max_row + 1):
+                        ws.cell(row=row, column=column).number_format = "#,##0.00"
 
             # Peer median row.
             data_start = 2
@@ -467,18 +319,9 @@ class PeerComparisonWorkbook:
 
             median_row = ws.max_row + 2
 
-            ws.cell(
-                row=median_row,
-                column=1,
-                value="PEER MEDIAN"
-            )
+            ws.cell(row=median_row, column=1, value="PEER MEDIAN")
 
-            ws.cell(
-                row=median_row,
-                column=1
-            ).font = Font(
-                bold=True
-            )
+            ws.cell(row=median_row, column=1).font = Font(bold=True)
 
             for header, column in headers.items():
 
@@ -497,57 +340,27 @@ class PeerComparisonWorkbook:
 
                     values = []
 
-                    for row in range(
-                        data_start,
-                        data_end + 1
-                    ):
-                        value = ws.cell(
-                            row=row,
-                            column=column
-                        ).value
+                    for row in range(data_start, data_end + 1):
+                        value = ws.cell(row=row, column=column).value
 
-                        if isinstance(
-                            value,
-                            (int, float)
-                        ):
-                            values.append(
-                                float(value)
-                            )
+                        if isinstance(value, (int, float)):
+                            values.append(float(value))
 
                     if values:
                         ws.cell(
                             row=median_row,
                             column=column,
-                            value=float(
-                                pd.Series(
-                                    values
-                                ).median()
-                            )
+                            value=float(pd.Series(values).median()),
                         )
 
-                        ws.cell(
-                            row=median_row,
-                            column=column
-                        ).number_format = "0.00"
+                        ws.cell(row=median_row, column=column).number_format = "0.00"
 
-            for col in range(
-                1,
-                ws.max_column + 1
-            ):
-                ws.cell(
-                    row=median_row,
-                    column=col
-                ).fill = PatternFill(
-                    fill_type="solid",
-                    fgColor="D9EAD3"
+            for col in range(1, ws.max_column + 1):
+                ws.cell(row=median_row, column=col).fill = PatternFill(
+                    fill_type="solid", fgColor="D9EAD3"
                 )
 
-                ws.cell(
-                    row=median_row,
-                    column=col
-                ).font = Font(
-                    bold=True
-                )
+                ws.cell(row=median_row, column=col).font = Font(bold=True)
 
             ws.freeze_panes = "A2"
 
@@ -556,51 +369,36 @@ class PeerComparisonWorkbook:
 
                 max_length = 0
 
-                column_letter = (
-                    get_column_letter(
-                        column_cells[0].column
-                    )
-                )
+                column_letter = get_column_letter(column_cells[0].column)
 
                 for cell in column_cells:
                     if cell.value is not None:
-                        max_length = max(
-                            max_length,
-                            len(str(cell.value))
-                        )
+                        max_length = max(max_length, len(str(cell.value)))
 
-                ws.column_dimensions[
-                    column_letter
-                ].width = min(
-                    max(max_length + 2, 12),
-                    28
+                ws.column_dimensions[column_letter].width = min(
+                    max(max_length + 2, 12), 28
                 )
 
-        wb.save(
-            self.output_path
-        )
+        wb.save(self.output_path)
 
     def run(self):
-
+        """Run the workflow."""
         peer_groups = self.create_workbook()
 
         print("=" * 70)
         print("SPRINT 3 PEER COMPARISON WORKBOOK")
         print("=" * 70)
-        print(
-            f"Created: {self.output_path}"
-        )
-        print(
-            f"Peer group sheets: {len(peer_groups)}"
-        )
+        print(f"Created: {self.output_path}")
+        print(f"Peer group sheets: {len(peer_groups)}")
 
         for group in peer_groups:
-            print(
-                f"  - {group}"
-            )
+            print(f"  - {group}")
 
         print("=" * 70)
 
 
 if __name__ == "__main__":
     PeerComparisonWorkbook().run()
+
+
+

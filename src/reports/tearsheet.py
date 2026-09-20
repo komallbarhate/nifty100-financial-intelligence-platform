@@ -9,36 +9,34 @@ All 92:
     python src/reports/tearsheet.py --all
 """
 
-import sqlite3
 import argparse
 import re
+import sqlite3
 from pathlib import Path
 
+import matplotlib
 import numpy as np
 import pandas as pd
 
-import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import (
-    getSampleStyleSheet,
     ParagraphStyle,
+    getSampleStyleSheet,
 )
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate,
+    Image,
+    PageBreak,
     Paragraph,
+    SimpleDocTemplate,
     Spacer,
     Table,
     TableStyle,
-    PageBreak,
-    Image,
 )
-
 
 # ============================================================
 # PATHS
@@ -84,16 +82,17 @@ WHITE = colors.white
 # DATABASE
 # ============================================================
 
+
 def connect_db():
+    """Process connect db."""
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     return sqlite3.connect(DB_PATH)
 
 
 def read_table(conn, table_name):
+    """Process read table."""
     exists = conn.execute(
         """
         SELECT name
@@ -117,14 +116,13 @@ def read_table(conn, table_name):
 # GENERAL HELPERS
 # ============================================================
 
+
 def find_column(df, candidates):
+    """Find column."""
     if df.empty:
         return None
 
-    mapping = {
-        str(col).lower(): col
-        for col in df.columns
-    }
+    mapping = {str(col).lower(): col for col in df.columns}
 
     for candidate in candidates:
         if candidate.lower() in mapping:
@@ -134,6 +132,7 @@ def find_column(df, candidates):
 
 
 def company_rows(df, company_id):
+    """Process company rows."""
     if df.empty:
         return pd.DataFrame()
 
@@ -145,12 +144,7 @@ def company_rows(df, company_id):
     if not id_col:
         return pd.DataFrame()
 
-    result = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    result = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     year_col = find_column(
         result,
@@ -169,6 +163,7 @@ def company_rows(df, company_id):
 
 
 def latest_value(df, candidates):
+    """Process latest value."""
     if df.empty:
         return np.nan
 
@@ -189,6 +184,7 @@ def latest_value(df, candidates):
 
 
 def fmt_pct(value):
+    """Process fmt pct."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -196,6 +192,7 @@ def fmt_pct(value):
 
 
 def fmt_ratio(value):
+    """Process fmt ratio."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -203,6 +200,7 @@ def fmt_ratio(value):
 
 
 def fmt_number(value):
+    """Process fmt number."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -210,6 +208,7 @@ def fmt_number(value):
 
 
 def safe_filename(value):
+    """Process safe filename."""
     return re.sub(
         r"[^A-Za-z0-9_.-]",
         "_",
@@ -218,19 +217,22 @@ def safe_filename(value):
 
 
 def shorten(text, maximum=120):
+    """Process shorten."""
     text = str(text)
 
     if len(text) <= maximum:
         return text
 
-    return text[:maximum - 3].rstrip() + "..."
+    return text[: maximum - 3].rstrip() + "..."
 
 
 # ============================================================
 # LOAD ALL DATA
 # ============================================================
 
+
 def load_data(conn):
+    """Load data."""
     return {
         "companies": read_table(
             conn,
@@ -267,7 +269,9 @@ def load_data(conn):
 # COMPANY INFORMATION
 # ============================================================
 
+
 def get_company_info(company_id, data):
+    """Return company info."""
     companies = data["companies"]
 
     rows = company_rows(
@@ -284,9 +288,7 @@ def get_company_info(company_id, data):
         )
 
         if name_col:
-            company_name = str(
-                rows.iloc[-1][name_col]
-            )
+            company_name = str(rows.iloc[-1][name_col])
         else:
             company_name = company_id
 
@@ -312,14 +314,10 @@ def get_company_info(company_id, data):
         )
 
         if sector_col:
-            sector = str(
-                srows.iloc[-1][sector_col]
-            )
+            sector = str(srows.iloc[-1][sector_col])
 
         if industry_col:
-            industry = str(
-                srows.iloc[-1][industry_col]
-            )
+            industry = str(srows.iloc[-1][industry_col])
 
     return {
         "company_name": company_name,
@@ -332,7 +330,9 @@ def get_company_info(company_id, data):
 # KPI DATA
 # ============================================================
 
+
 def get_kpis(company_id, data):
+    """Return kpis."""
     ratios = company_rows(
         data["ratios"],
         company_id,
@@ -403,7 +403,9 @@ def get_kpis(company_id, data):
 # REVENUE + PROFIT CHART
 # ============================================================
 
+
 def create_revenue_profit_chart(company_id, data):
+    """Create revenue profit chart."""
     pnl = company_rows(
         data["pnl"],
         company_id,
@@ -427,14 +429,10 @@ def create_revenue_profit_chart(company_id, data):
         ["net_profit"],
     )
 
-    if not all(
-        [year_col, sales_col, profit_col]
-    ):
+    if not all([year_col, sales_col, profit_col]):
         return None
 
-    chart = pnl[
-        [year_col, sales_col, profit_col]
-    ].copy()
+    chart = pnl[[year_col, sales_col, profit_col]].copy()
 
     chart["year"] = pd.to_numeric(
         chart[year_col],
@@ -487,9 +485,7 @@ def create_revenue_profit_chart(company_id, data):
     ax.set_xticks(x)
 
     ax.set_xticklabels(
-        chart["year"]
-        .astype(int)
-        .astype(str),
+        chart["year"].astype(int).astype(str),
         fontsize=7,
     )
 
@@ -523,10 +519,7 @@ def create_revenue_profit_chart(company_id, data):
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(company_id)}_revenue_profit.png"
-    )
+    path = CHART_DIR / f"{safe_filename(company_id)}_revenue_profit.png"
 
     fig.savefig(
         path,
@@ -542,7 +535,9 @@ def create_revenue_profit_chart(company_id, data):
 # ROE + ROCE CHART
 # ============================================================
 
+
 def create_roe_roce_chart(company_id, data):
+    """Create roe roce chart."""
     ratios = company_rows(
         data["ratios"],
         company_id,
@@ -566,14 +561,10 @@ def create_roe_roce_chart(company_id, data):
         ["return_on_capital_employed_pct"],
     )
 
-    if not all(
-        [year_col, roe_col, roce_col]
-    ):
+    if not all([year_col, roe_col, roce_col]):
         return None
 
-    chart = ratios[
-        [year_col, roe_col, roce_col]
-    ].copy()
+    chart = ratios[[year_col, roe_col, roce_col]].copy()
 
     chart["year"] = pd.to_numeric(
         chart[year_col],
@@ -590,9 +581,7 @@ def create_roe_roce_chart(company_id, data):
         errors="coerce",
     )
 
-    chart = chart.dropna(
-        subset=["year"]
-    ).tail(10)
+    chart = chart.dropna(subset=["year"]).tail(10)
 
     if chart.empty:
         return None
@@ -654,10 +643,7 @@ def create_roe_roce_chart(company_id, data):
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(company_id)}_roe_roce.png"
-    )
+    path = CHART_DIR / f"{safe_filename(company_id)}_roe_roce.png"
 
     fig.savefig(
         path,
@@ -688,7 +674,9 @@ def create_roe_roce_chart(company_id, data):
 # total_assets
 # ============================================================
 
+
 def create_balance_chart(company_id, data):
+    """Create balance chart."""
     balance = company_rows(
         data["balance"],
         company_id,
@@ -728,43 +716,44 @@ def create_balance_chart(company_id, data):
     )
 
     # Exact database mapping
-    chart["borrowings"] = pd.to_numeric(
-        chart[borrowings_col],
-        errors="coerce",
-    ) if borrowings_col else 0.0
-
-    chart["share_capital"] = pd.to_numeric(
-        chart[share_capital_col],
-        errors="coerce",
-    ) if share_capital_col else 0.0
-
-    chart["reserves"] = pd.to_numeric(
-        chart[reserves_col],
-        errors="coerce",
-    ) if reserves_col else 0.0
-
-    # Equity = share capital + reserves
-    chart["equity"] = (
-        chart["share_capital"].fillna(0)
-        + chart["reserves"].fillna(0)
+    chart["borrowings"] = (
+        pd.to_numeric(
+            chart[borrowings_col],
+            errors="coerce",
+        )
+        if borrowings_col
+        else 0.0
     )
 
-    chart = chart.dropna(
-        subset=["year"]
-    ).tail(8)
+    chart["share_capital"] = (
+        pd.to_numeric(
+            chart[share_capital_col],
+            errors="coerce",
+        )
+        if share_capital_col
+        else 0.0
+    )
+
+    chart["reserves"] = (
+        pd.to_numeric(
+            chart[reserves_col],
+            errors="coerce",
+        )
+        if reserves_col
+        else 0.0
+    )
+
+    # Equity = share capital + reserves
+    chart["equity"] = chart["share_capital"].fillna(0) + chart["reserves"].fillna(0)
+
+    chart = chart.dropna(subset=["year"]).tail(8)
 
     if chart.empty:
         return None
 
-    chart["borrowings"] = (
-        chart["borrowings"]
-        .fillna(0)
-    )
+    chart["borrowings"] = chart["borrowings"].fillna(0)
 
-    chart["equity"] = (
-        chart["equity"]
-        .fillna(0)
-    )
+    chart["equity"] = chart["equity"].fillna(0)
 
     fig, ax = plt.subplots(
         figsize=(7.2, 2.35),
@@ -790,9 +779,7 @@ def create_balance_chart(company_id, data):
     ax.set_xticks(x)
 
     ax.set_xticklabels(
-        chart["year"]
-        .astype(int)
-        .astype(str),
+        chart["year"].astype(int).astype(str),
         fontsize=7,
     )
 
@@ -826,10 +813,7 @@ def create_balance_chart(company_id, data):
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(company_id)}_balance.png"
-    )
+    path = CHART_DIR / f"{safe_filename(company_id)}_balance.png"
 
     fig.savefig(
         path,
@@ -845,7 +829,9 @@ def create_balance_chart(company_id, data):
 # CASH FLOW CHART
 # ============================================================
 
+
 def create_cashflow_chart(company_id, data):
+    """Create cashflow chart."""
     cashflow = company_rows(
         data["cashflow"],
         company_id,
@@ -869,9 +855,7 @@ def create_cashflow_chart(company_id, data):
         ["financing_activity"],
     )
 
-    if not any(
-        [cfo_col, cfi_col, cff_col]
-    ):
+    if not any([cfo_col, cfi_col, cff_col]):
         return None
 
     latest = cashflow.iloc[-1]
@@ -885,29 +869,19 @@ def create_cashflow_chart(company_id, data):
     ]:
         if column:
             try:
-                value = float(
-                    latest[column]
-                )
+                value = float(latest[column])
 
                 if pd.notna(value):
-                    items.append(
-                        (label, value)
-                    )
+                    items.append((label, value))
             except Exception:
                 pass
 
     if not items:
         return None
 
-    labels = [
-        item[0]
-        for item in items
-    ]
+    labels = [item[0] for item in items]
 
-    values = [
-        item[1]
-        for item in items
-    ]
+    values = [item[1] for item in items]
 
     net = sum(values)
 
@@ -919,9 +893,7 @@ def create_cashflow_chart(company_id, data):
         dpi=150,
     )
 
-    x = np.arange(
-        len(values)
-    )
+    x = np.arange(len(values))
 
     bars = ax.bar(
         x,
@@ -978,8 +950,7 @@ def create_cashflow_chart(company_id, data):
             va = "top"
 
         ax.text(
-            bar.get_x()
-            + bar.get_width() / 2,
+            bar.get_x() + bar.get_width() / 2,
             y,
             fmt_number(value),
             ha="center",
@@ -989,10 +960,7 @@ def create_cashflow_chart(company_id, data):
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(company_id)}_cashflow.png"
-    )
+    path = CHART_DIR / f"{safe_filename(company_id)}_cashflow.png"
 
     fig.savefig(
         path,
@@ -1008,12 +976,10 @@ def create_cashflow_chart(company_id, data):
 # PROS / CONS
 # ============================================================
 
+
 def load_pros_cons(company_id):
-    path = (
-        ROOT
-        / "output"
-        / "pros_cons_generated.csv"
-    )
+    """Load pros cons."""
+    path = ROOT / "output" / "pros_cons_generated.csv"
 
     if not path.exists():
         return [], []
@@ -1049,12 +1015,7 @@ def load_pros_cons(company_id):
     ):
         return [], []
 
-    rows = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     if confidence_col:
         rows["_confidence"] = pd.to_numeric(
@@ -1073,41 +1034,25 @@ def load_pros_cons(company_id):
     for _, row in rows.iterrows():
         confidence = ""
 
-        if (
-            confidence_col
-            and pd.notna(
-                row.get("_confidence")
-            )
-        ):
-            confidence = (
-                f" "
-                f"({float(row['_confidence']):.0f}% confidence)"
-            )
+        if confidence_col and pd.notna(row.get("_confidence")):
+            confidence = f" " f"({float(row['_confidence']):.0f}% confidence)"
 
         item = shorten(
-            str(row[text_col])
-            + confidence,
+            str(row[text_col]) + confidence,
             125,
         )
 
-        if (
-            str(row[type_col])
-            .lower()
-            == "pro"
-        ):
+        if str(row[type_col]).lower() == "pro":
             pros.append(item)
 
-        elif (
-            str(row[type_col])
-            .lower()
-            == "con"
-        ):
+        elif str(row[type_col]).lower() == "con":
             cons.append(item)
 
     return pros[:5], cons[:5]
 
 
 def create_pros_cons_table(pros, cons):
+    """Create pros cons table."""
     rows = [
         [
             Paragraph(
@@ -1131,18 +1076,12 @@ def create_pros_cons_table(pros, cons):
         if i < len(pros):
             pro = "• " + pros[i]
         else:
-            pro = (
-                "• No significant positive "
-                "signal triggered."
-            )
+            pro = "• No significant positive " "signal triggered."
 
         if i < len(cons):
             con = "• " + cons[i]
         else:
-            con = (
-                "• No significant negative "
-                "signal triggered."
-            )
+            con = "• No significant negative " "signal triggered."
 
         rows.append(
             [
@@ -1173,26 +1112,20 @@ def create_pros_cons_table(pros, cons):
                     "BACKGROUND",
                     (0, 0),
                     (0, 0),
-                    colors.HexColor(
-                        "#E8F5E9"
-                    ),
+                    colors.HexColor("#E8F5E9"),
                 ),
                 (
                     "BACKGROUND",
                     (1, 0),
                     (1, 0),
-                    colors.HexColor(
-                        "#FDECEC"
-                    ),
+                    colors.HexColor("#FDECEC"),
                 ),
                 (
                     "GRID",
                     (0, 0),
                     (-1, -1),
                     0.4,
-                    colors.HexColor(
-                        "#D1D5DB"
-                    ),
+                    colors.HexColor("#D1D5DB"),
                 ),
                 (
                     "VALIGN",
@@ -1235,12 +1168,10 @@ def create_pros_cons_table(pros, cons):
 # CAPITAL ALLOCATION
 # ============================================================
 
+
 def get_capital_allocation(company_id):
-    path = (
-        ROOT
-        / "output"
-        / "capital_allocation_history.csv"
-    )
+    """Return capital allocation."""
+    path = ROOT / "output" / "capital_allocation_history.csv"
 
     if not path.exists():
         return "N/A"
@@ -1265,12 +1196,7 @@ def get_capital_allocation(company_id):
     if not id_col or not pattern_col:
         return "N/A"
 
-    rows = df[
-        df[id_col]
-        .astype(str)
-        .str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     if rows.empty:
         return "N/A"
@@ -1281,13 +1207,9 @@ def get_capital_allocation(company_id):
             errors="coerce",
         )
 
-        rows = rows.sort_values(
-            "_year"
-        )
+        rows = rows.sort_values("_year")
 
-    return str(
-        rows.iloc[-1][pattern_col]
-    )
+    return str(rows.iloc[-1][pattern_col])
 
 
 # ============================================================
@@ -1311,9 +1233,7 @@ SUBTITLE_STYLE = ParagraphStyle(
     fontName="Helvetica",
     fontSize=8.5,
     leading=11,
-    textColor=colors.HexColor(
-        "#DCE6F2"
-    ),
+    textColor=colors.HexColor("#DCE6F2"),
 )
 
 SECTION_STYLE = ParagraphStyle(
@@ -1354,12 +1274,12 @@ CENTER_STYLE = ParagraphStyle(
 # PAGE FOOTER
 # ============================================================
 
+
 def draw_page(canvas, doc):
+    """Process draw page."""
     canvas.saveState()
 
-    canvas.setStrokeColor(
-        colors.HexColor("#D9DEE5")
-    )
+    canvas.setStrokeColor(colors.HexColor("#D9DEE5"))
 
     canvas.setLineWidth(0.4)
 
@@ -1375,9 +1295,7 @@ def draw_page(canvas, doc):
         6.5,
     )
 
-    canvas.setFillColor(
-        MID_GREY
-    )
+    canvas.setFillColor(MID_GREY)
 
     canvas.drawString(
         15 * mm,
@@ -1398,7 +1316,9 @@ def draw_page(canvas, doc):
 # HEADER
 # ============================================================
 
+
 def create_header(company_id, info):
+    """Create header."""
     table = Table(
         [
             [
@@ -1418,10 +1338,7 @@ def create_header(company_id, info):
             ],
             [
                 Paragraph(
-                    (
-                        f"Sector: {info['sector']} "
-                        f"| Industry: {info['industry']}"
-                    ),
+                    (f"Sector: {info['sector']} " f"| Industry: {info['industry']}"),
                     SUBTITLE_STYLE,
                 ),
                 "",
@@ -1480,19 +1397,16 @@ def create_header(company_id, info):
 # KPI TILES
 # ============================================================
 
+
 def create_kpi_tiles(kpis):
+    """Create kpi tiles."""
     values = [
         ("ROE", fmt_pct(kpis["ROE"])),
         ("ROCE", fmt_pct(kpis["ROCE"])),
         ("D/E", fmt_ratio(kpis["D/E"])),
         (
             "FCF",
-            (
-                fmt_number(kpis["FCF"])
-                + " Cr"
-                if not pd.isna(kpis["FCF"])
-                else "N/A"
-            ),
+            (fmt_number(kpis["FCF"]) + " Cr" if not pd.isna(kpis["FCF"]) else "N/A"),
         ),
         ("OPM", fmt_pct(kpis["OPM"])),
         (
@@ -1519,9 +1433,7 @@ def create_kpi_tiles(kpis):
                     )
                 ],
             ],
-            colWidths=[
-                28 * mm
-            ],
+            colWidths=[28 * mm],
             rowHeights=[
                 7 * mm,
                 10 * mm,
@@ -1542,9 +1454,7 @@ def create_kpi_tiles(kpis):
                         (0, 0),
                         (-1, -1),
                         0.5,
-                        colors.HexColor(
-                            "#CBD5E1"
-                        ),
+                        colors.HexColor("#CBD5E1"),
                     ),
                     (
                         "VALIGN",
@@ -1560,9 +1470,7 @@ def create_kpi_tiles(kpis):
 
     outer = Table(
         [cells],
-        colWidths=[
-            29.2 * mm
-        ] * 6,
+        colWidths=[29.2 * mm] * 6,
     )
 
     outer.setStyle(
@@ -1597,7 +1505,9 @@ def create_kpi_tiles(kpis):
 # CAPITAL ALLOCATION BADGE
 # ============================================================
 
+
 def create_capital_badge(pattern):
+    """Create capital badge."""
     table = Table(
         [
             [
@@ -1618,9 +1528,7 @@ def create_capital_badge(pattern):
                 )
             ],
         ],
-        colWidths=[
-            174 * mm
-        ],
+        colWidths=[174 * mm],
         rowHeights=[
             7 * mm,
             10 * mm,
@@ -1647,9 +1555,7 @@ def create_capital_badge(pattern):
                     (0, 0),
                     (-1, -1),
                     0.6,
-                    colors.HexColor(
-                        "#CBD5E1"
-                    ),
+                    colors.HexColor("#CBD5E1"),
                 ),
                 (
                     "VALIGN",
@@ -1668,7 +1574,9 @@ def create_capital_badge(pattern):
 # BUILD PDF
 # ============================================================
 
+
 def build_tearsheet(company_id, data):
+    """Build tearsheet."""
     info = get_company_info(
         company_id,
         data,
@@ -1707,10 +1615,7 @@ def build_tearsheet(company_id, data):
         data,
     )
 
-    output_file = (
-        OUTPUT_DIR
-        / f"{safe_filename(company_id)}_tearsheet.pdf"
-    )
+    output_file = OUTPUT_DIR / f"{safe_filename(company_id)}_tearsheet.pdf"
 
     doc = SimpleDocTemplate(
         str(output_file),
@@ -1720,9 +1625,7 @@ def build_tearsheet(company_id, data):
         topMargin=12 * mm,
         bottomMargin=14 * mm,
         title=f"{company_id} Company Tearsheet",
-        author=(
-            "NIFTY 100 Financial Intelligence Platform"
-        ),
+        author=("NIFTY 100 Financial Intelligence Platform"),
     )
 
     story = []
@@ -1738,9 +1641,7 @@ def build_tearsheet(company_id, data):
         )
     )
 
-    story.append(
-        Spacer(1, 4 * mm)
-    )
+    story.append(Spacer(1, 4 * mm))
 
     story.append(
         Paragraph(
@@ -1749,13 +1650,9 @@ def build_tearsheet(company_id, data):
         )
     )
 
-    story.append(
-        create_kpi_tiles(kpis)
-    )
+    story.append(create_kpi_tiles(kpis))
 
-    story.append(
-        Spacer(1, 4 * mm)
-    )
+    story.append(Spacer(1, 4 * mm))
 
     if revenue_chart:
         story.append(
@@ -1775,9 +1672,7 @@ def build_tearsheet(company_id, data):
             )
         )
 
-    story.append(
-        PageBreak()
-    )
+    story.append(PageBreak())
 
     # ========================================================
     # PAGE 2
@@ -1799,9 +1694,7 @@ def build_tearsheet(company_id, data):
             )
         )
 
-    story.append(
-        Spacer(1, 2 * mm)
-    )
+    story.append(Spacer(1, 2 * mm))
 
     if cashflow_chart:
         story.append(
@@ -1812,9 +1705,7 @@ def build_tearsheet(company_id, data):
             )
         )
 
-    story.append(
-        Spacer(1, 2 * mm)
-    )
+    story.append(Spacer(1, 2 * mm))
 
     story.append(
         Paragraph(
@@ -1830,9 +1721,7 @@ def build_tearsheet(company_id, data):
         )
     )
 
-    story.append(
-        Spacer(1, 4 * mm)
-    )
+    story.append(Spacer(1, 4 * mm))
 
     story.append(
         create_capital_badge(
@@ -1840,9 +1729,7 @@ def build_tearsheet(company_id, data):
         )
     )
 
-    story.append(
-        Spacer(1, 3 * mm)
-    )
+    story.append(Spacer(1, 3 * mm))
 
     story.append(
         Paragraph(
@@ -1870,18 +1757,16 @@ def build_tearsheet(company_id, data):
 # VALIDATION
 # ============================================================
 
+
 def validate_pdf(path):
+    """Validate pdf."""
     if not path.exists():
         return False, "PDF not created"
 
-    size_kb = (
-        path.stat().st_size / 1024
-    )
+    size_kb = path.stat().st_size / 1024
 
     if size_kb < 10:
-        return False, (
-            f"PDF unusually small: {size_kb:.1f} KB"
-        )
+        return False, (f"PDF unusually small: {size_kb:.1f} KB")
 
     return True, f"{size_kb:.1f} KB"
 
@@ -1890,7 +1775,9 @@ def validate_pdf(path):
 # MAIN
 # ============================================================
 
+
 def main():
+    """Run the main workflow."""
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -1906,13 +1793,9 @@ def main():
     print("=" * 70)
     print()
 
-    print(
-        f"Database : {DB_PATH}"
-    )
+    print(f"Database : {DB_PATH}")
 
-    print(
-        f"Output   : {OUTPUT_DIR}"
-    )
+    print(f"Output   : {OUTPUT_DIR}")
 
     print()
 
@@ -1929,40 +1812,25 @@ def main():
         )
 
         if not id_col:
-            raise RuntimeError(
-                "Company ID column not found."
-            )
+            raise RuntimeError("Company ID column not found.")
 
         all_companies = sorted(
-            companies[id_col]
-            .dropna()
-            .astype(str)
-            .str.upper()
-            .unique()
-            .tolist()
+            companies[id_col].dropna().astype(str).str.upper().unique().tolist()
         )
 
         if args.all:
             targets = all_companies
 
-            print(
-                "Mode       : ALL COMPANIES"
-            )
+            print("Mode       : ALL COMPANIES")
 
         else:
             targets = [
-                company
-                for company in TEST_COMPANIES
-                if company in all_companies
+                company for company in TEST_COMPANIES if company in all_companies
             ]
 
-            print(
-                "Mode       : DAY 33 TEST"
-            )
+            print("Mode       : DAY 33 TEST")
 
-        print(
-            f"Companies  : {len(targets)}"
-        )
+        print(f"Companies  : {len(targets)}")
 
         print()
 
@@ -1981,18 +1849,12 @@ def main():
                     data,
                 )
 
-                valid, message = validate_pdf(
-                    output_file
-                )
+                valid, message = validate_pdf(output_file)
 
                 if valid:
-                    success.append(
-                        company_id
-                    )
+                    success.append(company_id)
 
-                    print(
-                        f"OK ({message})"
-                    )
+                    print(f"OK ({message})")
 
                 else:
                     failed.append(
@@ -2002,9 +1864,7 @@ def main():
                         )
                     )
 
-                    print(
-                        f"FAILED - {message}"
-                    )
+                    print(f"FAILED - {message}")
 
             except Exception as exc:
                 failed.append(
@@ -2014,9 +1874,7 @@ def main():
                     )
                 )
 
-                print(
-                    f"FAILED - {exc}"
-                )
+                print(f"FAILED - {exc}")
 
         print()
 
@@ -2024,49 +1882,33 @@ def main():
         print("TEARSHEET SUMMARY")
         print("=" * 70)
 
-        print(
-            f"Requested : {len(targets)}"
-        )
+        print(f"Requested : {len(targets)}")
 
-        print(
-            f"Generated : {len(success)}"
-        )
+        print(f"Generated : {len(success)}")
 
-        print(
-            f"Failed    : {len(failed)}"
-        )
+        print(f"Failed    : {len(failed)}")
 
         if success:
             print()
             print("Successful:")
 
             for company in success:
-                print(
-                    f"  {company}"
-                )
+                print(f"  {company}")
 
         if failed:
             print()
             print("Failures:")
 
             for company, error in failed:
-                print(
-                    f"  {company}: {error}"
-                )
+                print(f"  {company}: {error}")
 
         print()
-        print(
-            "Output directory:"
-        )
+        print("Output directory:")
 
-        print(
-            f"  {OUTPUT_DIR}"
-        )
+        print(f"  {OUTPUT_DIR}")
 
         print()
-        print(
-            "TEARSHEET GENERATION COMPLETE"
-        )
+        print("TEARSHEET GENERATION COMPLETE")
 
     finally:
         conn.close()

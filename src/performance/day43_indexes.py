@@ -6,9 +6,8 @@ Creates only the indexes required for the API's common query patterns.
 All indexes use IF NOT EXISTS so this script is safe to run repeatedly.
 """
 
-from pathlib import Path
 import sqlite3
-
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DB_PATH = BASE_DIR / "data" / "nifty100.db"
@@ -49,15 +48,13 @@ INDEXES = {
 def get_existing_indexes(conn):
     """Return all user-created SQLite indexes."""
 
-    rows = conn.execute(
-        """
+    rows = conn.execute("""
         SELECT name, tbl_name
         FROM sqlite_master
         WHERE type = 'index'
         AND name NOT LIKE 'sqlite_%'
         ORDER BY tbl_name, name
-        """
-    ).fetchall()
+        """).fetchall()
 
     return rows
 
@@ -66,9 +63,7 @@ def main():
     """Create required performance indexes and print the final index list."""
 
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     print(f"Database: {DB_PATH}")
     print()
@@ -100,10 +95,7 @@ def main():
             print(f"  {name} -> {table}")
 
         print()
-        print(
-            f"Added or confirmed {len(INDEXES)} "
-            "performance indexes."
-        )
+        print(f"Added or confirmed {len(INDEXES)} " "performance indexes.")
 
 
 if __name__ == "__main__":

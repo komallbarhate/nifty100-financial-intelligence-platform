@@ -1,12 +1,14 @@
 import re
-import pandas as pd
 
+import pandas as pd
 
 # ============================================================
 # YEAR NORMALISATION
 # ============================================================
 
+
 def normalize_year(value):
+    """Normalize year."""
     if pd.isna(value):
         return None
 
@@ -24,8 +26,7 @@ def normalize_year(value):
         return int(match.group(0))
 
     month_year = re.search(
-        r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
-        r"[a-z]*[-\s/]?(\d{2})$",
+        r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)" r"[a-z]*[-\s/]?(\d{2})$",
         value,
         re.IGNORECASE,
     )
@@ -54,7 +55,9 @@ def normalize_year(value):
 # TICKER NORMALISATION
 # ============================================================
 
+
 def normalize_ticker(value):
+    """Normalize ticker."""
     if pd.isna(value):
         return None
 
@@ -84,7 +87,9 @@ def normalize_ticker(value):
 # COMPANY NAME NORMALISATION
 # ============================================================
 
+
 def normalize_company_name(value):
+    """Normalize company name."""
     if pd.isna(value):
         return None
 
@@ -99,7 +104,9 @@ def normalize_company_name(value):
 # DATAFRAME NORMALISATION
 # ============================================================
 
+
 def normalize_dataframe(df):
+    """Normalize dataframe."""
     df = df.copy()
 
     for column in df.columns:

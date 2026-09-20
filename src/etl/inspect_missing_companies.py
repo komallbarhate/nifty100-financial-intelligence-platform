@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -26,9 +27,9 @@ FILES = [
 
 
 def find_file(folder, keyword):
+    """Find file."""
     matches = [
-        file for file in folder.glob("*.xlsx")
-        if keyword.lower() in file.name.lower()
+        file for file in folder.glob("*.xlsx") if keyword.lower() in file.name.lower()
     ]
 
     if not matches:
@@ -38,10 +39,12 @@ def find_file(folder, keyword):
 
 
 def inspect_company(file_path, company_id, header_row):
+    """Process inspect company."""
     df = pd.read_excel(file_path, header=header_row)
 
     possible_id_columns = [
-        column for column in df.columns
+        column
+        for column in df.columns
         if any(
             word in str(column).lower()
             for word in ["company", "ticker", "symbol", "code"]
@@ -51,13 +54,7 @@ def inspect_company(file_path, company_id, header_row):
     found_rows = pd.DataFrame()
 
     for column in possible_id_columns:
-        mask = (
-            df[column]
-            .astype(str)
-            .str.strip()
-            .str.upper()
-            == company_id
-        )
+        mask = df[column].astype(str).str.strip().str.upper() == company_id
 
         if mask.any():
             found_rows = df.loc[mask].copy()
@@ -67,6 +64,7 @@ def inspect_company(file_path, company_id, header_row):
 
 
 def main():
+    """Run the main workflow."""
     print("=" * 80)
     print("INSPECTING DQ-03 MISSING COMPANY IDs")
     print("=" * 80)
@@ -91,11 +89,7 @@ def main():
             if file_path is None:
                 continue
 
-            rows = inspect_company(
-                file_path,
-                company_id,
-                header_row
-            )
+            rows = inspect_company(file_path, company_id, header_row)
 
             if not rows.empty:
                 displayed = True
@@ -106,9 +100,7 @@ def main():
 
                 print("\nMatching rows:")
 
-                print(
-                    rows.head(3).to_string(index=False)
-                )
+                print(rows.head(3).to_string(index=False))
 
         if not displayed:
             print("No matching rows found.")

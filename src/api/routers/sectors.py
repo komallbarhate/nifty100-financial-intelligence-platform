@@ -1,5 +1,5 @@
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
@@ -10,6 +10,7 @@ DB_PATH = BASE_DIR / "data" / "nifty100.db"
 
 
 def get_connection():
+    """Return connection."""
     if not DB_PATH.exists():
         raise RuntimeError(f"Database not found: {DB_PATH}")
 
@@ -27,16 +28,14 @@ def list_sectors():
     connection = get_connection()
 
     try:
-        rows = connection.execute(
-            """
+        rows = connection.execute("""
             SELECT
                 s.sector,
                 COUNT(DISTINCT s.company_id) AS company_count
             FROM sectors s
             GROUP BY s.sector
             ORDER BY s.sector
-            """
-        ).fetchall()
+            """).fetchall()
 
         results = [dict(row) for row in rows]
 
@@ -140,9 +139,7 @@ def sector_summary(sector_name: str):
             (sector_name,),
         ).fetchone()
 
-        return {
-            "sector": dict(row)
-        }
+        return {"sector": dict(row)}
 
     finally:
         connection.close()

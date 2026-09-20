@@ -7,7 +7,6 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-
 DB_PATH = Path("data/nifty100.db")
 OUTPUT_DIR = Path("output")
 REPORTS_DIR = Path("reports")
@@ -240,9 +239,7 @@ def run_clustering():
 
     print(f"Latest company records: {len(data)}")
 
-    missing_companies = sorted(
-        set(companies["company_id"]) - set(data["company_id"])
-    )
+    missing_companies = sorted(set(companies["company_id"]) - set(data["company_id"]))
 
     if missing_companies:
         print("ERROR: Companies missing from clustering data:")
@@ -258,9 +255,7 @@ def run_clustering():
     print(remaining_missing)
 
     if remaining_missing.sum() > 0:
-        raise RuntimeError(
-            "Missing values remain after sector-median imputation."
-        )
+        raise RuntimeError("Missing values remain after sector-median imputation.")
 
     X = data[FEATURE_COLUMNS].copy()
 
@@ -292,10 +287,7 @@ def run_clustering():
     data["cluster_id"] = cluster_ids
     data["distance_from_centroid"] = distances
 
-    cluster_profiles = (
-        data.groupby("cluster_id")[FEATURE_COLUMNS]
-        .mean()
-    )
+    cluster_profiles = data.groupby("cluster_id")[FEATURE_COLUMNS].mean()
 
     cluster_names = assign_cluster_names(cluster_profiles)
 
@@ -336,11 +328,7 @@ def run_clustering():
 
     print()
     print("Cluster profiles:")
-    print(
-        cluster_profiles
-        .round(2)
-        .to_string()
-    )
+    print(cluster_profiles.round(2).to_string())
 
     print()
     print(f"Cluster labels saved: {OUTPUT_FILE}")
@@ -349,19 +337,13 @@ def run_clustering():
     print(f"Unique clusters: {output['cluster_id'].nunique()}")
 
     if len(output) != 92:
-        raise RuntimeError(
-            f"Expected 92 companies, but clustered {len(output)}."
-        )
+        raise RuntimeError(f"Expected 92 companies, but clustered {len(output)}.")
 
     if output["cluster_id"].nunique() != 5:
-        raise RuntimeError(
-            "Expected exactly 5 clusters."
-        )
+        raise RuntimeError("Expected exactly 5 clusters.")
 
     if output["cluster_name"].isna().any():
-        raise RuntimeError(
-            "Some companies have no cluster name."
-        )
+        raise RuntimeError("Some companies have no cluster name.")
 
     print()
     print("DAY 36 CLUSTERING COMPLETE")

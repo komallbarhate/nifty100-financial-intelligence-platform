@@ -1,5 +1,6 @@
-﻿from pathlib import Path
-import sqlite3
+﻿import sqlite3
+from pathlib import Path
+from typing import ClassVar
 
 import numpy as np
 import pandas as pd
@@ -7,7 +8,7 @@ import pandas as pd
 
 class PeerEngine:
 
-    METRICS = {
+    METRICS: ClassVar = {
         "roe": {
             "column": "return_on_equity_pct",
             "higher_is_better": True,
@@ -55,6 +56,7 @@ class PeerEngine:
         self.db_path = self.project_root / "data" / "nifty100.db"
 
     def load_data(self):
+        """Load data."""
         conn = sqlite3.connect(self.db_path)
 
         ratios = pd.read_sql_query(
@@ -62,7 +64,7 @@ class PeerEngine:
             SELECT *
             FROM financial_ratios
             """,
-            conn
+            conn,
         )
 
         peer_groups = pd.read_sql_query(
@@ -74,7 +76,7 @@ class PeerEngine:
             WHERE peer_group IS NOT NULL
               AND TRIM(peer_group) <> ''
             """,
-            conn
+            conn,
         )
 
         companies = pd.read_sql_query(
@@ -84,7 +86,7 @@ class PeerEngine:
                 company_name
             FROM companies
             """,
-            conn
+            conn,
         )
 
         conn.close()
@@ -93,21 +95,13 @@ class PeerEngine:
 
     @staticmethod
     def latest_rows(df):
+        """Process latest rows."""
         df = df.copy()
 
-        df["year"] = pd.to_numeric(
-            df["year"],
-            errors="coerce"
-        )
+        df["year"] = pd.to_numeric(df["year"], errors="coerce")
 
-        return (
-            df.sort_values(
-                ["company_id", "year"]
-            )
-            .drop_duplicates(
-                "company_id",
-                keep="last"
-            )
+        return df.sort_values(["company_id", "year"]).drop_duplicates(
+            "company_id", keep="last"
         )
 
     @staticmethod
@@ -120,18 +114,11 @@ class PeerEngine:
         Ties receive the average rank.
         A single-company group receives 1.0.
         """
-        series = pd.to_numeric(
-            series,
-            errors="coerce"
-        )
+        series = pd.to_numeric(series, errors="coerce")
 
         valid = series.notna()
 
-        result = pd.Series(
-            np.nan,
-            index=series.index,
-            dtype=float
-        )
+        result = pd.Series(np.nan, index=series.index, dtype=float)
 
         values = series[valid]
 
@@ -142,46 +129,29 @@ class PeerEngine:
             result.loc[values.index] = 1.0
             return result
 
-        ranks = values.rank(
-            method="average",
-            ascending=True
-        )
+        ranks = values.rank(method="average", ascending=True)
 
-        result.loc[values.index] = (
-            (ranks - 1) / (len(values) - 1)
-        )
+        result.loc[values.index] = (ranks - 1) / (len(values) - 1)
 
         return result
 
     def build_percentiles(self):
+        """Build percentiles."""
         ratios, peer_groups, companies = self.load_data()
 
         ratios_latest = self.latest_rows(ratios)
 
         # Debt-free companies get infinite ICR.
         debt_free = (
-            ratios_latest["debt_to_equity"]
-            .fillna(np.nan)
-            .eq(0)
+            ratios_latest["debt_to_equity"].fillna(np.nan).eq(0)
             & ratios_latest["interest_coverage"].isna()
         )
 
-        ratios_latest.loc[
-            debt_free,
-            "interest_coverage"
-        ] = np.inf
+        ratios_latest.loc[debt_free, "interest_coverage"] = np.inf
 
-        df = ratios_latest.merge(
-            peer_groups,
-            on="company_id",
-            how="left"
-        )
+        df = ratios_latest.merge(peer_groups, on="company_id", how="left")
 
-        df = df.merge(
-            companies,
-            on="company_id",
-            how="left"
-        )
+        df = df.merge(companies, on="company_id", how="left")
 
         rows = []
 
@@ -202,37 +172,26 @@ class PeerEngine:
                 ]
             ].copy()
 
-            metric_df["value"] = pd.to_numeric(
-                metric_df[column],
-                errors="coerce"
-            )
+            metric_df["value"] = pd.to_numeric(metric_df[column], errors="coerce")
 
-            metric_df = metric_df.drop(
-                columns=[column]
-            )
+            metric_df = metric_df.drop(columns=[column])
 
             # Companies without a peer group are retained
             # separately so they can be reported, but they
             # do not receive a peer percentile.
-            grouped = metric_df[
-                metric_df["peer_group"].notna()
-            ].copy()
+            grouped = metric_df[metric_df["peer_group"].notna()].copy()
 
             if grouped.empty:
                 continue
 
-            grouped["percentile_rank"] = (
-                grouped
-                .groupby("peer_group")["value"]
-                .transform(self.percentile_rank)
-            )
+            grouped["percentile_rank"] = grouped.groupby("peer_group")[
+                "value"
+            ].transform(self.percentile_rank)
 
             # Debt-to-equity is inverse:
             # lower D/E = better percentile.
             if not config["higher_is_better"]:
-                grouped["percentile_rank"] = (
-                    1.0 - grouped["percentile_rank"]
-                )
+                grouped["percentile_rank"] = 1.0 - grouped["percentile_rank"]
 
             grouped["metric"] = metric_name
 
@@ -261,29 +220,21 @@ class PeerEngine:
                 ]
             )
 
-        result = pd.concat(
-            rows,
-            ignore_index=True
-        )
+        result = pd.concat(rows, ignore_index=True)
 
-        result["percentile_rank"] = (
-            result["percentile_rank"]
-            .clip(0, 1)
-        )
+        result["percentile_rank"] = result["percentile_rank"].clip(0, 1)
 
         return result
 
     def save_to_database(self, result):
+        """Save to database."""
         conn = sqlite3.connect(self.db_path)
 
-        conn.execute(
-            """
+        conn.execute("""
             DROP TABLE IF EXISTS peer_percentiles
-            """
-        )
+            """)
 
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE peer_percentiles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 company_id TEXT NOT NULL,
@@ -299,20 +250,15 @@ class PeerEngine:
                     year
                 )
             )
-            """
-        )
+            """)
 
-        result.to_sql(
-            "peer_percentiles",
-            conn,
-            if_exists="append",
-            index=False
-        )
+        result.to_sql("peer_percentiles", conn, if_exists="append", index=False)
 
         conn.commit()
         conn.close()
 
     def run(self):
+        """Run the workflow."""
         result = self.build_percentiles()
 
         self.save_to_database(result)
@@ -320,54 +266,34 @@ class PeerEngine:
         return result
 
     def print_summary(self, result):
+        """Process print summary."""
         print("=" * 70)
         print("SPRINT 3 PEER PERCENTILE ENGINE")
         print("=" * 70)
 
-        print(
-            f"Rows generated: {len(result)}"
-        )
+        print(f"Rows generated: {len(result)}")
 
-        print(
-            f"Companies with peer groups: "
-            f"{result['company_id'].nunique()}"
-        )
+        print(f"Companies with peer groups: " f"{result['company_id'].nunique()}")
 
-        print(
-            f"Peer groups: "
-            f"{result['peer_group'].nunique()}"
-        )
+        print(f"Peer groups: " f"{result['peer_group'].nunique()}")
 
-        print(
-            f"Metrics: "
-            f"{result['metric'].nunique()}"
-        )
+        print(f"Metrics: " f"{result['metric'].nunique()}")
 
         print()
 
         print("Peer groups:")
         for group, count in (
-            result.groupby("peer_group")["company_id"]
-            .nunique()
-            .sort_index()
-            .items()
+            result.groupby("peer_group")["company_id"].nunique().sort_index().items()
         ):
-            print(
-                f"  {group}: {count} companies"
-            )
+            print(f"  {group}: {count} companies")
 
         print()
 
         print("Metrics:")
         for metric, count in (
-            result.groupby("metric")["company_id"]
-            .nunique()
-            .sort_index()
-            .items()
+            result.groupby("metric")["company_id"].nunique().sort_index().items()
         ):
-            print(
-                f"  {metric}: {count} companies"
-            )
+            print(f"  {metric}: {count} companies")
 
         print()
 
@@ -375,7 +301,7 @@ class PeerEngine:
             "Percentile range:",
             result["percentile_rank"].min(),
             "to",
-            result["percentile_rank"].max()
+            result["percentile_rank"].max(),
         )
 
         print()
@@ -389,3 +315,6 @@ if __name__ == "__main__":
     result = engine.run()
 
     engine.print_summary(result)
+
+
+

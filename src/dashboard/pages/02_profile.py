@@ -1,12 +1,12 @@
-﻿import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import streamlit as st
 
 from src.dashboard.utils.db import (
-    get_companies,
-    get_ratios,
-    get_pl,
     get_cf,
+    get_companies,
+    get_pl,
+    get_ratios,
     get_sectors,
 )
 
@@ -51,14 +51,10 @@ selected_display = st.selectbox(
 
 selected_ticker = selected_display.split(" — ")[0]
 
-company_row = companies[
-    companies["id"].astype(str) == selected_ticker
-].copy()
+company_row = companies[companies["id"].astype(str) == selected_ticker].copy()
 
 if company_row.empty:
-    st.warning(
-        f"Company ticker '{selected_ticker}' was not found."
-    )
+    st.warning(f"Company ticker '{selected_ticker}' was not found.")
     st.stop()
 
 company = company_row.iloc[0]
@@ -67,14 +63,13 @@ company = company_row.iloc[0]
 # HELPER FUNCTIONS
 # ---------------------------------------------------------
 
+
 def find_column(df, candidates):
+    """Find column."""
     if df.empty:
         return None
 
-    normalized = {
-        str(col).lower().replace(" ", "_"): col
-        for col in df.columns
-    }
+    normalized = {str(col).lower().replace(" ", "_"): col for col in df.columns}
 
     for candidate in candidates:
         key = candidate.lower().replace(" ", "_")
@@ -94,6 +89,7 @@ def find_column(df, candidates):
 
 
 def latest_value(df, candidates):
+    """Process latest value."""
     column = find_column(df, candidates)
 
     if column is None or df.empty:
@@ -111,6 +107,7 @@ def latest_value(df, candidates):
 
 
 def format_metric(value, suffix=""):
+    """Format metric."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -121,9 +118,7 @@ def format_metric(value, suffix=""):
 # COMPANY INFORMATION
 # ---------------------------------------------------------
 
-company_name = str(
-    company.get("company_name", selected_ticker)
-)
+company_name = str(company.get("company_name", selected_ticker))
 
 st.subheader(company_name)
 
@@ -136,9 +131,7 @@ with info1:
 with info2:
     st.markdown("**Sector**")
 
-    sector_match = sectors[
-        sectors["company_id"].astype(str) == selected_ticker
-    ]
+    sector_match = sectors[sectors["company_id"].astype(str) == selected_ticker]
 
     if not sector_match.empty:
         sector_name = sector_match.iloc[0].get(
@@ -177,9 +170,7 @@ pl = get_pl(selected_ticker)
 cf = get_cf(selected_ticker)
 
 if ratios.empty:
-    st.warning(
-        f"No financial ratio data is available for {selected_ticker}."
-    )
+    st.warning(f"No financial ratio data is available for {selected_ticker}.")
 
 # ---------------------------------------------------------
 # SIX KPI CARDS
@@ -319,9 +310,9 @@ if not pl.empty:
             errors="coerce",
         )
 
-        chart_df = chart_df.dropna(
-            subset=[year_column]
-        ).sort_values(year_column).tail(10)
+        chart_df = (
+            chart_df.dropna(subset=[year_column]).sort_values(year_column).tail(10)
+        )
 
         fig = go.Figure()
 
@@ -355,10 +346,7 @@ if not pl.empty:
         )
 
     else:
-        st.info(
-            "Revenue or net profit columns are unavailable "
-            "for this company."
-        )
+        st.info("Revenue or net profit columns are unavailable " "for this company.")
 
 else:
     st.info("Profit & Loss data is unavailable.")
@@ -396,11 +384,7 @@ if not ratios.empty:
         ],
     )
 
-    if (
-        year_column is not None
-        and roe_column is not None
-        and roce_column is not None
-    ):
+    if year_column is not None and roe_column is not None and roce_column is not None:
 
         trend_df = ratios[
             [
@@ -425,9 +409,9 @@ if not ratios.empty:
             errors="coerce",
         )
 
-        trend_df = trend_df.dropna(
-            subset=[year_column]
-        ).sort_values(year_column).tail(10)
+        trend_df = (
+            trend_df.dropna(subset=[year_column]).sort_values(year_column).tail(10)
+        )
 
         fig = go.Figure()
 
@@ -470,9 +454,7 @@ if not ratios.empty:
         )
 
     else:
-        st.info(
-            "ROE/ROCE trend columns are unavailable."
-        )
+        st.info("ROE/ROCE trend columns are unavailable.")
 
 else:
     st.info("Ratio data is unavailable.")
@@ -493,29 +475,19 @@ with snapshot_col1:
     positives = []
 
     if roe is not None and roe >= 15:
-        positives.append(
-            f"ROE is {roe:.2f}%."
-        )
+        positives.append(f"ROE is {roe:.2f}%.")
 
     if roce is not None and roce >= 15:
-        positives.append(
-            f"ROCE is {roce:.2f}%."
-        )
+        positives.append(f"ROCE is {roce:.2f}%.")
 
     if de is not None and de <= 1:
-        positives.append(
-            f"Debt-to-equity is {de:.2f}."
-        )
+        positives.append(f"Debt-to-equity is {de:.2f}.")
 
     if revenue_cagr is not None and revenue_cagr > 10:
-        positives.append(
-            f"5-year revenue CAGR is {revenue_cagr:.2f}%."
-        )
+        positives.append(f"5-year revenue CAGR is {revenue_cagr:.2f}%.")
 
     if fcf is not None and fcf > 0:
-        positives.append(
-            f"Free cash flow is positive at {fcf:.2f} Cr."
-        )
+        positives.append(f"Free cash flow is positive at {fcf:.2f} Cr.")
 
     if positives:
         for item in positives:
@@ -529,29 +501,19 @@ with snapshot_col2:
     concerns = []
 
     if roe is not None and roe < 10:
-        concerns.append(
-            f"ROE is {roe:.2f}%."
-        )
+        concerns.append(f"ROE is {roe:.2f}%.")
 
     if roce is not None and roce < 10:
-        concerns.append(
-            f"ROCE is {roce:.2f}%."
-        )
+        concerns.append(f"ROCE is {roce:.2f}%.")
 
     if de is not None and de > 2:
-        concerns.append(
-            f"Debt-to-equity is {de:.2f}."
-        )
+        concerns.append(f"Debt-to-equity is {de:.2f}.")
 
     if revenue_cagr is not None and revenue_cagr < 5:
-        concerns.append(
-            f"5-year revenue CAGR is {revenue_cagr:.2f}%."
-        )
+        concerns.append(f"5-year revenue CAGR is {revenue_cagr:.2f}%.")
 
     if fcf is not None and fcf < 0:
-        concerns.append(
-            f"Free cash flow is negative at {fcf:.2f} Cr."
-        )
+        concerns.append(f"Free cash flow is negative at {fcf:.2f} Cr.")
 
     if concerns:
         for item in concerns:
@@ -565,7 +527,4 @@ with snapshot_col2:
 
 st.divider()
 
-st.caption(
-    f"Profile: {selected_ticker} | "
-    "Data from Nifty 100 SQLite database"
-)
+st.caption(f"Profile: {selected_ticker} | " "Data from Nifty 100 SQLite database")

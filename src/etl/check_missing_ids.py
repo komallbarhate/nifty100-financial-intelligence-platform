@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -19,15 +20,12 @@ MISSING_IDS = [
 
 
 def search_file(file_path, company_id, header_row):
+    """Process search file."""
     try:
         df = pd.read_excel(file_path, header=header_row)
 
         mask = df.astype(str).apply(
-            lambda column: column.str.contains(
-                company_id,
-                case=False,
-                na=False
-            )
+            lambda column: column.str.contains(company_id, case=False, na=False)
         )
 
         return mask.any().any()
@@ -38,9 +36,8 @@ def search_file(file_path, company_id, header_row):
 
 
 def main():
-    files = list(RAW_DIR.glob("*.xlsx")) + list(
-        SUPPORTING_DIR.glob("*.xlsx")
-    )
+    """Run the main workflow."""
+    files = list(RAW_DIR.glob("*.xlsx")) + list(SUPPORTING_DIR.glob("*.xlsx"))
 
     print("=" * 70)
     print("MISSING COMPANY ID SEARCH")

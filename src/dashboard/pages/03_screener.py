@@ -1,14 +1,13 @@
-﻿import pandas as pd
+import pandas as pd
 import streamlit as st
 
 from src.dashboard.utils.db import (
-    get_companies,
     get_all_latest_ratios,
     get_all_latest_valuations,
+    get_companies,
     get_sectors,
 )
 from src.screener.composite_score import CompositeScorer
-
 
 st.set_page_config(
     page_title="Nifty 100 Screener",
@@ -27,9 +26,10 @@ st.caption(
 # LOAD DATA
 # =========================================================
 
+
 @st.cache_data(ttl=600)
 def load_screener_data():
-
+    """Load screener data."""
     companies = get_companies()
     ratios = get_all_latest_ratios()
     valuations = get_all_latest_valuations()
@@ -45,34 +45,20 @@ def load_screener_data():
     for frame in [companies, ratios, valuations, sectors]:
 
         if "id" in frame.columns:
-            frame["id"] = (
-                frame["id"]
-                .astype(str)
-                .str.strip()
-                .str.upper()
-            )
+            frame["id"] = frame["id"].astype(str).str.strip().str.upper()
 
         if "company_id" in frame.columns:
             frame["company_id"] = (
-                frame["company_id"]
-                .astype(str)
-                .str.strip()
-                .str.upper()
+                frame["company_id"].astype(str).str.strip().str.upper()
             )
 
     # -----------------------------------------------------
     # Start with company master
     # -----------------------------------------------------
 
-    df = companies[
-        ["id", "company_name"]
-    ].copy()
+    df = companies[["id", "company_name"]].copy()
 
-    df = df.rename(
-        columns={
-            "id": "company_id"
-        }
-    )
+    df = df.rename(columns={"id": "company_id"})
 
     # -----------------------------------------------------
     # Latest financial ratios
@@ -118,9 +104,7 @@ def load_screener_data():
         ]
 
         available = [
-            column
-            for column in valuation_columns
-            if column in valuation_data.columns
+            column for column in valuation_columns if column in valuation_data.columns
         ]
 
         df = df.merge(
@@ -142,9 +126,7 @@ def load_screener_data():
                 "sector",
                 "industry",
             ]
-        ].drop_duplicates(
-            subset=["company_id"]
-        )
+        ].drop_duplicates(subset=["company_id"])
 
         df = df.merge(
             sector_data,
@@ -206,24 +188,15 @@ def load_screener_data():
         ]
 
         available_scores = [
-            column
-            for column in score_columns
-            if column in scores.columns
+            column for column in score_columns if column in scores.columns
         ]
 
         if len(available_scores) == 2:
 
-            scores = scores[
-                available_scores
-            ].drop_duplicates(
-                subset=["company_id"]
-            )
+            scores = scores[available_scores].drop_duplicates(subset=["company_id"])
 
             scores["company_id"] = (
-                scores["company_id"]
-                .astype(str)
-                .str.strip()
-                .str.upper()
+                scores["company_id"].astype(str).str.strip().str.upper()
             )
 
             df = df.drop(
@@ -258,9 +231,7 @@ except Exception as error:
 
 if df.empty:
 
-    st.warning(
-        "No screener data is available."
-    )
+    st.warning("No screener data is available.")
 
     st.stop()
 
@@ -269,12 +240,13 @@ if df.empty:
 # FILTER HELPERS
 # =========================================================
 
+
 def apply_minimum(
     frame,
     column,
     threshold,
 ):
-
+    """Apply minimum."""
     if column not in frame.columns:
         return frame
 
@@ -283,10 +255,7 @@ def apply_minimum(
         errors="coerce",
     )
 
-    return frame[
-        values.notna()
-        & (values >= threshold)
-    ].copy()
+    return frame[values.notna() & (values >= threshold)].copy()
 
 
 def apply_maximum(
@@ -294,7 +263,7 @@ def apply_maximum(
     column,
     threshold,
 ):
-
+    """Apply maximum."""
     if column not in frame.columns:
         return frame
 
@@ -303,10 +272,7 @@ def apply_maximum(
         errors="coerce",
     )
 
-    return frame[
-        values.notna()
-        & (values <= threshold)
-    ].copy()
+    return frame[values.notna() & (values <= threshold)].copy()
 
 
 # =========================================================
@@ -314,7 +280,6 @@ def apply_maximum(
 # =========================================================
 
 PRESETS = {
-
     "Quality Compounder": {
         "roe_min": 15.0,
         "de_max": 1.0,
@@ -327,7 +292,6 @@ PRESETS = {
         "dividend_min": 0.0,
         "icr_min": 0.0,
     },
-
     "Value Pick": {
         "roe_min": 0.0,
         "de_max": 2.0,
@@ -340,7 +304,6 @@ PRESETS = {
         "dividend_min": 1.0,
         "icr_min": 0.0,
     },
-
     "Growth Accelerator": {
         "roe_min": 0.0,
         "de_max": 2.0,
@@ -353,7 +316,6 @@ PRESETS = {
         "dividend_min": 0.0,
         "icr_min": 0.0,
     },
-
     "Dividend Champion": {
         "roe_min": 0.0,
         "de_max": 100.0,
@@ -366,7 +328,6 @@ PRESETS = {
         "dividend_min": 2.0,
         "icr_min": 0.0,
     },
-
     "Debt-Free Blue Chip": {
         "roe_min": 12.0,
         "de_max": 0.0,
@@ -379,7 +340,6 @@ PRESETS = {
         "dividend_min": 0.0,
         "icr_min": 0.0,
     },
-
     "Turnaround Watch": {
         "roe_min": 0.0,
         "de_max": 100.0,
@@ -442,17 +402,12 @@ for index, preset_name in enumerate(PRESETS):
             for key, value in values.items():
                 st.session_state[key] = value
 
-            st.session_state[
-                "active_preset"
-            ] = preset_name
+            st.session_state["active_preset"] = preset_name
 
             st.rerun()
 
 
-st.caption(
-    f"Active preset: "
-    f"**{st.session_state['active_preset']}**"
-)
+st.caption(f"Active preset: " f"**{st.session_state['active_preset']}**")
 
 
 st.divider()
@@ -644,15 +599,10 @@ with col2:
 
 with col3:
 
-    if (
-        "sprint3_composite_score" in filtered.columns
-        and not filtered.empty
-    ):
+    if "sprint3_composite_score" in filtered.columns and not filtered.empty:
 
         average_score = pd.to_numeric(
-            filtered[
-                "sprint3_composite_score"
-            ],
+            filtered["sprint3_composite_score"],
             errors="coerce",
         ).mean()
 
@@ -691,29 +641,20 @@ display_columns = [
     "interest_coverage",
 ]
 
-available_columns = [
-    column
-    for column in display_columns
-    if column in filtered.columns
-]
+available_columns = [column for column in display_columns if column in filtered.columns]
 
 
 if filtered.empty:
 
     st.warning(
-        "No companies match the current filters. "
-        "Reduce one or more thresholds."
+        "No companies match the current filters. " "Reduce one or more thresholds."
     )
 
-    export_df = pd.DataFrame(
-        columns=available_columns
-    )
+    export_df = pd.DataFrame(columns=available_columns)
 
 else:
 
-    export_df = filtered[
-        available_columns
-    ].copy()
+    export_df = filtered[available_columns].copy()
 
     if "sprint3_composite_score" in export_df.columns:
 
@@ -740,14 +681,13 @@ else:
         "interest_coverage": "ICR",
     }
 
-    export_df = export_df.rename(
-        columns=rename_map
-    )
+    export_df = export_df.rename(columns=rename_map)
 
     format_map = {
         column: "{:.2f}"
         for column in export_df.columns
-        if column not in [
+        if column
+        not in [
             "Ticker",
             "Company",
             "Sector",
@@ -772,9 +712,7 @@ st.divider()
 
 st.subheader("Export")
 
-csv_bytes = export_df.to_csv(
-    index=False
-).encode("utf-8")
+csv_bytes = export_df.to_csv(index=False).encode("utf-8")
 
 st.download_button(
     "⬇️ Download Screener Results CSV",
@@ -787,4 +725,3 @@ st.caption(
     "The composite score shown here uses the Sprint 3 "
     "sector-relative scoring engine."
 )
-

@@ -5,26 +5,25 @@ FastAPI Application
 Day 38 — API Scaffold
 """
 
-from pathlib import Path
-from datetime import datetime, timezone
+import logging
 import sqlite3
 import time
-import logging
+from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers import (
     companies,
-    screener,
-    sectors,
-    peers,
-    valuation,
-    portfolio,
     documents,
     health,
+    peers,
+    portfolio,
+    screener,
+    sectors,
+    valuation,
 )
-
 
 # ============================================================
 # CONFIGURATION
@@ -45,16 +44,10 @@ START_TIME = time.time()
 
 logging.basicConfig(
     level=logging.INFO,
-    format=(
-        "%(asctime)s | "
-        "%(levelname)s | "
-        "%(message)s"
-    ),
+    format=("%(asctime)s | " "%(levelname)s | " "%(message)s"),
 )
 
-logger = logging.getLogger(
-    "nifty100_api"
-)
+logger = logging.getLogger("nifty100_api")
 
 
 # ============================================================
@@ -91,6 +84,7 @@ app.add_middleware(
 # REQUEST LOGGING
 # ============================================================
 
+
 @app.middleware("http")
 async def request_logging_middleware(
     request: Request,
@@ -102,9 +96,7 @@ async def request_logging_middleware(
 
     response = await call_next(request)
 
-    duration_ms = (
-        time.time() - start
-    ) * 1000
+    duration_ms = (time.time() - start) * 1000
 
     logger.info(
         "%s %s -> %s (%.2f ms)",
@@ -120,6 +112,7 @@ async def request_logging_middleware(
 # ============================================================
 # ROOT
 # ============================================================
+
 
 @app.get("/")
 def root():
@@ -137,6 +130,7 @@ def root():
 # ============================================================
 # API INFO
 # ============================================================
+
 
 @app.get("/api/v1")
 def api_info():
@@ -200,6 +194,7 @@ app.include_router(
 # DATABASE HEALTH HELPERS
 # ============================================================
 
+
 def get_database_table_counts():
     """
     Return row counts for all user tables in SQLite.
@@ -216,25 +211,21 @@ def get_database_table_counts():
 
     with sqlite3.connect(DB_PATH) as conn:
 
-        tables = conn.execute(
-            """
+        tables = conn.execute("""
             SELECT name
             FROM sqlite_master
             WHERE type = 'table'
             AND name NOT LIKE 'sqlite_%'
             ORDER BY name
-            """
-        ).fetchall()
+            """).fetchall()
 
         for (table_name,) in tables:
 
             try:
-                count = conn.execute(
-                    f'''
+                count = conn.execute(f"""
                     SELECT COUNT(*)
                     FROM "{table_name}"
-                    '''
-                ).fetchone()[0]
+                    """).fetchone()[0]
 
                 counts[table_name] = count
 
@@ -252,6 +243,7 @@ def get_database_table_counts():
 # HEALTH DETAILS
 # ============================================================
 
+
 @app.get("/api/v1/system/health")
 def system_health():
     """
@@ -265,13 +257,9 @@ def system_health():
     - version
     """
 
-    uptime_seconds = (
-        time.time() - START_TIME
-    )
+    uptime_seconds = time.time() - START_TIME
 
-    database_info = (
-        get_database_table_counts()
-    )
+    database_info = get_database_table_counts()
 
     return {
         "status": "healthy",
@@ -280,8 +268,6 @@ def system_health():
             uptime_seconds,
             2,
         ),
-        "checked_at": datetime.now(
-            timezone.utc
-        ).isoformat(),
+        "checked_at": datetime.now(timezone.utc).isoformat(),
         "database": database_info,
     }

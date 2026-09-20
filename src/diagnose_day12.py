@@ -1,4 +1,5 @@
 ﻿import sqlite3
+
 import pandas as pd
 
 DB_PATH = "data/nifty100.db"
@@ -12,10 +13,7 @@ print("=" * 70)
 print("\nBALANCE SHEET COLUMNS")
 print("-" * 70)
 
-bs = pd.read_sql_query(
-    "SELECT * FROM balancesheet LIMIT 5",
-    conn
-)
+bs = pd.read_sql_query("SELECT * FROM balancesheet LIMIT 5", conn)
 
 print(bs.columns.tolist())
 print(bs.head().to_string())
@@ -23,10 +21,7 @@ print(bs.head().to_string())
 print("\nP&L COLUMNS")
 print("-" * 70)
 
-pnl = pd.read_sql_query(
-    "SELECT * FROM profitandloss LIMIT 5",
-    conn
-)
+pnl = pd.read_sql_query("SELECT * FROM profitandloss LIMIT 5", conn)
 
 print(pnl.columns.tolist())
 print(pnl.head().to_string())
@@ -42,7 +37,7 @@ for table in ["profitandloss", "balancesheet", "cashflow"]:
             SUM(CASE WHEN year IS NULL THEN 1 ELSE 0 END) AS null_years
         FROM {table}
         """,
-        conn
+        conn,
     )
 
     print(table)
@@ -70,7 +65,7 @@ result = pd.read_sql_query(
         ) AS borrowings_available
     FROM balancesheet
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))
@@ -90,7 +85,7 @@ result = pd.read_sql_query(
     WHERE year IS NOT NULL
     LIMIT 20
     """,
-    conn
+    conn,
 )
 
 print(result.to_string(index=False))

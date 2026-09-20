@@ -4,11 +4,10 @@ Company API endpoints.
 Day 39 — Company API
 """
 
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
-
 
 router = APIRouter(
     prefix="/companies",
@@ -18,16 +17,13 @@ router = APIRouter(
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 
-DB_PATH = (
-    BASE_DIR
-    / "data"
-    / "nifty100.db"
-)
+DB_PATH = BASE_DIR / "data" / "nifty100.db"
 
 
 # ============================================================
 # DATABASE HELPER
 # ============================================================
+
 
 def get_connection():
     """Create a SQLite connection with dictionary-style rows."""
@@ -48,6 +44,7 @@ def get_connection():
 # GET ALL COMPANIES
 # ============================================================
 
+
 @router.get("/")
 def get_companies():
     """
@@ -62,8 +59,7 @@ def get_companies():
 
     with get_connection() as conn:
 
-        rows = conn.execute(
-            """
+        rows = conn.execute("""
             SELECT
                 c.id AS company_id,
                 c.company_name,
@@ -73,21 +69,18 @@ def get_companies():
             LEFT JOIN sectors s
                 ON c.id = s.company_id
             ORDER BY c.company_name
-            """
-        ).fetchall()
+            """).fetchall()
 
     return {
         "count": len(rows),
-        "companies": [
-            dict(row)
-            for row in rows
-        ],
+        "companies": [dict(row) for row in rows],
     }
 
 
 # ============================================================
 # GET ONE COMPANY
 # ============================================================
+
 
 @router.get("/{company_id}")
 def get_company(
@@ -136,6 +129,7 @@ def get_company(
 # ============================================================
 # COMPANY FINANCIALS
 # ============================================================
+
 
 @router.get("/{company_id}/financials")
 def get_company_financials(
@@ -193,16 +187,14 @@ def get_company_financials(
         "company_id": company["id"],
         "company_name": company["company_name"],
         "count": len(rows),
-        "financials": [
-            dict(row)
-            for row in rows
-        ],
+        "financials": [dict(row) for row in rows],
     }
 
 
 # ============================================================
 # COMPANY RATIOS
 # ============================================================
+
 
 @router.get("/{company_id}/ratios")
 def get_company_ratios(
@@ -245,16 +237,14 @@ def get_company_ratios(
         "company_id": company["id"],
         "company_name": company["company_name"],
         "count": len(rows),
-        "ratios": [
-            dict(row)
-            for row in rows
-        ],
+        "ratios": [dict(row) for row in rows],
     }
 
 
 # ============================================================
 # COMPANY VALUATION
 # ============================================================
+
 
 @router.get("/{company_id}/valuation")
 def get_company_valuation(
@@ -306,16 +296,14 @@ def get_company_valuation(
         "company_id": company["id"],
         "company_name": company["company_name"],
         "count": len(rows),
-        "valuation": [
-            dict(row)
-            for row in rows
-        ],
+        "valuation": [dict(row) for row in rows],
     }
 
 
 # ============================================================
 # COMPANY PEERS
 # ============================================================
+
 
 @router.get("/{company_id}/peers")
 def get_company_peers(
@@ -397,16 +385,14 @@ def get_company_peers(
         "company_name": company["company_name"],
         "peer_group": group_name,
         "count": len(rows),
-        "peers": [
-            dict(row)
-            for row in rows
-        ],
+        "peers": [dict(row) for row in rows],
     }
 
 
 # ============================================================
 # COMPANY DOCUMENTS
 # ============================================================
+
 
 @router.get("/{company_id}/documents")
 def get_company_documents(
@@ -449,8 +435,5 @@ def get_company_documents(
         "company_id": company["id"],
         "company_name": company["company_name"],
         "count": len(rows),
-        "documents": [
-            dict(row)
-            for row in rows
-        ],
+        "documents": [dict(row) for row in rows],
     }

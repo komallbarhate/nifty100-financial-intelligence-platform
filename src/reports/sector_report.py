@@ -13,35 +13,33 @@ Output:
     reports/sector/<sector>_report.pdf
 """
 
-import sqlite3
 import re
+import sqlite3
 from pathlib import Path
 
+import matplotlib
 import numpy as np
 import pandas as pd
 
-import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import (
-    getSampleStyleSheet,
     ParagraphStyle,
+    getSampleStyleSheet,
 )
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate,
+    Image,
+    PageBreak,
     Paragraph,
+    SimpleDocTemplate,
     Spacer,
     Table,
     TableStyle,
-    PageBreak,
-    Image,
 )
-
 
 # ============================================================
 # PATHS
@@ -81,16 +79,17 @@ WHITE = colors.white
 # DATABASE
 # ============================================================
 
+
 def connect_db():
+    """Process connect db."""
     if not DB_PATH.exists():
-        raise FileNotFoundError(
-            f"Database not found: {DB_PATH}"
-        )
+        raise FileNotFoundError(f"Database not found: {DB_PATH}")
 
     return sqlite3.connect(DB_PATH)
 
 
 def read_table(conn, table_name):
+    """Process read table."""
     exists = conn.execute(
         """
         SELECT name
@@ -114,14 +113,13 @@ def read_table(conn, table_name):
 # HELPERS
 # ============================================================
 
+
 def find_column(df, candidates):
+    """Find column."""
     if df.empty:
         return None
 
-    mapping = {
-        str(col).lower(): col
-        for col in df.columns
-    }
+    mapping = {str(col).lower(): col for col in df.columns}
 
     for candidate in candidates:
         if candidate.lower() in mapping:
@@ -131,6 +129,7 @@ def find_column(df, candidates):
 
 
 def safe_filename(value):
+    """Process safe filename."""
     return re.sub(
         r"[^A-Za-z0-9_.-]+",
         "_",
@@ -139,6 +138,7 @@ def safe_filename(value):
 
 
 def fmt_number(value):
+    """Process fmt number."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -149,6 +149,7 @@ def fmt_number(value):
 
 
 def fmt_pct(value):
+    """Process fmt pct."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -159,6 +160,7 @@ def fmt_pct(value):
 
 
 def fmt_ratio(value):
+    """Process fmt ratio."""
     if value is None or pd.isna(value):
         return "N/A"
 
@@ -172,7 +174,9 @@ def fmt_ratio(value):
 # DATA LOADING
 # ============================================================
 
+
 def load_data(conn):
+    """Load data."""
     return {
         "companies": read_table(
             conn,
@@ -205,7 +209,9 @@ def load_data(conn):
 # SECTOR COMPANIES
 # ============================================================
 
+
 def get_sector_companies(sectors, sector):
+    """Return sector companies."""
     sector_col = find_column(
         sectors,
         ["sector"],
@@ -219,26 +225,18 @@ def get_sector_companies(sectors, sector):
     if not sector_col or not company_col:
         return []
 
-    rows = sectors[
-        sectors[sector_col].astype(str)
-        == sector
-    ]
+    rows = sectors[sectors[sector_col].astype(str) == sector]
 
-    return sorted(
-        rows[company_col]
-        .dropna()
-        .astype(str)
-        .str.upper()
-        .unique()
-        .tolist()
-    )
+    return sorted(rows[company_col].dropna().astype(str).str.upper().unique().tolist())
 
 
 # ============================================================
 # COMPANY LATEST VALUES
 # ============================================================
 
+
 def company_rows(df, company_id):
+    """Process company rows."""
     if df.empty:
         return pd.DataFrame()
 
@@ -250,10 +248,7 @@ def company_rows(df, company_id):
     if not id_col:
         return pd.DataFrame()
 
-    rows = df[
-        df[id_col].astype(str).str.upper()
-        == company_id.upper()
-    ].copy()
+    rows = df[df[id_col].astype(str).str.upper() == company_id.upper()].copy()
 
     year_col = find_column(
         rows,
@@ -266,14 +261,13 @@ def company_rows(df, company_id):
             errors="coerce",
         )
 
-        rows = rows.sort_values(
-            "_year"
-        )
+        rows = rows.sort_values("_year")
 
     return rows
 
 
 def latest_value(df, candidates):
+    """Process latest value."""
     if df.empty:
         return np.nan
 
@@ -286,9 +280,7 @@ def latest_value(df, candidates):
         return np.nan
 
     try:
-        return float(
-            df.iloc[-1][column]
-        )
+        return float(df.iloc[-1][column])
     except Exception:
         return np.nan
 
@@ -297,11 +289,13 @@ def latest_value(df, candidates):
 # SECTOR METRICS
 # ============================================================
 
+
 def calculate_sector_metrics(
     sector,
     company_ids,
     data,
 ):
+    """Calculate sector metrics."""
     rows = []
 
     companies = data["companies"]
@@ -326,12 +320,12 @@ def calculate_sector_metrics(
             company_id,
         )
 
-        pnl_rows = company_rows(
+        company_rows(
             pnl,
             company_id,
         )
 
-        cash_rows = company_rows(
+        company_rows(
             cashflow,
             company_id,
         )
@@ -342,9 +336,7 @@ def calculate_sector_metrics(
         )
 
         if not company.empty and company_name_col:
-            name = str(
-                company.iloc[-1][company_name_col]
-            )
+            name = str(company.iloc[-1][company_name_col])
         else:
             name = company_id
 
@@ -422,7 +414,9 @@ def calculate_sector_metrics(
 # SECTOR SUMMARY
 # ============================================================
 
+
 def sector_summary(metrics):
+    """Process sector summary."""
     numeric_columns = [
         "ROE",
         "ROCE",
@@ -465,7 +459,9 @@ def sector_summary(metrics):
 # TOP COMPANIES TABLE
 # ============================================================
 
+
 def create_company_table(metrics):
+    """Create company table."""
     columns = [
         "company_id",
         "company_name",
@@ -476,41 +472,25 @@ def create_company_table(metrics):
         "FCF",
     ]
 
-    available = [
-        col
-        for col in columns
-        if col in metrics.columns
-    ]
+    available = [col for col in columns if col in metrics.columns]
 
     display = metrics[available].copy()
 
     if "ROE" in display.columns:
-        display["ROE"] = display["ROE"].map(
-            fmt_pct
-        )
+        display["ROE"] = display["ROE"].map(fmt_pct)
 
     if "ROCE" in display.columns:
-        display["ROCE"] = display["ROCE"].map(
-            fmt_pct
-        )
+        display["ROCE"] = display["ROCE"].map(fmt_pct)
 
     if "OPM" in display.columns:
-        display["OPM"] = display["OPM"].map(
-            fmt_pct
-        )
+        display["OPM"] = display["OPM"].map(fmt_pct)
 
     if "D/E" in display.columns:
-        display["D/E"] = display["D/E"].map(
-            fmt_ratio
-        )
+        display["D/E"] = display["D/E"].map(fmt_ratio)
 
     if "FCF" in display.columns:
         display["FCF"] = display["FCF"].map(
-            lambda x: (
-                fmt_number(x)
-                if pd.notna(x)
-                else "N/A"
-            )
+            lambda x: (fmt_number(x) if pd.notna(x) else "N/A")
         )
 
     headers = {
@@ -580,9 +560,7 @@ def create_company_table(metrics):
                     (0, 0),
                     (-1, -1),
                     0.35,
-                    colors.HexColor(
-                        "#D1D5DB"
-                    ),
+                    colors.HexColor("#D1D5DB"),
                 ),
                 (
                     "VALIGN",
@@ -634,10 +612,12 @@ def create_company_table(metrics):
 # SECTOR ROE CHART
 # ============================================================
 
+
 def create_sector_roe_chart(
     sector,
     metrics,
 ):
+    """Create sector roe chart."""
     chart = metrics[
         [
             "company_id",
@@ -650,9 +630,7 @@ def create_sector_roe_chart(
         errors="coerce",
     )
 
-    chart = chart.dropna(
-        subset=["ROE"]
-    ).sort_values(
+    chart = chart.dropna(subset=["ROE"]).sort_values(
         "ROE",
         ascending=False,
     )
@@ -665,9 +643,7 @@ def create_sector_roe_chart(
         dpi=150,
     )
 
-    x = np.arange(
-        len(chart)
-    )
+    x = np.arange(len(chart))
 
     ax.bar(
         x,
@@ -711,10 +687,7 @@ def create_sector_roe_chart(
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(sector)}_roe.png"
-    )
+    path = CHART_DIR / f"{safe_filename(sector)}_roe.png"
 
     fig.savefig(
         path,
@@ -730,10 +703,12 @@ def create_sector_roe_chart(
 # SECTOR REVENUE / PROFIT GROWTH CHART
 # ============================================================
 
+
 def create_growth_chart(
     sector,
     metrics,
 ):
+    """Create growth chart."""
     chart = metrics[
         [
             "company_id",
@@ -763,9 +738,7 @@ def create_growth_chart(
     if chart.empty:
         return None
 
-    x = np.arange(
-        len(chart)
-    )
+    x = np.arange(len(chart))
 
     width = 0.36
 
@@ -774,13 +747,9 @@ def create_growth_chart(
         dpi=150,
     )
 
-    revenue = chart[
-        "Revenue CAGR"
-    ].fillna(0)
+    revenue = chart["Revenue CAGR"].fillna(0)
 
-    profit = chart[
-        "PAT CAGR"
-    ].fillna(0)
+    profit = chart["PAT CAGR"].fillna(0)
 
     ax.bar(
         x - width / 2,
@@ -840,10 +809,7 @@ def create_growth_chart(
 
     plt.tight_layout()
 
-    path = (
-        CHART_DIR
-        / f"{safe_filename(sector)}_growth.png"
-    )
+    path = CHART_DIR / f"{safe_filename(sector)}_growth.png"
 
     fig.savefig(
         path,
@@ -876,9 +842,7 @@ SUBTITLE_STYLE = ParagraphStyle(
     fontName="Helvetica",
     fontSize=8.5,
     leading=11,
-    textColor=colors.HexColor(
-        "#DCE6F2"
-    ),
+    textColor=colors.HexColor("#DCE6F2"),
 )
 
 SECTION_STYLE = ParagraphStyle(
@@ -919,12 +883,12 @@ CENTER_STYLE = ParagraphStyle(
 # PAGE FOOTER
 # ============================================================
 
+
 def draw_page(canvas, doc):
+    """Process draw page."""
     canvas.saveState()
 
-    canvas.setStrokeColor(
-        colors.HexColor("#D9DEE5")
-    )
+    canvas.setStrokeColor(colors.HexColor("#D9DEE5"))
 
     canvas.setLineWidth(0.4)
 
@@ -940,9 +904,7 @@ def draw_page(canvas, doc):
         6.5,
     )
 
-    canvas.setFillColor(
-        MID_GREY
-    )
+    canvas.setFillColor(MID_GREY)
 
     canvas.drawString(
         15 * mm,
@@ -963,10 +925,12 @@ def draw_page(canvas, doc):
 # SECTOR HEADER
 # ============================================================
 
+
 def create_header(
     sector,
     company_count,
 ):
+    """Create header."""
     table = Table(
         [
             [
@@ -1045,43 +1009,33 @@ def create_header(
 # KPI SUMMARY
 # ============================================================
 
+
 def create_summary_table(summary):
+    """Create summary table."""
     items = [
         (
             "Median ROE",
-            fmt_pct(
-                summary["ROE"]["median"]
-            ),
+            fmt_pct(summary["ROE"]["median"]),
         ),
         (
             "Median ROCE",
-            fmt_pct(
-                summary["ROCE"]["median"]
-            ),
+            fmt_pct(summary["ROCE"]["median"]),
         ),
         (
             "Median OPM",
-            fmt_pct(
-                summary["OPM"]["median"]
-            ),
+            fmt_pct(summary["OPM"]["median"]),
         ),
         (
             "Median D/E",
-            fmt_ratio(
-                summary["D/E"]["median"]
-            ),
+            fmt_ratio(summary["D/E"]["median"]),
         ),
         (
             "Median Revenue CAGR",
-            fmt_pct(
-                summary["Revenue CAGR"]["median"]
-            ),
+            fmt_pct(summary["Revenue CAGR"]["median"]),
         ),
         (
             "Median PAT CAGR",
-            fmt_pct(
-                summary["PAT CAGR"]["median"]
-            ),
+            fmt_pct(summary["PAT CAGR"]["median"]),
         ),
     ]
 
@@ -1103,9 +1057,7 @@ def create_summary_table(summary):
                     )
                 ],
             ],
-            colWidths=[
-                28 * mm
-            ],
+            colWidths=[28 * mm],
             rowHeights=[
                 8 * mm,
                 10 * mm,
@@ -1126,9 +1078,7 @@ def create_summary_table(summary):
                         (0, 0),
                         (-1, -1),
                         0.5,
-                        colors.HexColor(
-                            "#CBD5E1"
-                        ),
+                        colors.HexColor("#CBD5E1"),
                     ),
                     (
                         "VALIGN",
@@ -1144,9 +1094,7 @@ def create_summary_table(summary):
 
     outer = Table(
         [cells],
-        colWidths=[
-            29.2 * mm
-        ] * 6,
+        colWidths=[29.2 * mm] * 6,
     )
 
     outer.setStyle(
@@ -1181,20 +1129,20 @@ def create_summary_table(summary):
 # BUILD SECTOR PDF
 # ============================================================
 
+
 def build_sector_report(
     sector,
     company_ids,
     data,
 ):
+    """Build sector report."""
     metrics = calculate_sector_metrics(
         sector,
         company_ids,
         data,
     )
 
-    summary = sector_summary(
-        metrics
-    )
+    summary = sector_summary(metrics)
 
     roe_chart = create_sector_roe_chart(
         sector,
@@ -1206,10 +1154,7 @@ def build_sector_report(
         metrics,
     )
 
-    filename = (
-        OUTPUT_DIR
-        / f"{safe_filename(sector)}_report.pdf"
-    )
+    filename = OUTPUT_DIR / f"{safe_filename(sector)}_report.pdf"
 
     doc = SimpleDocTemplate(
         str(filename),
@@ -1219,9 +1164,7 @@ def build_sector_report(
         topMargin=12 * mm,
         bottomMargin=14 * mm,
         title=f"{sector} Sector Report",
-        author=(
-            "NIFTY 100 Financial Intelligence Platform"
-        ),
+        author=("NIFTY 100 Financial Intelligence Platform"),
     )
 
     story = []
@@ -1237,9 +1180,7 @@ def build_sector_report(
         )
     )
 
-    story.append(
-        Spacer(1, 4 * mm)
-    )
+    story.append(Spacer(1, 4 * mm))
 
     story.append(
         Paragraph(
@@ -1248,15 +1189,9 @@ def build_sector_report(
         )
     )
 
-    story.append(
-        create_summary_table(
-            summary
-        )
-    )
+    story.append(create_summary_table(summary))
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     if roe_chart:
         story.append(
@@ -1267,9 +1202,7 @@ def build_sector_report(
             )
         )
 
-    story.append(
-        Spacer(1, 3 * mm)
-    )
+    story.append(Spacer(1, 3 * mm))
 
     if growth_chart:
         story.append(
@@ -1280,9 +1213,7 @@ def build_sector_report(
             )
         )
 
-    story.append(
-        PageBreak()
-    )
+    story.append(PageBreak())
 
     # ========================================================
     # PAGE 2
@@ -1295,15 +1226,9 @@ def build_sector_report(
         )
     )
 
-    story.append(
-        create_company_table(
-            metrics
-        )
-    )
+    story.append(create_company_table(metrics))
 
-    story.append(
-        Spacer(1, 5 * mm)
-    )
+    story.append(Spacer(1, 5 * mm))
 
     story.append(
         Paragraph(
@@ -1319,9 +1244,7 @@ def build_sector_report(
         )
     )
 
-    story.append(
-        Spacer(1, 3 * mm)
-    )
+    story.append(Spacer(1, 3 * mm))
 
     story.append(
         Paragraph(
@@ -1349,18 +1272,16 @@ def build_sector_report(
 # VALIDATE
 # ============================================================
 
+
 def validate_pdf(path):
+    """Validate pdf."""
     if not path.exists():
         return False, "PDF not created"
 
-    size_kb = (
-        path.stat().st_size / 1024
-    )
+    size_kb = path.stat().st_size / 1024
 
     if size_kb < 10:
-        return False, (
-            f"PDF unusually small: {size_kb:.1f} KB"
-        )
+        return False, (f"PDF unusually small: {size_kb:.1f} KB")
 
     return True, f"{size_kb:.1f} KB"
 
@@ -1369,21 +1290,17 @@ def validate_pdf(path):
 # MAIN
 # ============================================================
 
+
 def main():
+    """Run the main workflow."""
     print("=" * 70)
-    print(
-        "NIFTY 100 SECTOR REPORT GENERATOR"
-    )
+    print("NIFTY 100 SECTOR REPORT GENERATOR")
     print("=" * 70)
     print()
 
-    print(
-        f"Database : {DB_PATH}"
-    )
+    print(f"Database : {DB_PATH}")
 
-    print(
-        f"Output   : {OUTPUT_DIR}"
-    )
+    print(f"Output   : {OUTPUT_DIR}")
 
     print()
 
@@ -1400,26 +1317,15 @@ def main():
         )
 
         if not sector_col:
-            raise RuntimeError(
-                "Sector column not found."
-            )
+            raise RuntimeError("Sector column not found.")
 
         sector_names = sorted(
-            sectors[sector_col]
-            .dropna()
-            .astype(str)
-            .unique()
-            .tolist()
+            sectors[sector_col].dropna().astype(str).unique().tolist()
         )
 
-        print(
-            f"Sectors found : {len(sector_names)}"
-        )
+        print(f"Sectors found : {len(sector_names)}")
 
-        print(
-            f"Companies     : "
-            f"{sectors['company_id'].nunique()}"
-        )
+        print(f"Companies     : " f"{sectors['company_id'].nunique()}")
 
         print()
 
@@ -1433,8 +1339,7 @@ def main():
             )
 
             print(
-                f"Generating {sector} "
-                f"({len(company_ids)} companies)...",
+                f"Generating {sector} " f"({len(company_ids)} companies)...",
                 end=" ",
             )
 
@@ -1445,16 +1350,12 @@ def main():
                     data,
                 )
 
-                valid, message = validate_pdf(
-                    path
-                )
+                valid, message = validate_pdf(path)
 
                 if valid:
                     success.append(sector)
 
-                    print(
-                        f"OK ({message})"
-                    )
+                    print(f"OK ({message})")
 
                 else:
                     failed.append(
@@ -1464,9 +1365,7 @@ def main():
                         )
                     )
 
-                    print(
-                        f"FAILED - {message}"
-                    )
+                    print(f"FAILED - {message}")
 
             except Exception as exc:
                 failed.append(
@@ -1476,60 +1375,42 @@ def main():
                     )
                 )
 
-                print(
-                    f"FAILED - {exc}"
-                )
+                print(f"FAILED - {exc}")
 
         print()
         print("=" * 70)
         print("SECTOR REPORT SUMMARY")
         print("=" * 70)
 
-        print(
-            f"Requested : {len(sector_names)}"
-        )
+        print(f"Requested : {len(sector_names)}")
 
-        print(
-            f"Generated : {len(success)}"
-        )
+        print(f"Generated : {len(success)}")
 
-        print(
-            f"Failed    : {len(failed)}"
-        )
+        print(f"Failed    : {len(failed)}")
 
         if success:
             print()
             print("Successful:")
 
             for sector in success:
-                print(
-                    f"  {sector}"
-                )
+                print(f"  {sector}")
 
         if failed:
             print()
             print("Failures:")
 
             for sector, error in failed:
-                print(
-                    f"  {sector}: {error}"
-                )
+                print(f"  {sector}: {error}")
 
         print()
-        print(
-            f"Output directory:"
-        )
+        print("Output directory:")
 
-        print(
-            f"  {OUTPUT_DIR}"
-        )
+        print(f"  {OUTPUT_DIR}")
 
         print()
 
         if len(sector_names) != 11:
-            print(
-                "NOTE:"
-            )
+            print("NOTE:")
 
             print(
                 "  The current database contains "
@@ -1537,15 +1418,11 @@ def main():
                 "not 11."
             )
 
-            print(
-                "  No artificial sector was created."
-            )
+            print("  No artificial sector was created.")
 
             print()
 
-        print(
-            "SECTOR REPORT GENERATION COMPLETE"
-        )
+        print("SECTOR REPORT GENERATION COMPLETE")
 
     finally:
         conn.close()

@@ -1,5 +1,6 @@
-﻿import pandas as pd
-from pathlib import Path
+﻿from pathlib import Path
+
+import pandas as pd
 
 print("=" * 70)
 print("RAW SOURCE COLUMN DIAGNOSTIC")
@@ -17,7 +18,11 @@ for file in files:
         print(df.columns.tolist())
         print("\nYEAR-LIKE VALUES:")
         for col in df.columns:
-            if "year" in str(col).lower() or "fy" in str(col).lower() or "date" in str(col).lower():
+            if (
+                "year" in str(col).lower()
+                or "fy" in str(col).lower()
+                or "date" in str(col).lower()
+            ):
                 print(col)
                 print(df[col].drop_duplicates().head(30).tolist())
 
