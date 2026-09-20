@@ -1,39 +1,65 @@
 ﻿from pathlib import Path
 import sqlite3
-import yaml
-import numpy as np
-import pandas as pd
+from typing import Dict, Optional
 
-from src.screener.composite_score import CompositeScorer
+import pandas as pd
+import yaml
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DB_PATH = PROJECT_ROOT / "data" / "nifty100.db"
+CONFIG_PATH = PROJECT_ROOT / "config" / "screener_config.yaml"
 
 
 class ScreenerEngine:
 
-    def __init__(self):
-        self.project_root = Path(__file__).resolve().parents[2]
-        self.db_path = self.project_root / "data" / "nifty100.db"
-        self.config_path = self.project_root / "config" / "screener_config.yaml"
+    def __init__(
+        self,
+        db_path: Path = DB_PATH,
+        config_path: Path = CONFIG_PATH,
+    ):
+        self.db_path = Path(db_path)
+        self.config_path = Path(config_path)
 
-        with open(self.config_path, "r", encoding="utf-8") as f:
-            self.config = yaml.safe_load(f)
+        self.config = self._load_config()
+        self.data = self._load_latest_data()
 
-        self.conn = sqlite3.connect(self.db_path)
+    def _load_config(self):
 
-    def load_data(self):
+        with open(
+            self.config_path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return yaml.safe_load(file)
+
+    def _load_latest_data(self):
+
+        conn = sqlite3.connect(self.db_path)
+
         ratios = pd.read_sql_query(
             """
             SELECT *
             FROM financial_ratios
+            WHERE year = (
+                SELECT MAX(fr2.year)
+                FROM financial_ratios fr2
+                WHERE fr2.company_id = financial_ratios.company_id
+            )
             """,
-            self.conn
+            conn,
         )
 
         pnl = pd.read_sql_query(
             """
-            SELECT *
+            SELECT
+                company_id,
+                year,
+                sales,
+                net_profit
             FROM profitandloss
             """,
-            self.conn
+            conn,
         )
 
         companies = pd.read_sql_query(
@@ -43,7 +69,7 @@ class ScreenerEngine:
                 company_name
             FROM companies
             """,
-            self.conn
+            conn,
         )
 
         sectors = pd.read_sql_query(
@@ -54,376 +80,660 @@ class ScreenerEngine:
                 industry
             FROM sectors
             """,
-            self.conn
+            conn,
         )
 
         market_cap = pd.read_sql_query(
             """
             SELECT *
             FROM market_cap
+            WHERE year = (
+                SELECT MAX(mc2.year)
+                FROM market_cap mc2
+                WHERE mc2.company_id = market_cap.company_id
+            )
             """,
-            self.conn
+            conn,
         )
 
-        return ratios, pnl, companies, sectors, market_cap
+        conn.close()
 
-    @staticmethod
-    def latest_rows(df, year_column="year"):
-        if df.empty:
-            return df.copy()
+        # Normalize company identifiers
 
-        df = df.copy()
-        df[year_column] = pd.to_numeric(df[year_column], errors="coerce")
+        for df in [
+            ratios,
+            pnl,
+            companies,
+            sectors,
+            market_cap,
+        ]:
 
-        return (
-            df.sort_values(year_column)
-            .drop_duplicates("company_id", keep="last")
+            df["company_id"] = (
+                df["company_id"]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+            )
+
+        # ---------------------------------------------------------
+        # Latest P&L record per company
+        # ---------------------------------------------------------
+
+        pnl["year"] = pd.to_numeric(
+            pnl["year"],
+            errors="coerce",
         )
 
-    def build_dataset(self):
-        ratios, pnl, companies, sectors, market_cap = self.load_data()
+        pnl = pnl.dropna(
+            subset=[
+                "company_id",
+                "year",
+            ]
+        )
 
-        ratios_latest = self.latest_rows(ratios)
+        pnl = (
+            pnl
+            .sort_values(
+                [
+                    "company_id",
+                    "year",
+                ]
+            )
+            .drop_duplicates(
+                "company_id",
+                keep="last",
+            )
+        )
 
-        pnl_latest = self.latest_rows(pnl)
+        # ---------------------------------------------------------
+        # Latest market data per company
+        # ---------------------------------------------------------
 
-        market_cap_latest = self.latest_rows(market_cap)
+        market_cap["year"] = pd.to_numeric(
+            market_cap["year"],
+            errors="coerce",
+        )
 
-        df = companies.copy()
+        market_cap = market_cap.dropna(
+            subset=[
+                "company_id",
+                "year",
+            ]
+        )
 
-        df = df.merge(
-            ratios_latest,
+        market_cap = (
+            market_cap
+            .sort_values(
+                [
+                    "company_id",
+                    "year",
+                ]
+            )
+            .drop_duplicates(
+                "company_id",
+                keep="last",
+            )
+        )
+
+        # ---------------------------------------------------------
+        # Merge data
+        # ---------------------------------------------------------
+
+        df = ratios.merge(
+            pnl[
+                [
+                    "company_id",
+                    "sales",
+                    "net_profit",
+                ]
+            ],
             on="company_id",
             how="left",
-            suffixes=("", "_ratio")
         )
 
         df = df.merge(
-            pnl_latest,
+            companies,
             on="company_id",
             how="left",
-            suffixes=("", "_pnl")
         )
 
         df = df.merge(
             sectors,
             on="company_id",
-            how="left"
+            how="left",
         )
 
         df = df.merge(
-            market_cap_latest[
+            market_cap[
                 [
                     "company_id",
-                    "year",
                     "market_cap_crore",
                     "enterprise_value_crore",
                     "pe_ratio",
                     "pb_ratio",
                     "ev_ebitda",
-                    "dividend_yield_pct"
+                    "dividend_yield_pct",
                 ]
             ],
             on="company_id",
             how="left",
-            suffixes=("", "_market")
         )
 
-        # Prefer the latest financial-ratio year.
-        if "year" in df.columns:
-            df["year"] = pd.to_numeric(df["year"], errors="coerce")
+        # ---------------------------------------------------------
+        # Numeric conversion
+        # ---------------------------------------------------------
 
         numeric_columns = [
             "return_on_equity_pct",
             "return_on_capital_employed_pct",
             "net_profit_margin_pct",
+            "operating_profit_margin_pct",
             "debt_to_equity",
             "interest_coverage",
             "asset_turnover",
             "free_cash_flow_cr",
-            "cash_from_operations_cr",
-            "cfo_pat_ratio",
-            "revenue_cagr_3yr",
             "revenue_cagr_5yr",
-            "revenue_cagr_10yr",
-            "pat_cagr_3yr",
             "pat_cagr_5yr",
-            "pat_cagr_10yr",
-            "eps_cagr_3yr",
             "eps_cagr_5yr",
-            "eps_cagr_10yr",
-            "dividend_payout_ratio_pct",
+            "cfo_pat_ratio",
+            "sales",
+            "net_profit",
             "earnings_per_share",
-            "book_value_per_share",
-            "total_debt_cr",
             "market_cap_crore",
             "enterprise_value_crore",
             "pe_ratio",
             "pb_ratio",
             "ev_ebitda",
             "dividend_yield_pct",
+            "dividend_payout_ratio_pct",
+            "composite_quality_score",
         ]
 
-        for col in numeric_columns:
-            if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
+        for column in numeric_columns:
 
-        # Latest sales and net profit from P&L.
-        sales_candidates = [
-            "sales",
-            "revenue",
-            "revenue_cr",
-            "sales_cr"
-        ]
+            if column in df.columns:
 
-        sales_col = next(
-            (c for c in sales_candidates if c in df.columns),
-            None
-        )
+                df[column] = pd.to_numeric(
+                    df[column],
+                    errors="coerce",
+                )
 
-        if sales_col:
-            df["sales"] = pd.to_numeric(df[sales_col], errors="coerce")
-        else:
-            df["sales"] = np.nan
+        # ---------------------------------------------------------
+        # Debt-free handling
+        # ---------------------------------------------------------
 
-        profit_candidates = [
-            "net_profit",
-            "net_profit_cr",
-            "profit_after_tax",
-            "pat"
-        ]
+        if "icr_label" in df.columns:
 
-        profit_col = next(
-            (c for c in profit_candidates if c in df.columns),
-            None
-        )
-
-        if profit_col:
-            df["net_profit"] = pd.to_numeric(
-                df[profit_col],
-                errors="coerce"
+            df["is_debt_free"] = (
+                df["icr_label"]
+                .astype(str)
+                .str.strip()
+                .str.lower()
+                .eq("debt free")
             )
+
         else:
-            df["net_profit"] = np.nan
 
-        # Debt-free companies get infinite ICR for screener purposes.
-        debt_free_mask = (
-            df["debt_to_equity"].fillna(np.nan).eq(0)
-            & df["interest_coverage"].isna()
+            df["is_debt_free"] = False
+
+        df["icr_for_filter"] = (
+            df["interest_coverage"]
         )
 
-        df.loc[debt_free_mask, "interest_coverage"] = np.inf
+        df.loc[
+            df["is_debt_free"],
+            "icr_for_filter",
+        ] = float("inf")
 
-        # Calculate whether D/E is declining year-over-year.
-        ratio_history = ratios.copy()
+        # ---------------------------------------------------------
+        # Financials identification
+        # ---------------------------------------------------------
 
-        ratio_history["year"] = pd.to_numeric(
-            ratio_history["year"],
-            errors="coerce"
+        df["is_financials"] = (
+            df["sector"]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+            .eq("financials")
         )
 
-        ratio_history["debt_to_equity"] = pd.to_numeric(
-            ratio_history["debt_to_equity"],
-            errors="coerce"
+        # ---------------------------------------------------------
+        # Debt declining flag
+        # ---------------------------------------------------------
+
+        df["debt_to_equity_declining"] = (
+            self._calculate_debt_decline_flags(
+                df["company_id"].tolist()
+            )
         )
 
-        ratio_history = ratio_history.sort_values(
-            ["company_id", "year"]
+        # ---------------------------------------------------------
+        # Final latest-year dataset
+        # ---------------------------------------------------------
+
+        df["year"] = pd.to_numeric(
+            df["year"],
+            errors="coerce",
         )
 
-        ratio_history["previous_debt_to_equity"] = (
-            ratio_history
-            .groupby("company_id")["debt_to_equity"]
-            .shift(1)
-        )
-
-        latest_ratio_history = self.latest_rows(ratio_history)
-
-        latest_ratio_history["debt_to_equity_declining"] = (
-            latest_ratio_history["debt_to_equity"]
-            < latest_ratio_history["previous_debt_to_equity"]
-        )
-
-        df = df.drop(
-            columns=["debt_to_equity_declining"],
-            errors="ignore"
-        )
-
-        df = df.merge(
-            latest_ratio_history[
+        df = (
+            df
+            .sort_values(
                 [
                     "company_id",
-                    "debt_to_equity_declining"
+                    "year",
                 ]
-            ],
-            on="company_id",
-            how="left"
-        )
-
-        # Sprint 3 composite score.
-        scorer = CompositeScorer()
-        scored = scorer.calculate()
-
-        score_columns = [
-            "company_id",
-            "profitability_score",
-            "cash_quality_score",
-            "growth_score",
-            "leverage_score",
-            "sprint3_composite_score"
-        ]
-
-        df = df.drop(
-            columns=[
-                "profitability_score",
-                "cash_quality_score",
-                "growth_score",
-                "leverage_score",
-                "sprint3_composite_score"
-            ],
-            errors="ignore"
-        )
-
-        df = df.merge(
-            scored[score_columns],
-            on="company_id",
-            how="left"
+            )
+            .drop_duplicates(
+                "company_id",
+                keep="last",
+            )
+            .reset_index(drop=True)
         )
 
         return df
 
-    def apply_filter(self, df, metric, condition):
-        if metric not in df.columns:
-            return df
+    def _calculate_debt_decline_flags(
+        self,
+        company_ids,
+    ):
 
-        result = df.copy()
+        conn = sqlite3.connect(
+            self.db_path
+        )
+
+        history = pd.read_sql_query(
+            """
+            SELECT
+                company_id,
+                year,
+                debt_to_equity
+            FROM financial_ratios
+            ORDER BY
+                company_id,
+                year
+            """,
+            conn,
+        )
+
+        conn.close()
+
+        history["company_id"] = (
+            history["company_id"]
+            .astype(str)
+            .str.strip()
+            .str.upper()
+        )
+
+        history["year"] = pd.to_numeric(
+            history["year"],
+            errors="coerce",
+        )
+
+        history["debt_to_equity"] = pd.to_numeric(
+            history["debt_to_equity"],
+            errors="coerce",
+        )
+
+        result = {}
+
+        for company_id in company_ids:
+
+            company_history = history[
+                history["company_id"] == company_id
+            ].dropna(
+                subset=["year"]
+            )
+
+            company_history = (
+                company_history
+                .sort_values("year")
+                .drop_duplicates(
+                    "year",
+                    keep="last",
+                )
+            )
+
+            if len(company_history) < 2:
+
+                result[company_id] = False
+                continue
+
+            latest = company_history.iloc[-1][
+                "debt_to_equity"
+            ]
+
+            previous = company_history.iloc[-2][
+                "debt_to_equity"
+            ]
+
+            result[company_id] = (
+                pd.notna(latest)
+                and pd.notna(previous)
+                and latest < previous
+            )
+
+        return pd.Series(
+            [
+                result.get(
+                    company_id,
+                    False,
+                )
+                for company_id in company_ids
+            ]
+        )
+
+    @staticmethod
+    def _numeric_series(
+        df,
+        column,
+    ):
+
+        return pd.to_numeric(
+            df[column],
+            errors="coerce",
+        )
+
+    def _apply_single_filter(
+        self,
+        df,
+        metric,
+        condition,
+    ):
+
+        # Turnaround Watch debt decline
+
+        if metric == "debt_to_equity_declining":
+
+            return df[metric].eq(
+                condition.get("equals")
+            )
+
+        actual_metric = metric
+
+        # ICR Debt Free = infinity
+
+        if metric == "interest_coverage":
+
+            actual_metric = "icr_for_filter"
+
+        if actual_metric not in df.columns:
+
+            raise ValueError(
+                f"Required screener metric "
+                f"'{metric}' is unavailable."
+            )
+
+        series = self._numeric_series(
+            df,
+            actual_metric,
+        )
+
+        mask = pd.Series(
+            True,
+            index=df.index,
+        )
+
+        # Minimum
 
         if "min" in condition:
-            result = result[
-                result[metric] >= condition["min"]
-            ]
+
+            mask &= (
+                series
+                >= float(condition["min"])
+            )
+
+        # Maximum
 
         if "max" in condition:
-            result = result[
-                result[metric] <= condition["max"]
-            ]
 
-        if "equals" in condition:
-            result = result[
-                result[metric] == condition["equals"]
-            ]
+            maximum = float(
+                condition["max"]
+            )
 
-        return result
+            # Financial companies skip D/E filter
 
-    def apply_preset(self, df, preset_key):
-        preset = self.config["presets"][preset_key]
+            if metric == "debt_to_equity":
 
-        result = df.copy()
-
-        financials_name = self.config["financials_sector"]["name"]
-
-        for metric, condition in preset["filters"].items():
-
-            if (
-                metric == "debt_to_equity"
-                and self.config["financials_sector"]
-                .get("skip_debt_to_equity_filter", False)
-            ):
-                financials_mask = (
-                    result["sector"]
-                    .astype(str)
-                    .str.strip()
-                    .eq(financials_name)
-                )
-
-                non_financials = result.loc[~financials_mask]
-                financials = result.loc[financials_mask]
-
-                non_financials = self.apply_filter(
-                    non_financials,
-                    metric,
-                    condition
-                )
-
-                result = pd.concat(
-                    [non_financials, financials],
-                    ignore_index=True
+                mask &= (
+                    df["is_financials"]
+                    | (
+                        series
+                        <= maximum
+                    )
                 )
 
             else:
-                result = self.apply_filter(
-                    result,
-                    metric,
-                    condition
+
+                mask &= (
+                    series
+                    <= maximum
                 )
 
-        return result
+        return mask.fillna(False)
 
-    def run_all(self):
-        df = self.build_dataset()
+    def apply_filters(
+        self,
+        filters: Optional[Dict] = None,
+        sort_by="composite_quality_score",
+        ascending=False,
+    ):
 
-        presets = self.config["presets"]
+        result = self.data.copy()
 
-        results = {}
+        if filters is None:
 
-        for preset_key in presets:
-            results[preset_key] = self.apply_preset(
-                df,
-                preset_key
+            filters = {}
+
+        for metric, condition in filters.items():
+
+            mask = self._apply_single_filter(
+                result,
+                metric,
+                condition,
             )
 
-        return df, results
+            result = result.loc[
+                mask
+            ].copy()
 
-    def print_summary(self, df, results):
-        print("=" * 70)
-        print("NIFTY 100 SCREENER ENGINE")
-        print("=" * 70)
+        if sort_by in result.columns:
 
-        print(f"Companies: {df['company_id'].nunique()}")
-        print(f"Rows: {len(df)}")
-
-        if "year" in df.columns:
-            print(
-                "Years:",
-                sorted(df["year"].dropna().unique().tolist())
+            result = result.sort_values(
+                sort_by,
+                ascending=ascending,
+                na_position="last",
             )
 
-        print(
-            "Presets:",
-            list(self.config["presets"].keys())
+        return result.reset_index(
+            drop=True
         )
 
-        print(
-            "Filterable metrics:",
-            len(self.config["filterable_metrics"])
-        )
+    def apply_preset(
+        self,
+        preset_name,
+    ):
 
-        for col, label in [
-            ("market_cap_crore", "Market Cap"),
-            ("pe_ratio", "P/E"),
-            ("pb_ratio", "P/B"),
-            ("dividend_yield_pct", "Dividend Yield"),
-        ]:
-            if col in df.columns:
-                print(
-                    f"{label} available:",
-                    int(df[col].notna().sum())
-                )
+        presets = self.config[
+            "presets"
+        ]
 
-        print()
+        if preset_name not in presets:
 
-        for key, result in results.items():
-            print(
-                f"{self.config['presets'][key]['name']}: "
-                f"{len(result)} companies"
+            raise ValueError(
+                f"Unknown preset: "
+                f"{preset_name}"
             )
 
-        print("=" * 70)
+        return self.apply_filters(
+            presets[preset_name][
+                "filters"
+            ]
+        )
+
+    def list_presets(self):
+
+        return {
+            key: value["name"]
+            for key, value
+            in self.config[
+                "presets"
+            ].items()
+        }
+
+    def available_metrics(self):
+
+        return [
+            metric
+            for metric
+            in self.config[
+                "filterable_metrics"
+            ]
+            if metric in self.data.columns
+        ]
+
+    def summary(self):
+
+        return {
+            "companies": int(
+                self.data[
+                    "company_id"
+                ].nunique()
+            ),
+            "rows": int(
+                len(self.data)
+            ),
+            "years": sorted(
+                self.data[
+                    "year"
+                ]
+                .dropna()
+                .astype(int)
+                .unique()
+                .tolist()
+            ),
+            "presets": list(
+                self.list_presets()
+                .keys()
+            ),
+            "filterable_metrics": len(
+                self.config[
+                    "filterable_metrics"
+                ]
+            ),
+            "market_cap_available": int(
+                self.data[
+                    "market_cap_crore"
+                ]
+                .notna()
+                .sum()
+            ),
+            "pe_available": int(
+                self.data[
+                    "pe_ratio"
+                ]
+                .notna()
+                .sum()
+            ),
+            "pb_available": int(
+                self.data[
+                    "pb_ratio"
+                ]
+                .notna()
+                .sum()
+            ),
+            "dividend_yield_available": int(
+                self.data[
+                    "dividend_yield_pct"
+                ]
+                .notna()
+                .sum()
+            ),
+        }
+
+
+def main():
+
+    print("=" * 70)
+    print("NIFTY 100 SCREENER ENGINE")
+    print("=" * 70)
+
+    engine = ScreenerEngine()
+
+    summary = engine.summary()
+
+    print(
+        f"Companies: "
+        f"{summary['companies']}"
+    )
+
+    print(
+        f"Rows: "
+        f"{summary['rows']}"
+    )
+
+    print(
+        f"Years: "
+        f"{summary['years']}"
+    )
+
+    print(
+        f"Presets: "
+        f"{summary['presets']}"
+    )
+
+    print(
+        f"Filterable metrics: "
+        f"{summary['filterable_metrics']}"
+    )
+
+    print(
+        f"Market Cap available: "
+        f"{summary['market_cap_available']}"
+    )
+
+    print(
+        f"P/E available: "
+        f"{summary['pe_available']}"
+    )
+
+    print(
+        f"P/B available: "
+        f"{summary['pb_available']}"
+    )
+
+    print(
+        f"Dividend Yield available: "
+        f"{summary['dividend_yield_available']}"
+    )
+
+    print()
+    print("Quality Compounder preview:")
+
+    result = engine.apply_preset(
+        "quality_compounder"
+    )
+
+    columns = [
+        "company_id",
+        "year",
+        "return_on_equity_pct",
+        "debt_to_equity",
+        "free_cash_flow_cr",
+        "revenue_cagr_5yr",
+        "composite_quality_score",
+    ]
+
+    print(
+        result[
+            columns
+        ]
+        .head(10)
+        .to_string(
+            index=False
+        )
+    )
 
 
 if __name__ == "__main__":
-    engine = ScreenerEngine()
-
-    df, results = engine.run_all()
-
-    engine.print_summary(df, results)
+    main()
