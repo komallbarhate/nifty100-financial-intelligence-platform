@@ -1,175 +1,83 @@
 from pathlib import Path
+
 import pandas as pd
 
-from normaliser import normalize_dataframe
+from src.etl.normaliser import normalize_dataframe
 
 
-# Project root
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Data folders
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
 SUPPORTING_DIR = PROJECT_ROOT / "data" / "supporting"
 
 
-def find_excel_file(folder, keyword):
-    """
-    Find an Excel file in a folder whose filename contains the keyword.
-    """
-
-    files = list(folder.glob("*.xlsx"))
-
-    matches = [
-        file
-        for file in files
-        if keyword.lower() in file.name.lower()
-    ]
-
-    if not matches:
-        raise FileNotFoundError(
-            f"No Excel file containing '{keyword}' found in {folder}"
-        )
-
-    if len(matches) > 1:
-        print(
-            f"Warning: Multiple files found for '{keyword}'. "
-            f"Using {matches[0].name}"
-        )
-
-    return matches[0]
-
-
-def load_excel(folder, keyword, header_row=0):
-    """
-    Locate and load an Excel file using the specified header row.
-    """
-
-    file_path = find_excel_file(folder, keyword)
-
-    print(f"\nLoading: {file_path.name}")
-
-    df = pd.read_excel(
-        file_path,
-        header=header_row
-    )
-
-    print(f"Rows: {df.shape[0]}")
-    print(f"Columns: {df.shape[1]}")
-
-    return df
-
-
-def normalise_columns(df):
-    """
-    Standardise column names.
-    """
-
-    df = df.copy()
-
-    df.columns = (
-        df.columns
-        .astype(str)
-        .str.strip()
-        .str.lower()
-        .str.replace(" ", "_", regex=False)
-        .str.replace("-", "_", regex=False)
-        .str.replace("&", "and", regex=False)
-    )
-
-    return df
-
-
 def load_core_data():
-    """
-    Load the 7 core datasets.
-
-    These files have their actual headers on Excel row 2.
-    """
-
     datasets = {}
 
-    datasets["analysis"] = load_excel(
-        RAW_DIR,
-        "analysis",
-        header_row=1
+    datasets["analysis"] = pd.read_excel(
+        RAW_DIR / "analysis.xlsx",
+        header=1,
     )
 
-    datasets["balancesheet"] = load_excel(
-        RAW_DIR,
-        "balancesheet",
-        header_row=1
+    datasets["balancesheet"] = pd.read_excel(
+        RAW_DIR / "balancesheet.xlsx",
+        header=1,
     )
 
-    datasets["cashflow"] = load_excel(
-        RAW_DIR,
-        "cashflow",
-        header_row=1
+    datasets["cashflow"] = pd.read_excel(
+        RAW_DIR / "cashflow.xlsx",
+        header=1,
     )
 
-    datasets["companies"] = load_excel(
-        RAW_DIR,
-        "companies",
-        header_row=1
+    datasets["companies"] = pd.read_excel(
+        RAW_DIR / "companies.xlsx",
+        header=1,
     )
 
-    datasets["documents"] = load_excel(
-        RAW_DIR,
-        "documents",
-        header_row=1
+    datasets["documents"] = pd.read_excel(
+        RAW_DIR / "documents.xlsx",
+        header=1,
     )
 
-    datasets["profitandloss"] = load_excel(
-        RAW_DIR,
-        "profitandloss",
-        header_row=1
+    datasets["profitandloss"] = pd.read_excel(
+        RAW_DIR / "profitandloss.xlsx",
+        header=1,
     )
 
-    datasets["prosandcons"] = load_excel(
-        RAW_DIR,
-        "prosandcons",
-        header_row=1
+    datasets["prosandcons"] = pd.read_excel(
+        RAW_DIR / "prosandcons.xlsx",
+        header=1,
     )
 
     return datasets
 
 
 def load_supporting_data():
-    """
-    Load the 5 supporting datasets.
-
-    These files have their actual headers on Excel row 1.
-    """
-
     datasets = {}
 
-    datasets["financial_ratios"] = load_excel(
-        SUPPORTING_DIR,
-        "financial_ratios",
-        header_row=0
+    datasets["financial_ratios"] = pd.read_excel(
+        SUPPORTING_DIR / "financial_ratios.xlsx",
+        header=0,
     )
 
-    datasets["market_cap"] = load_excel(
-        SUPPORTING_DIR,
-        "market_cap",
-        header_row=0
+    datasets["market_cap"] = pd.read_excel(
+        SUPPORTING_DIR / "market_cap.xlsx",
+        header=0,
     )
 
-    datasets["peer_groups"] = load_excel(
-        SUPPORTING_DIR,
-        "peer_groups",
-        header_row=0
+    datasets["peer_groups"] = pd.read_excel(
+        SUPPORTING_DIR / "peer_groups.xlsx",
+        header=0,
     )
 
-    datasets["sectors"] = load_excel(
-        SUPPORTING_DIR,
-        "sectors",
-        header_row=0
+    datasets["sectors"] = pd.read_excel(
+        SUPPORTING_DIR / "sectors.xlsx",
+        header=0,
     )
 
-    datasets["stock_prices"] = load_excel(
-        SUPPORTING_DIR,
-        "stock_prices",
-        header_row=0
+    datasets["stock_prices"] = pd.read_excel(
+        SUPPORTING_DIR / "stock_prices.xlsx",
+        header=0,
     )
 
     return datasets
@@ -182,9 +90,55 @@ def prepare_dataset(name, df):
 
     print(f"\nPreparing dataset: {name}")
 
-    df = normalise_columns(df)
-
     df = normalize_dataframe(df)
+
+    # Preserve the original year/reporting-period value
+    # before normalization.
+    if "year" in df.columns:
+        df["_raw_year"] = df["year"].copy()
+
+    elif "fy" in df.columns:
+        df["_raw_year"] = df["fy"].copy()
+
+    elif "financial_year" in df.columns:
+        df["_raw_year"] = df["financial_year"].copy()
+
+    elif "fiscal_year" in df.columns:
+        df["_raw_year"] = df["fiscal_year"].copy()
+
+    # Normalize company identifiers.
+    company_columns = [
+        "company_id",
+        "ticker",
+        "symbol",
+        "stock_ticker",
+    ]
+
+    for column in company_columns:
+        if column in df.columns:
+            df[column] = (
+                df[column]
+                .astype("string")
+                .str.strip()
+                .str.upper()
+                .str.replace(".NS", "", regex=False)
+                .str.replace(".BO", "", regex=False)
+            )
+
+    # Normalize year fields where possible.
+    for column in [
+        "year",
+        "fy",
+        "financial_year",
+        "fiscal_year",
+    ]:
+        if column in df.columns:
+            numeric_year = pd.to_numeric(
+                df[column],
+                errors="coerce",
+            )
+
+            df[column] = numeric_year.astype("Int64")
 
     print("Columns:")
     print(list(df.columns))
@@ -213,7 +167,7 @@ def main():
 
     all_data = {
         **core_data,
-        **supporting_data
+        **supporting_data,
     }
 
     print("\n" + "=" * 70)
@@ -225,7 +179,7 @@ def main():
     for name, df in all_data.items():
         prepared_data[name] = prepare_dataset(
             name,
-            df
+            df,
         )
 
     print("\n" + "=" * 70)
